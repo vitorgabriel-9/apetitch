@@ -1,0 +1,215 @@
+.welcome-page {
+  position: relative;
+
+  min-height: 100vh;
+  min-height: 100dvh;
+
+  display: flex;
+  flex-direction: column;
+
+  overflow: hidden;
+
+  background: #000505;
+  color: #ffffff;
+}
+
+.welcome-background {
+  position: absolute;
+  inset: 0;
+
+  background-image: url("../../assets/food-background.jpg");
+  background-size: cover;
+  background-position: center bottom;
+
+  z-index: 0;
+}
+
+.welcome-overlay {
+  position: absolute;
+  inset: 0;
+
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(0, 5, 5, 0.95) 0%,
+      rgba(0, 5, 5, 0.75) 28%,
+      rgba(0, 5, 5, 0.35) 52%,
+      rgba(0, 5, 5, 0.8) 100%
+    );
+
+  z-index: 1;
+}
+
+.welcome-content {
+  position: relative;
+  z-index: 2;
+
+  min-height: 100vh;
+  min-height: 100dvh;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+
+  padding: 56px 28px 40px;
+
+  box-sizing: border-box;
+}
+
+.welcome-logo {
+  position: relative;
+
+  font-size: 42px;
+  font-weight: 900;
+
+  letter-spacing: -2.5px;
+  line-height: 1;
+
+  color: #ffffff;
+}
+
+.welcome-logo span {
+  position: absolute;
+
+  width: 42px;
+  height: 18px;
+
+  left: 50%;
+  bottom: -21px;
+
+  transform: translateX(-50%);
+
+  border-bottom: 7px solid #f18f01;
+  border-radius: 50%;
+}
+
+.welcome-text {
+  width: 100%;
+  max-width: 540px;
+
+  margin-top: 76px;
+
+  text-align: center;
+}
+
+.welcome-text h1 {
+  margin: 0;
+
+  font-size: clamp(30px, 5vw, 48px);
+  font-weight: 400;
+
+  line-height: 1.2;
+  letter-spacing: -1px;
+}
+
+.welcome-text h1 strong {
+  color: #f18f01;
+  font-weight: 800;
+}
+
+.welcome-text p {
+  margin: 22px 0 0;
+
+  font-size: clamp(15px, 2vw, 20px);
+  line-height: 1.5;
+
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.welcome-actions {
+  width: 100%;
+  max-width: 560px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  margin-top: auto;
+}
+
+.primary-button,
+.secondary-button {
+  width: 100%;
+
+  padding: 19px 24px;
+
+  border-radius: 40px;
+
+  font-size: 18px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s,
+    opacity 0.2s;
+}
+
+.primary-button {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+
+  border: none;
+
+  background: #b0413e;
+  color: #ffffff;
+}
+
+.primary-button span {
+  font-size: 30px;
+  font-weight: 400;
+  line-height: 0;
+}
+
+.secondary-button {
+  border: 2px solid #ffffff;
+
+  background: transparent;
+  color: #ffffff;
+}
+
+.primary-button:hover,
+.secondary-button:hover {
+  opacity: 0.9;
+}
+
+.primary-button:active,
+.secondary-button:active {
+  transform: scale(0.98);
+}
+
+@media (max-width: 600px) {
+  .welcome-content {
+    padding: 40px 24px 28px;
+  }
+
+  .welcome-logo {
+    font-size: 32px;
+  }
+
+  .welcome-text {
+    margin-top: 60px;
+  }
+
+  .welcome-text h1 {
+    font-size: 30px;
+  }
+
+  .welcome-text p {
+    font-size: 16px;
+  }
+
+  .welcome-actions {
+    gap: 14px;
+  }
+
+  .primary-button,
+  .secondary-button {
+    padding: 16px;
+    font-size: 16px;
+  }
+}
