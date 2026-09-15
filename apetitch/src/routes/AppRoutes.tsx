@@ -4,6 +4,7 @@ import { Welcome } from "../pages/Welcome/Welcome";
 import { Login } from "../pages/Login/Login";
 import { Register } from "../pages/Register/Register";
 import { Home } from "../pages/Home/Home";
+import { Restaurant } from "../pages/Restaurant/Restaurant";
 
 export function AppRoutes() {
   return (
@@ -16,6 +17,11 @@ export function AppRoutes() {
         <Route path="/cadastro" element={<Register />} />
 
         <Route path="/home" element={<Home />} />
+
+        <Route
+        path="/restaurante/:id"
+        element={<Restaurant />}
+    />
       </Routes>
     </BrowserRouter>
   );

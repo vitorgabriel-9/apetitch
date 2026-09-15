@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./Home.css";
 
 type Restaurant = {
@@ -104,6 +105,7 @@ const categories = [
 ];
 
 export function Home() {
+  const navigate = useNavigate();
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("Todos");
   const [favorites, setFavorites] = useState<number[]>([]);
@@ -440,9 +442,9 @@ export function Home() {
 
                   </div>
 
-                  <button className="restaurant-button">
+                  <button className="restaurant-button" onClick={() => navigate(`/restaurante/${restaurant.id}`)}>
                     Ver restaurante
-                    <span>→</span>
+                  <span>→</span>
                   </button>
 
                 </div>
