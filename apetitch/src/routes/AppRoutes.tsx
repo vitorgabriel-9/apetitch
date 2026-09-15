@@ -6,6 +6,7 @@ import { Register } from "../pages/Register/Register";
 import { Home } from "../pages/Home/Home";
 import { Restaurant } from "../pages/Restaurant/Restaurant";
 import { Profile } from "../pages/profile/profile";
+import { Orders } from "../pages/Orders/Orders";
 
 export function AppRoutes() {
   return (
@@ -18,6 +19,8 @@ export function AppRoutes() {
         <Route path="/cadastro" element={<Register />} />
 
         <Route path="/home" element={<Home />} />
+        
+        <Route path="/pedidos" element={<Orders />} />
 
         <Route
           path="/restaurante/:id"

@@ -536,7 +536,9 @@ export function Home() {
           <small>Explorar</small>
         </button>
 
-        <button className="nav-item">
+        <button className="nav-item"
+        onClick={() => navigate("/pedidos")}
+        >
           <span>📦</span>
           <small>Pedidos</small>
         </button>

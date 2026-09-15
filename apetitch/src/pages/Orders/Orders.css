@@ -1,0 +1,385 @@
+.orders-page {
+  min-height: 100vh;
+  min-height: 100dvh;
+
+  background: #ffffff;
+
+  color: #222222;
+
+  padding-bottom: 90px;
+}
+
+.orders-container {
+  width: 100%;
+  max-width: 540px;
+
+  margin: 0 auto;
+
+  padding: 28px 20px 30px;
+
+  box-sizing: border-box;
+}
+
+
+/* =========================
+   CABEÇALHO
+========================= */
+
+.orders-header {
+  margin-bottom: 18px;
+}
+
+.orders-title-area {
+  display: flex;
+  align-items: center;
+
+  gap: 15px;
+}
+
+.back-button {
+  width: 46px;
+  height: 46px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: none;
+  border-radius: 50%;
+
+  background: #f2f2f2;
+
+  color: #222222;
+
+  font-size: 34px;
+  line-height: 1;
+
+  cursor: pointer;
+}
+
+.orders-title-area h1 {
+  margin: 0;
+
+  font-size: 26px;
+  font-weight: 800;
+
+  color: #222222;
+}
+
+.orders-title-area p {
+  margin: 3px 0 0;
+
+  color: #777777;
+
+  font-size: 15px;
+}
+
+
+/* =========================
+   FILTROS
+========================= */
+
+.order-filters {
+  display: flex;
+
+  gap: 10px;
+
+  margin-bottom: 38px;
+
+  overflow-x: auto;
+
+  scrollbar-width: none;
+}
+
+.order-filters::-webkit-scrollbar {
+  display: none;
+}
+
+.order-filters button {
+  flex-shrink: 0;
+
+  padding: 9px 19px;
+
+  border: 1px solid #dddddd;
+  border-radius: 30px;
+
+  background: #f8f8f8;
+
+  color: #777777;
+
+  font-size: 15px;
+  font-weight: 500;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+.order-filters button.selected {
+  border-color: #d94a47;
+
+  background: #d94a47;
+
+  color: #ffffff;
+
+  font-weight: 700;
+}
+
+
+/* =========================
+   SEÇÕES
+========================= */
+
+.orders-section {
+  margin-bottom: 30px;
+}
+
+.orders-section h2 {
+  margin: 0 0 12px;
+
+  color: #999999;
+
+  font-size: 18px;
+  font-weight: 800;
+
+  text-transform: uppercase;
+}
+
+
+/* =========================
+   LISTA
+========================= */
+
+.orders-list {
+  display: flex;
+  flex-direction: column;
+
+  gap: 10px;
+}
+
+
+/* =========================
+   CARD
+========================= */
+
+.order-card {
+  position: relative;
+
+  min-height: 112px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 14px;
+
+  padding: 14px;
+
+  border: 1px solid #dddddd;
+  border-radius: 20px;
+
+  background: #ffffff;
+
+  box-sizing: border-box;
+}
+
+
+/* FOTO */
+
+.order-image {
+  width: 82px;
+  height: 82px;
+
+  flex-shrink: 0;
+
+  object-fit: cover;
+
+  border-radius: 14px;
+
+  background: #eeeeee;
+}
+
+
+/* INFORMAÇÕES */
+
+.order-info {
+  min-width: 0;
+
+  flex: 1;
+
+  padding-right: 18px;
+}
+
+.order-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 10px;
+}
+
+.order-top strong {
+  color: #d94a47;
+
+  font-size: 16px;
+  font-weight: 800;
+
+  white-space: nowrap;
+}
+
+.order-status {
+  flex-shrink: 0;
+
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.order-status.ongoing {
+  color: #e09a18;
+}
+
+.order-status.completed {
+  color: #62a66d;
+}
+
+.order-date {
+  margin: 4px 0;
+
+  color: #777777;
+
+  font-size: 14px;
+}
+
+.order-detail {
+  margin: 3px 0;
+
+  color: #222222;
+
+  font-size: 16px;
+  line-height: 1.35;
+}
+
+
+/* MENU */
+
+.order-menu {
+  position: absolute;
+
+  right: 10px;
+  top: 50%;
+
+  transform: translateY(-50%);
+
+  border: none;
+
+  background: transparent;
+
+  color: #555555;
+
+  font-size: 23px;
+
+  cursor: pointer;
+}
+
+
+/* =========================
+   ESTADO VAZIO
+========================= */
+
+.empty-orders {
+  min-height: 300px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+}
+
+.empty-orders span {
+  font-size: 48px;
+}
+
+.empty-orders h3 {
+  margin: 15px 0 5px;
+
+  font-size: 20px;
+}
+
+.empty-orders p {
+  margin: 0;
+
+  color: #777777;
+}
+
+
+/* =========================
+   DESKTOP
+========================= */
+
+@media (min-width: 700px) {
+  .orders-page {
+    background: #f5f5f5;
+  }
+
+  .orders-container {
+    min-height: 100vh;
+
+    background: #ffffff;
+
+    padding: 40px 28px 110px;
+  }
+
+  .orders-title-area h1 {
+    font-size: 28px;
+  }
+}
+
+
+/* =========================
+   CELULAR
+========================= */
+
+@media (max-width: 500px) {
+
+  .orders-container {
+    padding: 24px 16px 30px;
+  }
+
+  .orders-title-area h1 {
+    font-size: 24px;
+  }
+
+  .order-card {
+    gap: 10px;
+
+    padding: 12px;
+
+    border-radius: 18px;
+  }
+
+  .order-image {
+    width: 76px;
+    height: 76px;
+  }
+
+  .order-top {
+    display: block;
+  }
+
+  .order-top strong {
+    display: block;
+
+    margin-bottom: 3px;
+
+    font-size: 15px;
+  }
+
+  .order-status {
+    font-size: 13px;
+  }
+
+  .order-detail {
+    font-size: 14px;
+  }
+}
