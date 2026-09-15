@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
+
 import "./Home.css";
 
 type Restaurant = {
@@ -105,6 +106,7 @@ const categories = [
 ];
 
 export function Home() {
+
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("Todos");
@@ -193,8 +195,11 @@ export function Home() {
               <span className="location-text">{location}</span>
             </button>
 
-            <button className="profile-button">
-              👤
+            <button
+             className="profile-button"
+             onClick={() => navigate("/perfil")}
+            >
+            👤
             </button>
 
           </div>
@@ -442,10 +447,13 @@ export function Home() {
 
                   </div>
 
-                  <button className="restaurant-button" onClick={() => navigate(`/restaurante/${restaurant.id}`)}>
-                    Ver restaurante
-                  <span>→</span>
-                  </button>
+                  <button
+  className="restaurant-button"
+  onClick={() => navigate(`/restaurante/${restaurant.id}`)}
+>
+  Ver restaurante
+  <span>→</span>
+</button>
 
                 </div>
 
@@ -538,7 +546,10 @@ export function Home() {
           <small>Favoritos</small>
         </button>
 
-        <button className="nav-item">
+        <button
+          className="nav-item"
+          onClick={() => navigate("/perfil")}
+        >
           <span>👤</span>
           <small>Perfil</small>
         </button>

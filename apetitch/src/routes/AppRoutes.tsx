@@ -5,6 +5,7 @@ import { Login } from "../pages/Login/Login";
 import { Register } from "../pages/Register/Register";
 import { Home } from "../pages/Home/Home";
 import { Restaurant } from "../pages/Restaurant/Restaurant";
+import { Profile } from "../pages/profile/profile";
 
 export function AppRoutes() {
   return (
@@ -19,9 +20,14 @@ export function AppRoutes() {
         <Route path="/home" element={<Home />} />
 
         <Route
-        path="/restaurante/:id"
-        element={<Restaurant />}
-    />
+          path="/restaurante/:id"
+          element={<Restaurant />}
+        />
+
+        <Route
+          path="/perfil"
+          element={<Profile />}
+        />
       </Routes>
     </BrowserRouter>
   );
