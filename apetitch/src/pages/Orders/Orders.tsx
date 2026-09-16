@@ -1,58 +1,26 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { BottomNavigation } from "../../components/BottomNavigation/BottomNavigation";
+import { getOrders } from "../../services/orderService";
+import type { Order, OrderType } from "../../types/order";
 
 import "./Orders.css";
 
-type OrderType = "Delivery" | "Presencial";
-type OrderStatus = "Em preparação" | "Concluído";
 type FilterType = "Todos" | OrderType;
-
-interface Order {
-  id: number;
-  type: OrderType;
-  status: OrderStatus;
-  time: string;
-  description: string;
-  image: string;
-}
-
-const initialOrders: Order[] = [
-  {
-    id: 1258,
-    type: "Delivery",
-    status: "Em preparação",
-    time: "Hoje 19:32",
-    description: "Previsão de entrega: 20:05",
-    image:
-      "https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=300&q=80",
-  },
-  {
-    id: 1247,
-    type: "Presencial",
-    status: "Concluído",
-    time: "Hoje 13:15",
-    description: "Mesa 12 • Bistrô Vila Madá",
-    image:
-      "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=300&q=80",
-  },
-  {
-    id: 1240,
-    type: "Delivery",
-    status: "Concluído",
-    time: "Ontem 20:10",
-    description: "Entregue por iFood",
-    image:
-      "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=300&q=80",
-  },
-];
 
 export function Orders() {
   const navigate = useNavigate();
-
-  const [orders, setOrders] = useState<Order[]>(initialOrders);
+  const [orders, setOrders] = useState<Order[]>([]);
   const [filter, setFilter] = useState<FilterType>("Todos");
+
+  useEffect(() => {
+    async function loadOrders() {
+      setOrders(await getOrders());
+    }
+
+    loadOrders();
+  }, []);
 
   const filteredOrders = useMemo(() => {
     if (filter === "Todos") {
@@ -60,47 +28,33 @@ export function Orders() {
     }
 
     return orders.filter((order) => order.type === filter);
-  }, [orders, filter]);
+  }, [filter, orders]);
 
   const activeOrders = filteredOrders.filter(
-    (order) => order.status !== "Concluído"
+    (order) => order.status !== "concluido" && order.status !== "cancelado"
   );
-
   const completedOrders = filteredOrders.filter(
-    (order) => order.status === "Concluído"
+    (order) => order.status === "concluido"
   );
+  const cancelledOrders = filteredOrders.filter(
+    (order) => order.status === "cancelado"
+  );
+  const orderTotal = orders.reduce((total, order) => total + (order.total ?? 0), 0);
 
-  function deleteOrder(id: number) {
-    const shouldDelete = window.confirm(
-      "Deseja realmente excluir este pedido?"
-    );
-
-    if (!shouldDelete) {
-      return;
-    }
-
-    setOrders((currentOrders) =>
-      currentOrders.filter((order) => order.id !== id)
-    );
+  function removeOrder(id: number) {
+    setOrders((current) => current.filter((order) => order.id !== id));
   }
 
   return (
     <div className="orders-page">
-      {/* HEADER PADRÃO DO APP */}
-
       <header className="orders-topbar">
         <div className="orders-brand">
           <div className="orders-logo">A</div>
-
           <span>Apetitch</span>
         </div>
 
         <div className="orders-topbar-actions">
-          <button className="orders-location">
-            <span>📍</span>
-            Fortaleza, CE
-          </button>
-
+          <span className="orders-location">📍 Fortaleza, CE</span>
           <button
             className="orders-profile"
             onClick={() => navigate("/perfil")}
@@ -111,155 +65,151 @@ export function Orders() {
         </div>
       </header>
 
-      {/* CONTEÚDO */}
-
       <main className="orders-content">
-        {/* TÍTULO */}
-
         <section className="orders-heading">
           <button
             className="orders-back"
-            onClick={() => navigate(-1)}
-            aria-label="Voltar"
+            onClick={() => navigate("/home")}
+            aria-label="Voltar para a página inicial"
           >
             ‹
           </button>
-
           <div>
             <h1>Meus pedidos</h1>
-            <p>Bistrô Vila Madá</p>
+            <p>Acompanhe cada etapa, do preparo à entrega.</p>
           </div>
         </section>
 
-        {/* FILTROS */}
+        <section className="orders-overview" aria-label="Resumo dos pedidos">
+          <div>
+            <span>Em andamento</span>
+            <strong>{activeOrders.length}</strong>
+          </div>
+          <div>
+            <span>Pedidos no histórico</span>
+            <strong>{orders.length}</strong>
+          </div>
+          <div>
+            <span>Total registrado</span>
+            <strong>{orderTotal ? `R$ ${orderTotal.toFixed(2).replace(".", ",")}` : "—"}</strong>
+          </div>
+        </section>
 
-        <section className="orders-filters">
-          {(["Todos", "Presencial", "Delivery"] as FilterType[]).map(
+        <section className="orders-filters" aria-label="Filtrar pedidos">
+          {(["Todos", "presencial", "delivery"] as FilterType[]).map(
             (option) => (
               <button
                 key={option}
-                className={`orders-filter ${
-                  filter === option ? "active" : ""
-                }`}
+                className={`orders-filter ${filter === option ? "active" : ""}`}
                 onClick={() => setFilter(option)}
               >
-                {option}
+                {option === "presencial" ? "Presencial" : option === "delivery" ? "Delivery" : option}
               </button>
             )
           )}
         </section>
 
-        {/* EM ANDAMENTO */}
-
-        <OrderSection
-          title="Em andamento"
-          orders={activeOrders}
-          onDelete={deleteOrder}
-        />
-
-        {/* CONCLUÍDOS */}
-
-        <OrderSection
-          title="Concluídos"
-          orders={completedOrders}
-          onDelete={deleteOrder}
-        />
+        <OrderSection title="Em andamento" orders={activeOrders} onRemove={removeOrder} />
+        <OrderSection title="Concluídos" orders={completedOrders} onRemove={removeOrder} />
+        {cancelledOrders.length > 0 && (
+          <OrderSection title="Cancelados" orders={cancelledOrders} onRemove={removeOrder} />
+        )}
       </main>
-
-      {/* NAVBAR PADRÃO DO APP */}
 
       <BottomNavigation />
     </div>
   );
 }
 
-interface OrderSectionProps {
+type OrderSectionProps = {
   title: string;
   orders: Order[];
-  onDelete: (id: number) => void;
-}
+  onRemove: (id: number) => void;
+};
 
-function OrderSection({
-  title,
-  orders,
-  onDelete,
-}: OrderSectionProps) {
+function OrderSection({ title, orders, onRemove }: OrderSectionProps) {
   return (
     <section className="orders-section">
       <div className="orders-section-header">
         <h2>{title}</h2>
-
-        <span>
-          {orders.length} {orders.length === 1 ? "pedido" : "pedidos"}
-        </span>
+        <span>{orders.length} {orders.length === 1 ? "pedido" : "pedidos"}</span>
       </div>
 
       {orders.length === 0 ? (
-        <div className="orders-empty">
-          Nenhum pedido nesta categoria.
-        </div>
+        <div className="orders-empty">Nenhum pedido nesta categoria.</div>
       ) : (
         <div className="orders-list">
-          {orders.map((order) => (
-            <OrderCard
-              key={order.id}
-              order={order}
-              onDelete={onDelete}
-            />
-          ))}
+          {orders.map((order) => <OrderCard key={order.id} order={order} onRemove={onRemove} />)}
         </div>
       )}
     </section>
   );
 }
 
-interface OrderCardProps {
+type OrderCardProps = {
   order: Order;
-  onDelete: (id: number) => void;
-}
+  onRemove: (id: number) => void;
+};
 
-function OrderCard({
-  order,
-  onDelete,
-}: OrderCardProps) {
+function OrderCard({ order, onRemove }: OrderCardProps) {
+  const [showDetails, setShowDetails] = useState(false);
+  const isCompleted = order.status === "concluido";
+  const status = order.status === "em_preparacao"
+    ? { label: "Em preparação", description: "O restaurante está preparando seu pedido.", icon: "◔" }
+    : order.status === "a_caminho"
+      ? { label: "A caminho", description: "Seu pedido está a caminho.", icon: "↗" }
+      : isCompleted
+        ? { label: "Concluído", description: "Pedido finalizado.", icon: "✓" }
+        : { label: "Cancelado", description: "Este pedido foi cancelado.", icon: "×" };
+
   return (
-    <article className="order-card">
-      <img
-        className="order-image"
-        src={order.image}
-        alt={`Pedido ${order.id}`}
-      />
+    <article className={`order-card ${isCompleted ? "is-completed" : ""}`}>
+      <img className="order-image" src={order.image} alt={`Pedido ${order.id}`} />
 
       <div className="order-information">
-        <strong className="order-title">
-          #{order.id} • {order.type}
-        </strong>
-
-        <span className="order-time">
-          {order.time}
-        </span>
-
-        <p>{order.description}</p>
+        <div className="order-eyebrow">
+          <span>#{order.id}</span>
+          <span>{order.type === "delivery" ? "Delivery" : "Presencial"}</span>
+        </div>
+        <h3>{order.restaurant}</h3>
+        <span className="order-time">{order.date} · {order.time}</span>
+        <p>{order.deliveryTime ? `Previsão: ${order.deliveryTime}` : order.table ?? order.deliveredBy ?? "Pedido no local"}</p>
       </div>
 
-      <div
-        className={`order-status ${
-          order.status === "Concluído"
-            ? "completed"
-            : "preparing"
-        }`}
-      >
-        {order.status}
+      <div className={`order-status ${isCompleted ? "completed" : "preparing"}`}>
+        <span>{status.icon}</span>{status.label}
       </div>
 
       <button
-        className="order-delete"
-        onClick={() => onDelete(order.id)}
-        aria-label={`Excluir pedido ${order.id}`}
-        title="Excluir pedido"
+        className="order-details-button"
+        type="button"
+        onClick={() => setShowDetails((current) => !current)}
+        aria-label={showDetails ? "Ocultar detalhes do pedido" : "Ver detalhes do pedido"}
+        aria-expanded={showDetails}
       >
-        ×
+        {showDetails ? "Ocultar detalhes" : "Ver detalhes"}
       </button>
+
+      {showDetails && (
+        <div className="order-detail-panel">
+          <div>
+            <strong>Detalhes do pedido</strong>
+            <p>{order.items?.join(" · ") ?? "Os itens deste pedido não estão disponíveis."}</p>
+          </div>
+          <div className="order-detail-total">
+            {order.total !== undefined && <strong>R$ {order.total.toFixed(2).replace(".", ",")}</strong>}
+            <span>{status.description}</span>
+          </div>
+          <button
+            className="order-remove"
+            type="button"
+            onClick={() => onRemove(order.id)}
+            aria-label={`Ocultar pedido ${order.id} desta visualização`}
+          >
+            Ocultar pedido
+          </button>
+        </div>
+      )}
     </article>
   );
 }

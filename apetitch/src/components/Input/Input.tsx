@@ -1,3 +1,5 @@
+import { useId } from "react";
+
 import "./Input.css";
 
 interface InputProps {
@@ -15,11 +17,14 @@ export function Input({
   value,
   onChange,
 }: InputProps) {
+  const inputId = useId();
+
   return (
     <div className="input-group">
-      <label>{label}</label>
+      <label htmlFor={inputId}>{label}</label>
 
       <input
+        id={inputId}
         type={type}
         placeholder={placeholder}
         value={value}

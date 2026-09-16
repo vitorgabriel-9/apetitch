@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 import {
   MapContainer,
@@ -82,6 +82,7 @@ function RecenterMap({
 
 export function Explorar() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
 
   const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
 
@@ -93,8 +94,13 @@ export function Explorar() {
   const [selectedRestaurant, setSelectedRestaurant] =
     useState<Restaurant | null>(null);
 
+  const [showCategories, setShowCategories] = useState(true);
+
   const [userPosition, setUserPosition] =
     useState<[number, number]>([-3.7319, -38.5267]);
+  const [locationLabel, setLocationLabel] = useState("Fortaleza, CE");
+  const [isLocating, setIsLocating] = useState(false);
+  const nearbyRequestHandled = useRef(false);
 
 
   useEffect(() => {
@@ -106,6 +112,29 @@ export function Explorar() {
 
     loadRestaurants();
   }, []);
+
+  useEffect(() => {
+    if (searchParams.get("perto-de-mim") !== "1" || nearbyRequestHandled.current) {
+      return;
+    }
+
+    nearbyRequestHandled.current = true;
+
+    if (!navigator.geolocation) {
+      alert("Geolocalização não disponível neste navegador.");
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        setUserPosition([position.coords.latitude, position.coords.longitude]);
+        setLocationLabel("Sua localização");
+      },
+      () => {
+        alert("Não foi possível obter sua localização.");
+      }
+    );
+  }, [searchParams]);
 
 
   const filteredRestaurants = useMemo(() => {
@@ -134,15 +163,19 @@ export function Explorar() {
       return;
     }
 
+    setIsLocating(true);
     navigator.geolocation.getCurrentPosition(
       (position) => {
         setUserPosition([
           position.coords.latitude,
           position.coords.longitude,
         ]);
+        setLocationLabel("Sua localização");
+        setIsLocating(false);
       },
 
       () => {
+        setIsLocating(false);
         alert("Não foi possível obter sua localização.");
       }
     );
@@ -183,14 +216,21 @@ export function Explorar() {
         </div>
 
 
-        <button className="location-button">
-          📍 Fortaleza, CE
+        <button
+          className="location-button"
+          type="button"
+          onClick={getMyLocation}
+          aria-label="Usar minha localização"
+        >
+          📍 {locationLabel}
         </button>
 
 
         <button
           className="profile-button"
+          type="button"
           onClick={() => navigate("/perfil")}
+          aria-label="Abrir perfil"
         >
           👤
         </button>
@@ -215,7 +255,14 @@ export function Explorar() {
           </div>
 
 
-          <button className="filter-button">
+          <button
+            className="filter-button"
+            type="button"
+            onClick={() => setShowCategories((current) => !current)}
+            aria-expanded={showCategories}
+            aria-controls="explore-categories"
+            aria-label={showCategories ? "Ocultar categorias" : "Exibir categorias"}
+          >
             ☷
           </button>
 
@@ -224,7 +271,8 @@ export function Explorar() {
 
         {/* CATEGORIAS */}
 
-        <section className="categories">
+        {showCategories && (
+        <section className="categories" id="explore-categories">
 
           {categories.map((category) => (
 
@@ -251,6 +299,7 @@ export function Explorar() {
           ))}
 
         </section>
+        )}
 
 
         {/* MAPA + RESTAURANTES */}
@@ -339,9 +388,11 @@ export function Explorar() {
 
             <button
               className="my-location-button"
+              type="button"
               onClick={getMyLocation}
+              disabled={isLocating}
             >
-              ◎ Minha localização
+              {isLocating ? "Localizando..." : "◎ Minha localização"}
             </button>
 
           </div>
@@ -362,7 +413,6 @@ export function Explorar() {
               </span>
 
             </div>
-
 
             <div className="restaurants-list">
 
@@ -437,6 +487,8 @@ export function Explorar() {
 
                     <button
                       className="restaurant-open"
+                      type="button"
+                      aria-label={`Abrir perfil de ${restaurant.name}`}
                       onClick={(event) => {
                         event.stopPropagation();
 

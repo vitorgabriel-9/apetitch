@@ -407,6 +407,9 @@
 
   background: white;
 
+  border: 1px solid #eeeeeb;
+  box-shadow: 0 10px 28px rgba(0, 5, 5, 0.05);
+
   overflow: hidden;
 }
 
@@ -442,6 +445,8 @@
 
   overflow-y: auto;
 
+  min-height: 0;
+
   padding-right: 3px;
 }
 
@@ -466,6 +471,8 @@
 .restaurant-card:hover,
 .restaurant-card.selected {
   border-color: #b0413e;
+
+  background: #fffaf8;
 
   transform: translateY(-1px);
 
@@ -676,9 +683,10 @@
 
 
   .restaurants-panel {
-    padding: 0;
+    max-height: none;
+    padding: 14px;
 
-    background: transparent;
+    background: #ffffff;
   }
 
 
@@ -689,6 +697,10 @@
 
   .restaurant-card {
     background: white;
+  }
+
+  .restaurants-list {
+    overflow: visible;
   }
 
 
@@ -702,4 +714,62 @@
     font-size: 10px;
   }
 
+}
+
+/* Acabamento visual e estados de interação da página de exploração. */
+.explore-page {
+  background:
+    radial-gradient(circle at 88% 8%, rgba(241, 143, 1, 0.10), transparent 24rem),
+    radial-gradient(circle at 8% 55%, rgba(176, 65, 62, 0.08), transparent 26rem),
+    #f8f8f7;
+}
+
+.explore-header {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  box-shadow: 0 8px 26px rgba(0, 5, 5, 0.04);
+}
+
+.explore-search {
+  border: 1px solid transparent;
+  transition: 0.2s ease;
+}
+
+.explore-search:focus-within {
+  border-color: rgba(176, 65, 62, 0.42);
+  background: #ffffff;
+  box-shadow: 0 0 0 4px rgba(176, 65, 62, 0.08);
+}
+
+.location-button,
+.profile-button,
+.filter-button,
+.my-location-button,
+.restaurant-open {
+  transition: 0.2s ease;
+}
+
+.location-button:hover,
+.my-location-button:hover {
+  color: #b0413e;
+  transform: translateY(-2px);
+}
+
+.my-location-button:disabled {
+  cursor: wait;
+  opacity: 0.72;
+  transform: none;
+}
+
+.profile-button:hover,
+.filter-button:hover,
+.restaurant-open:hover {
+  background: #8f3532;
+  transform: translateY(-2px);
+}
+
+.map-container {
+  border: 1px solid rgba(0, 5, 5, 0.08);
+  box-shadow: 0 18px 40px rgba(0, 5, 5, 0.10);
 }

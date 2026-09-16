@@ -1,5 +1,9 @@
 import { useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import {
+  getFavoriteRestaurantIds,
+  saveFavoriteRestaurantIds,
+} from "../../services/appState";
 
 import "./Home.css";
 
@@ -17,6 +21,8 @@ type Restaurant = {
   image: string;
   delivery: boolean;
 };
+
+type DeliveryOptionId = "apetitch" | "partner" | "pickup";
 
 const restaurants: Restaurant[] = [
   {
@@ -108,13 +114,55 @@ const categories = [
 export function Home() {
 
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("Todos");
-  const [favorites, setFavorites] = useState<number[]>([]);
+  const [favorites, setFavorites] = useState(getFavoriteRestaurantIds);
   const [showFilters, setShowFilters] = useState(false);
   const [showAll, setShowAll] = useState(false);
   const [sort, setSort] = useState("proximidade");
   const [location, setLocation] = useState("Fortaleza, CE");
+  const [comparisonRestaurant, setComparisonRestaurant] = useState<Restaurant | null>(null);
+  const [isQueryComparisonDismissed, setIsQueryComparisonDismissed] = useState(false);
+  const [selectedDeliveryOption, setSelectedDeliveryOption] = useState<DeliveryOptionId>("apetitch");
+  const favoritesOnly = searchParams.get("favoritos") === "1";
+  const queryComparisonRestaurant = restaurants.find(
+    (restaurant) => restaurant.id === Number(searchParams.get("comparar"))
+  );
+  const activeComparisonRestaurant = comparisonRestaurant ?? (
+    isQueryComparisonDismissed ? undefined : queryComparisonRestaurant
+  );
+
+  const deliveryOptions = activeComparisonRestaurant ? [
+    {
+      id: "apetitch" as const,
+      name: "Apetitch",
+      fee: 6.99,
+      time: activeComparisonRestaurant.deliveryTime,
+      note: "Entrega acompanhada pelo app",
+      highlight: "Melhor custo-benefício",
+    },
+    {
+      id: "partner" as const,
+      name: "Parceiro delivery",
+      fee: 8.99,
+      time: "35–50 min",
+      note: "Opção alternativa de entrega",
+    },
+    {
+      id: "pickup" as const,
+      name: "Retirada no local",
+      fee: 0,
+      time: activeComparisonRestaurant.waitTime,
+      note: "Sem taxa de entrega",
+    },
+  ] : [];
+  const chosenDeliveryOption = deliveryOptions.find((option) => option.id === selectedDeliveryOption);
+
+  function openComparison(restaurant: Restaurant) {
+    setSelectedDeliveryOption("apetitch");
+    setComparisonRestaurant(restaurant);
+  }
 
   const filteredRestaurants = useMemo(() => {
     let result = restaurants.filter((restaurant) => {
@@ -126,7 +174,8 @@ export function Home() {
         selectedCategory === "Todos" ||
         restaurant.category === selectedCategory;
 
-      return matchesSearch && matchesCategory;
+      return matchesSearch && matchesCategory &&
+        (!favoritesOnly || favorites.includes(restaurant.id));
     });
 
     if (sort === "avaliacao") {
@@ -142,18 +191,21 @@ export function Home() {
     }
 
     return result;
-  }, [search, selectedCategory, sort]);
+  }, [favorites, favoritesOnly, search, selectedCategory, sort]);
 
   const displayedRestaurants = showAll
     ? filteredRestaurants
     : filteredRestaurants.slice(0, 4);
 
   function toggleFavorite(id: number) {
-    setFavorites((current) =>
-      current.includes(id)
+    setFavorites((current) => {
+      const updatedFavorites = current.includes(id)
         ? current.filter((favoriteId) => favoriteId !== id)
-        : [...current, id]
-    );
+        : [...current, id];
+
+      saveFavoriteRestaurantIds(updatedFavorites);
+      return updatedFavorites;
+    });
   }
 
   function getLocation() {
@@ -198,6 +250,7 @@ export function Home() {
             <button
              className="profile-button"
              onClick={() => navigate("/perfil")}
+             aria-label="Abrir perfil"
             >
             👤
             </button>
@@ -224,6 +277,7 @@ export function Home() {
               <button
                 className="clear-search"
                 onClick={() => setSearch("")}
+                aria-label="Limpar busca"
               >
                 ×
               </button>
@@ -233,6 +287,8 @@ export function Home() {
           <button
             className="filter-button"
             onClick={() => setShowFilters(!showFilters)}
+            aria-label="Abrir filtros"
+            aria-expanded={showFilters}
           >
             ⚙
           </button>
@@ -383,6 +439,12 @@ export function Home() {
                     onClick={() =>
                       toggleFavorite(restaurant.id)
                     }
+                    aria-label={
+                      favorites.includes(restaurant.id)
+                        ? `Remover ${restaurant.name} dos favoritos`
+                        : `Adicionar ${restaurant.name} aos favoritos`
+                    }
+                    aria-pressed={favorites.includes(restaurant.id)}
                   >
                     {favorites.includes(restaurant.id)
                       ? "♥"
@@ -440,7 +502,10 @@ export function Home() {
                     </span>
 
                     {restaurant.delivery && (
-                      <button className="compare-button">
+                      <button
+                        className="compare-button"
+                        onClick={() => openComparison(restaurant)}
+                      >
                         Comparar
                       </button>
                     )}
@@ -468,7 +533,9 @@ export function Home() {
               <span>🔎</span>
               <h3>Nenhum restaurante encontrado</h3>
               <p>
-                Tente pesquisar outro nome ou categoria.
+                {favoritesOnly
+                  ? "Você ainda não favoritou restaurantes com estes filtros."
+                  : "Tente pesquisar outro nome ou categoria."}
               </p>
             </div>
           )}
@@ -490,7 +557,7 @@ export function Home() {
 
           <div className="quick-actions">
 
-            <button className="quick-card">
+            <button className="quick-card" onClick={() => navigate("/explorar?perto-de-mim=1")}>
               <span>🗺️</span>
               <div>
                 <strong>Encontrar perto de mim</strong>
@@ -499,7 +566,7 @@ export function Home() {
               <b>→</b>
             </button>
 
-            <button className="quick-card">
+            <button className="quick-card" onClick={() => openComparison(restaurants[0])}>
               <span>🛵</span>
               <div>
                 <strong>Comparar delivery</strong>
@@ -508,7 +575,7 @@ export function Home() {
               <b>→</b>
             </button>
 
-            <button className="quick-card">
+            <button className="quick-card" onClick={() => navigate("/pedidos")}>
               <span>📦</span>
               <div>
                 <strong>Acompanhar pedido</strong>
@@ -531,7 +598,7 @@ export function Home() {
           <small>Início</small>
         </button>
 
-        <button className="nav-item">
+        <button className="nav-item" onClick={() => navigate("/explorar")}>
           <span>🗺️</span>
           <small>Explorar</small>
         </button>
@@ -543,7 +610,7 @@ export function Home() {
           <small>Pedidos</small>
         </button>
 
-        <button className="nav-item">
+        <button className="nav-item" onClick={() => navigate("/home?favoritos=1")}>
           <span>♡</span>
           <small>Favoritos</small>
         </button>
@@ -557,6 +624,61 @@ export function Home() {
         </button>
 
       </nav>
+
+      {activeComparisonRestaurant && (
+        <div className="comparison-modal" role="dialog" aria-modal="true" aria-labelledby="comparison-title">
+          <div className="comparison-modal-content">
+            <button
+              className="comparison-close"
+              type="button"
+              onClick={() => {
+                setComparisonRestaurant(null);
+                setIsQueryComparisonDismissed(true);
+              }}
+              aria-label="Fechar comparador"
+            >
+              ×
+            </button>
+            <span className="section-subtitle">Comparar delivery</span>
+            <h2 id="comparison-title">{activeComparisonRestaurant.name}</h2>
+            <p>Compare taxa, prazo e modalidade antes de escolher. Valores demonstrativos.</p>
+            <div className="delivery-options">
+              {deliveryOptions.map((option) => (
+                <button
+                  key={option.id}
+                  type="button"
+                  className={`delivery-option ${selectedDeliveryOption === option.id ? "selected" : ""}`}
+                  onClick={() => setSelectedDeliveryOption(option.id)}
+                  aria-pressed={selectedDeliveryOption === option.id}
+                >
+                  <span className="delivery-option-main">
+                    <strong>{option.name}</strong>
+                    <small>{option.note}</small>
+                  </span>
+                  <span className="delivery-option-value">
+                    <strong>{option.fee ? `R$ ${option.fee.toFixed(2).replace(".", ",")}` : "Sem taxa"}</strong>
+                    <small>{option.time}</small>
+                  </span>
+                  {option.highlight && <em>{option.highlight}</em>}
+                </button>
+              ))}
+            </div>
+            {chosenDeliveryOption && (
+              <div className="comparison-selection" role="status">
+                <span>Selecionado: <strong>{chosenDeliveryOption.name}</strong></span>
+                <span>{chosenDeliveryOption.fee ? `Taxa de R$ ${chosenDeliveryOption.fee.toFixed(2).replace(".", ",")}` : "Você economiza na taxa de entrega"}</span>
+              </div>
+            )}
+            <button
+              className="comparison-continue"
+              type="button"
+              onClick={() => navigate(`/restaurante/${activeComparisonRestaurant.id}`)}
+            >
+              {selectedDeliveryOption === "pickup" ? "Ver opções para retirada" : "Escolher itens do pedido"}
+            </button>
+          </div>
+        </div>
+      )}
 
     </div>
   );

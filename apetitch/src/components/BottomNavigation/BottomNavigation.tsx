@@ -1,4 +1,5 @@
 import { useLocation, useNavigate } from "react-router-dom";
+
 import "./BottomNavigation.css";
 
 export function BottomNavigation() {
@@ -11,7 +12,6 @@ export function BottomNavigation() {
 
   return (
     <nav className="bottom-navigation">
-
       <button
         className={`nav-item ${isActive("/home") ? "active" : ""}`}
         onClick={() => navigate("/home")}
@@ -37,8 +37,8 @@ export function BottomNavigation() {
       </button>
 
       <button
-        className={`nav-item ${isActive("/favoritos") ? "active" : ""}`}
-        onClick={() => navigate("/favoritos")}
+        className={location.search === "?favoritos=1" ? "nav-item active" : "nav-item"}
+        onClick={() => navigate("/home?favoritos=1")}
       >
         <span>♡</span>
         <small>Favoritos</small>
@@ -51,7 +51,6 @@ export function BottomNavigation() {
         <span>👤</span>
         <small>Perfil</small>
       </button>
-
     </nav>
   );
 }
