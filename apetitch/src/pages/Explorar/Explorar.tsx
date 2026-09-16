@@ -68,7 +68,7 @@ export function Explorar() {
 
 	const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
 
-	const [search, setSearch] = useState("");
+	const [search, setSearch] = useState(searchParams.get("busca") ?? "");
 
 	const [selectedCategory, setSelectedCategory] = useState<
 		RestaurantCategory | "Todos"
