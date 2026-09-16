@@ -26,15 +26,18 @@ export function Login() {
       return;
     }
 
+    if (!/^\S+@\S+\.\S+$/.test(email)) {
+      setError("Informe um e-mail válido.");
+      return;
+    }
+
     try {
       setLoading(true);
 
-      const user = await login({
+      await login({
         email,
         password,
       });
-
-      console.log("Usuário autenticado:", user);
 
       navigate("/home");
     } catch {

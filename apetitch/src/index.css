@@ -19,8 +19,11 @@ body {
     "Segoe UI",
     sans-serif;
 
-  background: #000505;
+  background: #f7f7f5;
   color: #000505;
+
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
 button,
@@ -30,4 +33,19 @@ input {
 
 a {
   color: inherit;
+}
+
+button,
+a,
+input,
+textarea {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid rgba(241, 143, 1, 0.7);
+  outline-offset: 3px;
 }

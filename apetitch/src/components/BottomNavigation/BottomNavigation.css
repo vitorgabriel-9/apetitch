@@ -1,31 +1,43 @@
 .bottom-navigation {
   position: fixed;
 
-  left: 50%;
+  left: 0;
+  right: 0;
   bottom: 0;
 
-  transform: translateX(-50%);
+  width: auto;
+  max-width: none;
+  height: 76px;
 
-  width: 100%;
-  max-width: 540px;
+  margin: 0;
+  padding: 0 30px;
 
-  height: 78px;
+  box-sizing: border-box;
 
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-
-  padding: 8px 12px;
-
-  background: #ffffff;
+  background: rgba(255, 255, 255, 0.97);
+  backdrop-filter: blur(15px);
 
   border-top: 1px solid #eeeeee;
 
-  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 45px;
+
+  z-index: 1000;
 }
 
-.bottom-navigation button {
-  flex: 1;
+.nav-item {
+  position: relative;
+
+  width: 70px;
+  height: 60px;
+
+  flex-shrink: 0;
+
+  border: none;
+  background: transparent;
 
   display: flex;
   flex-direction: column;
@@ -34,30 +46,84 @@
 
   gap: 4px;
 
-  border: none;
-
-  background: transparent;
-
-  color: #999999;
-
-  font-size: 12px;
-  font-weight: 500;
+  color: #999;
 
   cursor: pointer;
+
+  transition: 0.2s;
 }
 
-.bottom-navigation button.active {
-  color: #d94a47;
-  font-weight: 700;
-}
-
-.nav-icon {
-  font-size: 27px;
+.nav-item span {
+  font-size: 20px;
   line-height: 1;
 }
 
-@media (min-width: 700px) {
+.nav-item small {
+  font-size: 9px;
+  font-weight: 700;
+}
+
+.nav-item:hover {
+  color: var(--red);
+}
+
+.nav-item.active {
+  background: #fff0ed;
+  color: var(--red);
+}
+
+.nav-item.active::before {
+  content: "";
+
+  position: absolute;
+
+  top: -9px;
+
+  width: 25px;
+  height: 3px;
+
+  border-radius: 10px;
+
+  background: var(--red);
+}
+
+/* TABLET / MOBILE */
+
+@media (max-width: 600px) {
   .bottom-navigation {
-    border-radius: 20px 20px 0 0;
+    bottom: 8px;
+
+    width: calc(100% - 18px);
+
+    left: 9px;
+    right: 9px;
+
+    height: 70px;
+
+    padding: 7px;
+
+    border-radius: 19px;
+
+    gap: 0;
+
+    justify-content: space-around;
+  }
+
+  .nav-item {
+    flex: 1;
+    width: auto;
+    max-width: 70px;
+  }
+
+  .nav-item span {
+    font-size: 18px;
+  }
+}
+
+/* SMALL MOBILE */
+
+@media (max-width: 380px) {
+  .nav-item small {
+    font-size: 8px;
   }
 }

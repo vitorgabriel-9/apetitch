@@ -28,6 +28,11 @@ export function Register() {
       return;
     }
 
+    if (!/^\S+@\S+\.\S+$/.test(email)) {
+      setError("Informe um e-mail válido.");
+      return;
+    }
+
     if (password !== confirmPassword) {
       setError("As senhas não coincidem.");
       return;
@@ -36,14 +41,12 @@ export function Register() {
     try {
       setLoading(true);
 
-      const user = await register({
+      await register({
         name,
         email,
         password,
         confirmPassword,
       });
-
-      console.log("Usuário criado:", user);
 
       navigate("/home");
     } catch {

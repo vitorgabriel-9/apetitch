@@ -20,4 +20,7 @@ export interface Order {
   deliveryTime?: string;
   table?: string;
   deliveredBy?: string;
+  itemCount?: number;
+  items?: string[];
+  total?: number;
 }
