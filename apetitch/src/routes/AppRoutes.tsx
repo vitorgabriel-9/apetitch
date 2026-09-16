@@ -7,6 +7,7 @@ import { Home } from "../pages/Home/Home";
 import { Restaurant } from "../pages/Restaurant/Restaurant";
 import { Profile } from "../pages/profile/profile";
 import { Orders } from "../pages/Orders/Orders";
+import { Explorar } from "../pages/Explorar/Explorar";
 
 export function AppRoutes() {
   return (
@@ -21,6 +22,12 @@ export function AppRoutes() {
         <Route path="/home" element={<Home />} />
         
         <Route path="/pedidos" element={<Orders />} />
+
+        <Route
+          path="/explorar"
+          element={<Explorar />}
+        />
+    
 
         <Route
           path="/restaurante/:id"
