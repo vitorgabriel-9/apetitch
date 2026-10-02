@@ -1,101 +1,17 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import {
 	getFavoriteRestaurantIds,
 	saveFavoriteRestaurantIds,
 } from "../../services/appState";
 
+import { getRestaurants } from "../../services/restaurantService";
+
+import type { Restaurant } from "../../types/restaurant";
+
 import "./Home.css";
 
-type Restaurant = {
-	id: number;
-	name: string;
-	category: string;
-	rating: number;
-	reviews: number;
-	distance: string;
-	waitTime: string;
-	deliveryTime: string;
-	status: "Aberto" | "Lotado" | "Fechado";
-	price: string;
-	image: string;
-	delivery: boolean;
-};
-
 type DeliveryOptionId = "apetitch" | "partner" | "pickup";
-
-const restaurants: Restaurant[] = [
-	{
-		id: 1,
-		name: "La Nonna Trattoria",
-		category: "Italiana",
-		rating: 4.8,
-		reviews: 324,
-		distance: "1,2 km",
-		waitTime: "10–20 min",
-		deliveryTime: "30–45 min",
-		status: "Aberto",
-		price: "$$",
-		image: "https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=700&q=80",
-		delivery: true,
-	},
-	{
-		id: 2,
-		name: "Sushi Ken",
-		category: "Japonesa",
-		rating: 4.7,
-		reviews: 218,
-		distance: "1,8 km",
-		waitTime: "15–25 min",
-		deliveryTime: "35–50 min",
-		status: "Aberto",
-		price: "$$",
-		image: "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?w=700&q=80",
-		delivery: true,
-	},
-	{
-		id: 3,
-		name: "Burger Place",
-		category: "Hambúrguer",
-		rating: 4.6,
-		reviews: 451,
-		distance: "2,1 km",
-		waitTime: "20–30 min",
-		deliveryTime: "30–40 min",
-		status: "Lotado",
-		price: "$",
-		image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=700&q=80",
-		delivery: true,
-	},
-	{
-		id: 4,
-		name: "Pizzaria Bella Napoli",
-		category: "Pizza",
-		rating: 4.8,
-		reviews: 389,
-		distance: "2,5 km",
-		waitTime: "10–15 min",
-		deliveryTime: "25–40 min",
-		status: "Aberto",
-		price: "$$",
-		image: "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=700&q=80",
-		delivery: true,
-	},
-	{
-		id: 5,
-		name: "Tempero Brasileiro",
-		category: "Brasileira",
-		rating: 4.5,
-		reviews: 176,
-		distance: "3,0 km",
-		waitTime: "5–15 min",
-		deliveryTime: "25–35 min",
-		status: "Aberto",
-		price: "$",
-		image: "https://images.unsplash.com/photo-1547592180-85f173990554?w=700&q=80",
-		delivery: true,
-	},
-];
 
 const categories = [
 	{ name: "Todos", icon: "🍽️" },
@@ -107,6 +23,21 @@ const categories = [
 ];
 
 export function Home() {
+	const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
+	useEffect(() => {
+		async function loadRestaurants() {
+			try {
+				const data = await getRestaurants();
+
+				setRestaurants(data);
+			} catch (error) {
+				console.error("Erro ao carregar restaurantes:", error);
+			}
+		}
+
+		loadRestaurants();
+	}, []);
+
 	const navigate = useNavigate();
 	const [searchParams] = useSearchParams();
 	const [search, setSearch] = useState("");
@@ -124,7 +55,7 @@ export function Home() {
 		useState<DeliveryOptionId>("apetitch");
 	const favoritesOnly = searchParams.get("favoritos") === "1";
 	const queryComparisonRestaurant = restaurants.find(
-		(restaurant) => restaurant.id === Number(searchParams.get("comparar")),
+		(restaurant) => restaurant.id === searchParams.get("comparar"),
 	);
 	const activeComparisonRestaurant =
 		comparisonRestaurant ??

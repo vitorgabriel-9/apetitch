@@ -45,12 +45,15 @@ export function clearCurrentUser(): void {
   window.localStorage.removeItem(USER_KEY);
 }
 
-export function getFavoriteRestaurantIds(): number[] {
-  return readJson<number[]>(FAVORITES_KEY, []);
+export function getFavoriteRestaurantIds(): string[] {
+  return readJson<string[]>(FAVORITES_KEY, []);
 }
 
-export function saveFavoriteRestaurantIds(ids: number[]): void {
-  window.localStorage.setItem(FAVORITES_KEY, JSON.stringify(ids));
+export function saveFavoriteRestaurantIds(ids: string[]): void {
+  window.localStorage.setItem(
+    FAVORITES_KEY,
+    JSON.stringify(ids)
+  );
 }
 
 export function getRestaurantFeedbacks(restaurantId: string): StoredFeedback[] {

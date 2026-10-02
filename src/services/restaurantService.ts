@@ -1,73 +1,98 @@
 import type { Restaurant } from "../types/restaurant";
 
-const restaurants: Restaurant[] = [
-  {
-    id: 1,
-    name: "Bistrô Vila Madá",
-    category: "Italiana",
-    secondaryCategory: "Bistrô",
-    rating: 4.7,
-    distance: 0.8,
-    deliveryTime: "25–35 min",
-    latitude: -3.7319,
-    longitude: -38.5091,
-    image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4",
-  },
+const API_URL = "http://localhost:3000/api";
 
-  {
-    id: 2,
-    name: "Smoke House",
-    category: "Hambúrguer",
-    secondaryCategory: "Americana",
-    rating: 4.5,
-    distance: 1.2,
-    deliveryTime: "20–30 min",
-    latitude: -3.736,
-    longitude: -38.503,
-    image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd",
-  },
+function normalizeRestaurant(
+  restaurant: any
+): Restaurant {
+  return {
+    id: String(restaurant._id),
 
-  {
-    id: 3,
-    name: "La Bella Pizza",
-    category: "Pizza",
-    secondaryCategory: "Italiana",
-    rating: 4.6,
-    distance: 1.6,
-    deliveryTime: "30–40 min",
-    latitude: -3.725,
-    longitude: -38.515,
-    image: "https://images.unsplash.com/photo-1579751626657-72bc17010498",
-  },
+    name: restaurant.name,
+    category: restaurant.category,
+    secondaryCategory: restaurant.secondaryCategory,
 
-  {
-    id: 4,
-    name: "Sakura Sushi",
-    category: "Japonesa",
-    secondaryCategory: "Sushi",
-    rating: 4.8,
-    distance: 2.1,
-    deliveryTime: "25–35 min",
-    latitude: -3.741,
-    longitude: -38.512,
-    image: "https://images.unsplash.com/photo-1579871494447-9811cf80d66c",
-  },
+    rating: restaurant.rating ?? 0,
+    reviews: restaurant.reviews ?? 0,
 
-  {
-    id: 5,
-    name: "Verde Vida",
-    category: "Saudável",
-    secondaryCategory: "Vegetariana",
-    rating: 4.6,
-    distance: 2.4,
-    deliveryTime: "20–30 min",
-    latitude: -3.728,
-    longitude: -38.523,
-    image: "https://images.unsplash.com/photo-1543362906-acfc16c67564",
-  },
-];
+    distance: restaurant.distance ?? 0,
+    waitTime: restaurant.waitTime ?? "15 min",
+    deliveryTime: restaurant.deliveryTime ?? "30–40 min",
+
+    status: restaurant.status ?? "Aberto",
+
+    price: restaurant.price ?? "$$",
+    priceRange: restaurant.priceRange ?? "R$ 30–60",
+
+    delivery: restaurant.delivery ?? true,
+
+    latitude: restaurant.latitude,
+    longitude: restaurant.longitude,
+
+    image: restaurant.image,
+
+    description:
+      restaurant.description ??
+      "Um restaurante preparado para oferecer uma ótima experiência.",
+
+    address:
+      restaurant.address ??
+      "Endereço não informado",
+
+    location: restaurant.location ?? {
+      street: "",
+      neighborhood: "Não informado",
+      city: "Fortaleza",
+      state: "CE",
+    },
+
+    openingHours:
+      restaurant.openingHours ?? [],
+
+    contactChannels:
+      restaurant.contactChannels ?? [],
+
+    orderMethods:
+      restaurant.orderMethods ?? [],
+
+    menu:
+      restaurant.menu ?? [],
+
+    feedbacks:
+      restaurant.feedbacks ?? [],
+  };
+}
 
 export async function getRestaurants(): Promise<Restaurant[]> {
-  // Simula uma futura chamada para API.
-  return restaurants;
+  const response = await fetch(
+    `${API_URL}/restaurants`
+  );
+
+  if (!response.ok) {
+    throw new Error(
+      "Erro ao buscar restaurantes."
+    );
+  }
+
+  const restaurants = await response.json();
+
+  return restaurants.map(normalizeRestaurant);
+}
+
+export async function getRestaurantById(
+  id: string
+): Promise<Restaurant> {
+  const response = await fetch(
+    `${API_URL}/restaurants/${id}`
+  );
+
+  if (!response.ok) {
+    throw new Error(
+      "Restaurante não encontrado."
+    );
+  }
+
+  const restaurant = await response.json();
+
+  return normalizeRestaurant(restaurant);
 }
