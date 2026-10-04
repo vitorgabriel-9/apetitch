@@ -1,7 +1,13 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
-import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
+import {
+	MapContainer,
+	Marker,
+	Popup,
+	TileLayer,
+	useMap,
+} from "react-leaflet";
 
 import L from "leaflet";
 
@@ -10,9 +16,12 @@ import "./Explorar.css";
 
 import { BottomNavigation } from "../../components/BottomNavigation/BottomNavigation";
 
-import { getRestaurants } from "../../services/restaurantService";
+import type {
+	Restaurant,
+	RestaurantCategory,
+} from "../../types/restaurant";
 
-import type { Restaurant, RestaurantCategory } from "../../types/restaurant";
+type SortOption = "recommended" | "rating" | "distance" | "price";
 
 const categories: {
 	name: RestaurantCategory | "Todos";
@@ -30,29 +39,29 @@ const categories: {
 
 const restaurantIcon = L.divIcon({
 	className: "restaurant-marker",
-
 	html: `
-    <div class="restaurant-marker-inner">
-      🍴
-    </div>
-  `,
-
+		<div class="restaurant-marker-inner">
+			🍴
+		</div>
+	`,
 	iconSize: [40, 40],
 	iconAnchor: [20, 40],
 });
 
 const userIcon = L.divIcon({
 	className: "user-marker",
-
 	html: `
-    <div class="user-marker-inner"></div>
-  `,
-
+		<div class="user-marker-inner"></div>
+	`,
 	iconSize: [26, 26],
 	iconAnchor: [13, 13],
 });
 
-function RecenterMap({ position }: { position: [number, number] }) {
+function RecenterMap({
+	position,
+}: {
+	position: [number, number];
+}) {
 	const map = useMap();
 
 	useEffect(() => {
@@ -66,9 +75,12 @@ export function Explorar() {
 	const navigate = useNavigate();
 	const [searchParams] = useSearchParams();
 
-	const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
+	const [restaurants, setRestaurants] =
+		useState<Restaurant[]>([]);
 
-	const [search, setSearch] = useState(searchParams.get("busca") ?? "");
+	const [search, setSearch] = useState(
+		searchParams.get("busca") ?? "",
+	);
 
 	const [selectedCategory, setSelectedCategory] = useState<
 		RestaurantCategory | "Todos"
@@ -77,25 +89,126 @@ export function Explorar() {
 	const [selectedRestaurant, setSelectedRestaurant] =
 		useState<Restaurant | null>(null);
 
+	const [sortBy, setSortBy] =
+		useState<SortOption>("recommended");
+
+	const [showSortOptions, setShowSortOptions] = useState(false);
+
+	const [onlyOpen, setOnlyOpen] = useState(false);
+	const [deliveryOnly, setDeliveryOnly] = useState(false);
+
 	const [showCategories, setShowCategories] = useState(true);
 
-	const [userPosition, setUserPosition] = useState<[number, number]>([
-		-3.7319, -38.5267,
-	]);
-	const [locationLabel, setLocationLabel] = useState("Fortaleza, CE");
+	const [userPosition, setUserPosition] = useState<
+		[number, number]
+	>([-3.7319, -38.5267]);
+
+	const [locationLabel, setLocationLabel] =
+		useState("Fortaleza, CE");
+
 	const [isLocating, setIsLocating] = useState(false);
+
 	const nearbyRequestHandled = useRef(false);
 
-	useEffect(() => {
-		async function loadRestaurants() {
-			const data = await getRestaurants();
+	// Aplica pesquisa, categoria e filtros.
+	const filteredRestaurants = useMemo(() => {
+		const term = search.toLowerCase().trim();
 
-			setRestaurants(data);
+		const filtered = restaurants.filter((restaurant) => {
+			const matchesCategory =
+				selectedCategory === "Todos" ||
+				restaurant.category === selectedCategory;
+
+			const matchesSearch =
+				term === "" ||
+				restaurant.name.toLowerCase().includes(term) ||
+				restaurant.category.toLowerCase().includes(term) ||
+				restaurant.secondaryCategory
+					?.toLowerCase()
+					.includes(term);
+
+			const matchesOpen =
+				!onlyOpen || restaurant.status === "Aberto";
+
+			const matchesDelivery =
+				!deliveryOnly || restaurant.delivery;
+
+			return (
+				matchesCategory &&
+				matchesSearch &&
+				matchesOpen &&
+				matchesDelivery
+			);
+		});
+
+		return [...filtered].sort((a, b) => {
+			switch (sortBy) {
+				case "rating":
+					return b.rating - a.rating;
+
+				case "distance":
+					return a.distance - b.distance;
+
+				case "price": {
+					const priceRank = (price: string) =>
+						price.replace(/[^$]/g, "").length;
+
+					return priceRank(a.price) - priceRank(b.price);
+				}
+
+				default:
+					return 0;
+			}
+		});
+	}, [
+		restaurants,
+		search,
+		selectedCategory,
+		sortBy,
+		onlyOpen,
+		deliveryOnly,
+	]);
+
+	// Restaura todos os filtros para o estado inicial.
+	function clearFilters() {
+		setSearch("");
+		setSelectedCategory("Todos");
+		setSortBy("recommended");
+		setOnlyOpen(false);
+		setDeliveryOnly(false);
+	}
+
+	// Solicita a localização do usuário.
+	function getMyLocation() {
+		if (!navigator.geolocation) {
+			alert(
+				"Geolocalização não disponível neste navegador.",
+			);
+			return;
 		}
 
-		loadRestaurants();
-	}, []);
+		setIsLocating(true);
 
+		navigator.geolocation.getCurrentPosition(
+			(position) => {
+				setUserPosition([
+					position.coords.latitude,
+					position.coords.longitude,
+				]);
+
+				setLocationLabel("Sua localização");
+				setIsLocating(false);
+			},
+			() => {
+				setIsLocating(false);
+				alert(
+					"Não foi possível obter sua localização.",
+				);
+			},
+		);
+	}
+
+	// Trata solicitações de localização vindas de outras páginas.
 	useEffect(() => {
 		if (
 			searchParams.get("perto-de-mim") !== "1" ||
@@ -107,7 +220,9 @@ export function Explorar() {
 		nearbyRequestHandled.current = true;
 
 		if (!navigator.geolocation) {
-			alert("Geolocalização não disponível neste navegador.");
+			alert(
+				"Geolocalização não disponível neste navegador.",
+			);
 			return;
 		}
 
@@ -117,64 +232,30 @@ export function Explorar() {
 					position.coords.latitude,
 					position.coords.longitude,
 				]);
+
 				setLocationLabel("Sua localização");
 			},
 			() => {
-				alert("Não foi possível obter sua localização.");
+				alert(
+					"Não foi possível obter sua localização.",
+				);
 			},
 		);
 	}, [searchParams]);
 
-	const filteredRestaurants = useMemo(() => {
-		const term = search.toLowerCase().trim();
-
-		return restaurants.filter((restaurant) => {
-			const matchesCategory =
-				selectedCategory === "Todos" ||
-				restaurant.category === selectedCategory;
-
-			const matchesSearch =
-				term === "" ||
-				restaurant.name.toLowerCase().includes(term) ||
-				restaurant.category.toLowerCase().includes(term) ||
-				restaurant.secondaryCategory?.toLowerCase().includes(term);
-
-			return matchesCategory && matchesSearch;
-		});
-	}, [restaurants, search, selectedCategory]);
-
-	function getMyLocation() {
-		if (!navigator.geolocation) {
-			alert("Geolocalização não disponível neste navegador.");
-			return;
-		}
-
-		setIsLocating(true);
-		navigator.geolocation.getCurrentPosition(
-			(position) => {
-				setUserPosition([
-					position.coords.latitude,
-					position.coords.longitude,
-				]);
-				setLocationLabel("Sua localização");
-				setIsLocating(false);
-			},
-
-			() => {
-				setIsLocating(false);
-				alert("Não foi possível obter sua localização.");
-			},
-		);
-	}
+	const sortOptions: { value: SortOption; label: string }[] = [
+		{ value: "recommended", label: "Recomendados" },
+		{ value: "rating", label: "Melhor avaliação" },
+		{ value: "distance", label: "Menor distância" },
+		{ value: "price", label: "Menor preço" },
+	];
 
 	return (
 		<div className="explore-page">
 			{/* CABEÇALHO */}
-
 			<header className="explore-header">
 				<div className="explore-brand">
 					<div className="brand-icon">A</div>
-
 					<span>Apetitch</span>
 				</div>
 
@@ -185,7 +266,9 @@ export function Explorar() {
 						type="text"
 						placeholder="Buscar restaurante..."
 						value={search}
-						onChange={(event) => setSearch(event.target.value)}
+						onChange={(event) =>
+							setSearch(event.target.value)
+						}
 						aria-label="Buscar restaurante"
 					/>
 
@@ -221,7 +304,6 @@ export function Explorar() {
 			</header>
 
 			{/* CONTEÚDO */}
-
 			<main className="explore-content">
 				<section className="explore-title">
 					<div>
@@ -229,17 +311,23 @@ export function Explorar() {
 							Explorar <span>restaurantes</span>
 						</h1>
 
-						<p>Encontre os melhores lugares perto de você.</p>
+						<p>
+							Encontre os melhores lugares perto de você.
+						</p>
 					</div>
 
 					<button
 						className="filter-button"
 						type="button"
-						onClick={() => setShowCategories((current) => !current)}
+						onClick={() =>
+							setShowCategories((current) => !current)
+						}
 						aria-expanded={showCategories}
 						aria-controls="explore-categories"
 						aria-label={
-							showCategories ? "Ocultar categorias" : "Exibir categorias"
+							showCategories
+								? "Ocultar categorias"
+								: "Exibir categorias"
 						}
 					>
 						☷
@@ -247,64 +335,200 @@ export function Explorar() {
 				</section>
 
 				{/* CATEGORIAS */}
-
 				{showCategories && (
-					<section className="categories" id="explore-categories">
+					<section
+						className="categories"
+						id="explore-categories"
+					>
 						{categories.map((category) => (
 							<button
 								key={category.name}
+								type="button"
 								className={`category-button ${
-									selectedCategory === category.name ? "active" : ""
+									selectedCategory === category.name
+										? "active"
+										: ""
 								}`}
-								onClick={() => setSelectedCategory(category.name)}
+								onClick={() =>
+									setSelectedCategory(category.name)
+								}
 							>
 								<span>{category.icon}</span>
-
 								{category.name}
 							</button>
 						))}
 					</section>
 				)}
 
-				{/* MAPA + RESTAURANTES */}
+				{/* FILTROS AVANÇADOS */}
+				<section
+					className="advanced-filters"
+					aria-label="Filtros avançados"
+				>
+					<div className="sort-control">
+						<label id="restaurant-sort-label">
+							Ordenar por
+						</label>
 
+						<div className="custom-sort">
+							<button
+								type="button"
+								className="sort-button"
+								aria-haspopup="listbox"
+								aria-expanded={showSortOptions}
+								aria-labelledby="restaurant-sort-label"
+								onClick={() =>
+									setShowSortOptions(
+										(current) => !current,
+									)
+								}
+							>
+								{
+									sortOptions.find(
+										(option) =>
+											option.value === sortBy,
+									)?.label
+								}
+
+								<span className="sort-arrow">⌄</span>
+							</button>
+
+							{showSortOptions && (
+								<div
+									className="sort-menu"
+									role="listbox"
+								>
+									{sortOptions.map((option) => (
+										<button
+											key={option.value}
+											type="button"
+											role="option"
+											aria-selected={
+												sortBy === option.value
+											}
+											className={`sort-option ${
+												sortBy === option.value
+													? "selected"
+													: ""
+											}`}
+											onClick={() => {
+												setSortBy(
+													option.value,
+												);
+												setShowSortOptions(
+													false,
+												);
+											}}
+										>
+											{option.label}
+										</button>
+									))}
+								</div>
+							)}
+						</div>
+					</div>
+
+					<label className="filter-check">
+						<input
+							type="checkbox"
+							checked={onlyOpen}
+							onChange={(event) =>
+								setOnlyOpen(
+									event.target.checked,
+								)
+							}
+						/>
+						Somente abertos
+					</label>
+
+					<label className="filter-check">
+						<input
+							type="checkbox"
+							checked={deliveryOnly}
+							onChange={(event) =>
+								setDeliveryOnly(
+									event.target.checked,
+								)
+							}
+						/>
+						Com entrega
+					</label>
+
+					<button
+						className="clear-filters-button"
+						type="button"
+						onClick={clearFilters}
+					>
+						Limpar filtros
+					</button>
+				</section>
+
+				{/* MAPA E RESTAURANTES */}
 				<section className="explore-grid">
 					<div className="map-container">
-						<MapContainer center={userPosition} zoom={14} className="map">
+						<MapContainer
+							center={userPosition}
+							zoom={14}
+							className="map"
+						>
 							<TileLayer
 								attribution="&copy; OpenStreetMap contributors"
 								url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
 							/>
 
-							<RecenterMap position={userPosition} />
+							<RecenterMap
+								position={userPosition}
+							/>
 
-							<Marker position={userPosition} icon={userIcon}>
-								<Popup>Você está aqui</Popup>
+							<Marker
+								position={userPosition}
+								icon={userIcon}
+							>
+								<Popup>
+									Você está aqui
+								</Popup>
 							</Marker>
 
-							{filteredRestaurants.map((restaurant) => (
-								<Marker
-									key={restaurant.id}
-									position={[
-										restaurant.latitude,
-										restaurant.longitude,
-									]}
-									icon={restaurantIcon}
-									eventHandlers={{
-										click: () => setSelectedRestaurant(restaurant),
-									}}
-								>
-									<Popup>
-										<div className="map-popup">
-											<strong>{restaurant.name}</strong>
+							{filteredRestaurants.map(
+								(restaurant) => (
+									<Marker
+										key={restaurant.id}
+										position={[
+											restaurant.latitude,
+											restaurant.longitude,
+										]}
+										icon={restaurantIcon}
+										eventHandlers={{
+											click: () =>
+												setSelectedRestaurant(
+													restaurant,
+												),
+										}}
+									>
+										<Popup>
+											<div className="map-popup">
+												<strong>
+													{restaurant.name}
+												</strong>
 
-											<span>⭐ {restaurant.rating}</span>
+												<span>
+													⭐{" "}
+													{
+														restaurant.rating
+													}
+												</span>
 
-											<span>{restaurant.distance} km</span>
-										</div>
-									</Popup>
-								</Marker>
-							))}
+												<span>
+													{
+														restaurant.distance
+													}{" "}
+													km
+												</span>
+											</div>
+										</Popup>
+									</Marker>
+								),
+							)}
 						</MapContainer>
 
 						<button
@@ -313,89 +537,128 @@ export function Explorar() {
 							onClick={getMyLocation}
 							disabled={isLocating}
 						>
-							{isLocating ? "Localizando..." : "◎ Minha localização"}
+							{isLocating
+								? "Localizando..."
+								: "◎ Minha localização"}
 						</button>
 					</div>
 
-					{/* LISTA */}
-
+					{/* LISTA DE RESTAURANTES */}
 					<aside className="restaurants-panel">
 						<div className="restaurants-header">
 							<h2>Restaurantes próximos</h2>
 
-							<span>{filteredRestaurants.length} resultados</span>
+							<span>
+								{filteredRestaurants.length} resultados
+							</span>
 						</div>
 
 						<div className="restaurants-list">
 							{filteredRestaurants.length > 0 ? (
-								filteredRestaurants.map((restaurant) => (
-									<article
-										key={restaurant.id}
-										className={`restaurant-card ${
-											selectedRestaurant?.id === restaurant.id
-												? "selected"
-												: ""
-										}`}
-										onClick={() => setSelectedRestaurant(restaurant)}
-									>
-										<img
-											src={restaurant.image}
-											alt={restaurant.name}
-										/>
-
-										<div className="restaurant-info">
-											<h3>{restaurant.name}</h3>
-
-											<div className="restaurant-tags">
-												<span>{restaurant.category}</span>
-
-												{restaurant.secondaryCategory && (
-													<span>
-														{restaurant.secondaryCategory}
-													</span>
-												)}
-											</div>
-
-											<div className="restaurant-details">
-												<strong>⭐ {restaurant.rating}</strong>
-
-												<span>•</span>
-
-												<span>{restaurant.distance} km</span>
-
-												<span>•</span>
-
-												<span>{restaurant.deliveryTime}</span>
-											</div>
-										</div>
-
-										<button
-											className="restaurant-open"
-											type="button"
-											onClick={(event) => {
-												event.stopPropagation();
-
-												navigate(`/restaurante/${restaurant.id}`);
-											}}
+								filteredRestaurants.map(
+									(restaurant) => (
+										<article
+											key={restaurant.id}
+											className={`restaurant-card ${
+												selectedRestaurant?.id ===
+												restaurant.id
+													? "selected"
+													: ""
+											}`}
+											onClick={() =>
+												setSelectedRestaurant(
+													restaurant,
+												)
+											}
 										>
-											›
-										</button>
-									</article>
-								))
+											<img
+												src={restaurant.image}
+												alt={restaurant.name}
+											/>
+
+											<div className="restaurant-info">
+												<h3>
+													{restaurant.name}
+												</h3>
+
+												<div className="restaurant-tags">
+													<span>
+														{
+															restaurant.category
+														}
+													</span>
+
+													{restaurant.secondaryCategory && (
+														<span>
+															{
+																restaurant.secondaryCategory
+															}
+														</span>
+													)}
+												</div>
+
+												<div className="restaurant-details">
+													<strong>
+														⭐{" "}
+														{
+															restaurant.rating
+														}
+													</strong>
+
+													<span>•</span>
+
+													<span>
+														{
+															restaurant.distance
+														}{" "}
+														km
+													</span>
+
+													<span>•</span>
+
+													<span>
+														{
+															restaurant.deliveryTime
+														}
+													</span>
+												</div>
+											</div>
+
+											<button
+												className="restaurant-open"
+												type="button"
+												aria-label={`Abrir ${restaurant.name}`}
+												onClick={(event) => {
+													event.stopPropagation();
+
+													navigate(
+														`/restaurante/${restaurant.id}`,
+													);
+												}}
+											>
+												›
+											</button>
+										</article>
+									),
+								)
 							) : (
 								<div className="no-results">
-									<div className="no-results-icon">🔍</div>
+									<div className="no-results-icon">
+										🔍
+									</div>
 
-									<h3>Nenhum restaurante encontrado</h3>
+									<h3>
+										Nenhum restaurante encontrado
+									</h3>
 
-									<p>Tente buscar por outro nome ou categoria.</p>
+									<p>
+										Tente buscar por outro nome ou
+										categoria.
+									</p>
 
 									<button
 										type="button"
-										onClick={() => {
-											setSearch("");
-											setSelectedCategory("Todos");
-										}}
+										onClick={clearFilters}
 									>
 										Limpar filtros
 									</button>
@@ -406,8 +669,7 @@ export function Explorar() {
 				</section>
 			</main>
 
-			{/* NAVBAR PADRÃO */}
-
+			{/* NAVEGAÇÃO INFERIOR */}
 			<BottomNavigation />
 		</div>
 	);

@@ -1,13 +1,9 @@
 .explore-page {
   min-height: 100vh;
-
   padding-bottom: 90px;
-
   background: #f8f8f7;
-
   color: #000505;
 }
-
 
 /* ==========================
    HEADER
@@ -15,120 +11,79 @@
 
 .explore-header {
   height: 88px;
-
   display: flex;
   align-items: center;
-
   gap: 28px;
-
   padding: 0 max(5vw, 30px);
-
   background: #ffffff;
-
   border-bottom: 1px solid #eeeeee;
 }
-
 
 .explore-brand {
   display: flex;
   align-items: center;
-
   gap: 10px;
-
   white-space: nowrap;
-
   color: #b0413e;
-
   font-size: 25px;
   font-weight: 900;
 }
 
-
 .brand-icon {
   width: 42px;
   height: 42px;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   border-radius: 12px;
-
   background: #b0413e;
   color: white;
-
-  box-shadow: 0 6px 15px
-    rgba(176, 65, 62, 0.25);
+  box-shadow: 0 6px 15px rgba(176, 65, 62, 0.25);
 }
-
 
 .explore-search {
   height: 52px;
-
   flex: 1;
-
   display: flex;
   align-items: center;
-
   gap: 12px;
-
   padding: 0 20px;
-
   border-radius: 15px;
-
   background: #f3f3f2;
 }
 
-
 .search-icon {
   color: #777;
-
   font-size: 25px;
 }
 
-
 .explore-search input {
   width: 100%;
-
   border: none;
   outline: none;
-
   background: transparent;
-
   font-size: 14px;
 }
 
-
 .location-button {
   height: 48px;
-
   padding: 0 20px;
-
   border: 1px solid #eeeeee;
   border-radius: 14px;
-
   background: white;
-
   font-weight: 700;
-
   cursor: pointer;
 }
-
 
 .profile-button {
   width: 48px;
   height: 48px;
-
   border: none;
   border-radius: 14px;
-
   background: #000505;
-
   cursor: pointer;
-
   font-size: 20px;
 }
-
 
 /* ==========================
    CONTENT
@@ -136,12 +91,9 @@
 
 .explore-content {
   width: min(1400px, 90%);
-
   margin: 0 auto;
-
   padding-top: 30px;
 }
-
 
 .explore-title {
   display: flex;
@@ -149,48 +101,33 @@
   justify-content: space-between;
 }
 
-
 .explore-title h1 {
   margin: 0;
-
   font-size: clamp(32px, 3vw, 48px);
-
   letter-spacing: -1.5px;
 }
-
 
 .explore-title h1 span {
   color: #f18f01;
 }
 
-
 .explore-title p {
   margin: 5px 0 0;
-
   color: #555;
-
   font-size: 16px;
 }
-
 
 .filter-button {
   width: 52px;
   height: 52px;
-
   border: none;
   border-radius: 14px;
-
   background: #b0413e;
   color: white;
-
   font-size: 24px;
-
   cursor: pointer;
-
-  box-shadow: 0 7px 18px
-    rgba(176, 65, 62, 0.22);
+  box-shadow: 0 7px 18px rgba(176, 65, 62, 0.22);
 }
-
 
 /* ==========================
    CATEGORIES
@@ -198,66 +135,43 @@
 
 .categories {
   display: flex;
-
   gap: 12px;
-
   margin: 28px 0 22px;
-
   overflow-x: auto;
-
   padding-bottom: 5px;
-
   scrollbar-width: none;
 }
-
 
 .categories::-webkit-scrollbar {
   display: none;
 }
 
-
 .category-button {
   min-width: max-content;
-
   height: 52px;
-
   display: flex;
   align-items: center;
-
   gap: 10px;
-
   padding: 0 22px;
-
   border: 1px solid #e8e8e8;
   border-radius: 30px;
-
   background: #ffffff;
-
   color: #222;
-
   font-weight: 600;
-
   cursor: pointer;
-
   transition: 0.2s;
 }
-
 
 .category-button:hover {
   transform: translateY(-2px);
 }
 
-
 .category-button.active {
   border-color: #b0413e;
-
   background: #b0413e;
   color: white;
-
-  box-shadow: 0 7px 16px
-    rgba(176, 65, 62, 0.18);
+  box-shadow: 0 7px 16px rgba(176, 65, 62, 0.18);
 }
-
 
 /* ==========================
    MAP + LIST
@@ -265,59 +179,37 @@
 
 .explore-grid {
   height: 600px;
-
   display: grid;
-
-  grid-template-columns:
-    minmax(0, 1.8fr)
-    minmax(350px, 1fr);
-
+  grid-template-columns: minmax(0, 1.8fr) minmax(350px, 1fr);
   gap: 20px;
 }
 
-
 .map-container {
   position: relative;
-
   min-width: 0;
-
   overflow: hidden;
-
   border-radius: 22px;
-
   background: #ddd;
 }
-
 
 .map {
   width: 100%;
   height: 100%;
 }
 
-
 .my-location-button {
   position: absolute;
-
   left: 22px;
   bottom: 22px;
-
   z-index: 500;
-
   padding: 13px 20px;
-
   border: 1px solid #eeeeee;
   border-radius: 25px;
-
   background: white;
-
   font-weight: 600;
-
   cursor: pointer;
-
-  box-shadow: 0 5px 20px
-    rgba(0, 0, 0, 0.12);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.12);
 }
-
 
 /* ==========================
    MAP MARKERS
@@ -328,68 +220,44 @@
   border: none;
 }
 
-
 .restaurant-marker-inner {
   width: 38px;
   height: 38px;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   border: 4px solid white;
   border-radius: 50% 50% 50% 0;
-
   transform: rotate(-45deg);
-
   background: #b0413e;
-
-  box-shadow: 0 3px 12px
-    rgba(0, 0, 0, 0.2);
-
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.2);
   font-size: 16px;
-}
-
-
-.restaurant-marker-inner {
   color: white;
 }
-
 
 .restaurant-marker-inner::first-letter {
   transform: rotate(45deg);
 }
 
-
 .user-marker {
   background: transparent;
 }
 
-
 .user-marker-inner {
   width: 20px;
   height: 20px;
-
   border: 4px solid white;
   border-radius: 50%;
-
   background: #18a76d;
-
-  box-shadow:
-    0 0 0 10px rgba(24, 167, 109, 0.15),
-    0 3px 12px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 0 10px rgba(24, 167, 109, 0.15), 0 3px 12px rgba(0, 0, 0, 0.2);
 }
-
 
 .map-popup {
   min-width: 120px;
-
   display: flex;
   flex-direction: column;
-
   gap: 3px;
 }
-
 
 /* ==========================
    RESTAURANTS
@@ -397,45 +265,32 @@
 
 .restaurants-panel {
   min-width: 0;
-
   display: flex;
   flex-direction: column;
-
   padding: 20px;
-
   border-radius: 22px;
-
   background: white;
-
   border: 1px solid #eeeeeb;
   box-shadow: 0 10px 28px rgba(0, 5, 5, 0.05);
-
   overflow: hidden;
 }
-
 
 .restaurants-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-
   margin-bottom: 16px;
 }
 
-
 .restaurants-header h2 {
   margin: 0;
-
   font-size: 20px;
 }
 
-
 .restaurants-header span {
   color: #999;
-
   font-size: 13px;
 }
-
 
 /* ==========================
    RESTAURANT CARDS
@@ -445,10 +300,8 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
-
   overflow-y: auto;
   min-height: 0;
-
   padding: 2px 4px 4px 2px;
 }
 
@@ -456,349 +309,244 @@
   width: 100%;
   min-width: 0;
   box-sizing: border-box;
-
   display: grid;
   grid-template-columns: 82px minmax(0, 1fr) 34px;
   align-items: center;
-
   gap: 12px;
-
   padding: 10px;
-
   border: 1px solid #e8e8e6;
   border-radius: 16px;
-
   background: #ffffff;
-
   cursor: pointer;
-
-  transition:
-    transform 0.18s ease,
-    border-color 0.18s ease,
-    box-shadow 0.18s ease,
-    background 0.18s ease;
+  transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
 }
 
 .restaurant-card:hover {
   border-color: rgba(176, 65, 62, 0.35);
-
   background: #fffdfc;
-
   transform: translateY(-1px);
-
-  box-shadow:
-    0 7px 18px rgba(0, 5, 5, 0.07);
+  box-shadow: 0 7px 18px rgba(0, 5, 5, 0.07);
 }
 
 .restaurant-card.selected {
   border-color: #b0413e;
-
   background: #fffaf8;
-
-  box-shadow:
-    0 8px 20px rgba(176, 65, 62, 0.10);
+  box-shadow: 0 8px 20px rgba(176, 65, 62, 0.10);
 }
-
 
 /* IMAGEM */
 
 .restaurant-card img {
   width: 82px;
   height: 78px;
-
   display: block;
-
   flex-shrink: 0;
-
   object-fit: cover;
-
   border-radius: 12px;
-
   background: #eeeeeb;
 }
-
 
 /* CONTEÚDO */
 
 .restaurant-info {
   min-width: 0;
   width: 100%;
-
   overflow: hidden;
 }
 
 .restaurant-info h3 {
   width: 100%;
   min-width: 0;
-
   margin: 0 0 7px;
-
   color: #000505;
-
   font-size: 16px;
   font-weight: 800;
-
   line-height: 1.2;
-
-  /* permite nomes maiores */
   white-space: normal;
   overflow-wrap: anywhere;
-
-  /* máximo de 2 linhas */
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
-
   overflow: hidden;
 }
-
 
 /* TAGS */
 
 .restaurant-tags {
   width: 100%;
-
   display: flex;
   align-items: center;
-
   gap: 5px;
-
   margin-bottom: 8px;
-
   overflow: hidden;
 }
 
 .restaurant-tags span {
   min-width: 0;
   max-width: 120px;
-
   padding: 4px 8px;
-
   border-radius: 7px;
-
   background: #f2f2f1;
-
   color: #686868;
-
   font-size: 10px;
   font-weight: 700;
-
   line-height: 1.1;
-
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-
 
 /* INFORMAÇÕES */
 
 .restaurant-details {
   width: 100%;
-
   display: flex;
   align-items: center;
-
   gap: 5px;
-
   color: #888;
-
   font-size: 11px;
   line-height: 1.2;
-
   white-space: nowrap;
-
   overflow: hidden;
 }
 
 .restaurant-details strong {
   flex-shrink: 0;
-
   color: #222;
-
   font-weight: 800;
 }
 
 .restaurant-details span {
   min-width: 0;
-
   overflow: hidden;
   text-overflow: ellipsis;
 }
-
 
 /* BOTÃO */
 
 .restaurant-open {
   width: 34px;
   height: 34px;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   flex-shrink: 0;
-
   padding: 0;
-
   border: none;
   border-radius: 50%;
-
   background: #f6e9e8;
-
   color: #b0413e;
-
   font-size: 21px;
   font-weight: 800;
-
   line-height: 1;
-
   cursor: pointer;
-
-  transition:
-    background 0.18s ease,
-    color 0.18s ease,
-    transform 0.18s ease;
+  transition: background 0.18s ease, color 0.18s ease, transform 0.18s ease;
 }
 
 .restaurant-open:hover {
   background: #b0413e;
   color: #ffffff;
-
   transform: translateX(2px);
 }
-
 
 /* ==========================
    TABLET
 ========================== */
 
 @media (max-width: 1000px) {
-
   .explore-header {
     gap: 12px;
-
     padding: 0 20px;
   }
-
 
   .explore-brand span {
     display: none;
   }
 
-
   .location-button {
     display: none;
   }
 
-
   .explore-grid {
     height: auto;
-
     grid-template-columns: 1fr;
   }
-
 
   .map-container {
     height: 500px;
   }
 
-
   .restaurants-panel {
     max-height: 500px;
   }
-
 }
-
 
 /* ==========================
    MOBILE
 ========================== */
 
 @media (max-width: 600px) {
-
   .explore-page {
     padding-bottom: 100px;
   }
 
-
   .explore-header {
     height: auto;
-
     padding: 14px 16px;
-
     flex-wrap: wrap;
   }
-
 
   .explore-brand {
     display: none;
   }
 
-
   .profile-button {
     display: none;
   }
 
-
   .explore-search {
     order: 2;
-
     flex-basis: 100%;
   }
 
-
   .explore-content {
     width: calc(100% - 28px);
-
     padding-top: 20px;
   }
-
 
   .explore-title h1 {
     font-size: 28px;
   }
 
-
   .explore-title p {
     font-size: 14px;
   }
-
 
   .filter-button {
     width: 45px;
     height: 45px;
   }
 
-
   .category-button {
     height: 44px;
-
     padding: 0 16px;
-
     font-size: 12px;
   }
 
-
   .map-container {
     height: 420px;
-
     border-radius: 18px;
   }
-
 
   .restaurants-panel {
     max-height: none;
     padding: 14px;
-
     background: #ffffff;
   }
-
 
   .restaurants-header {
     margin-top: 10px;
   }
-
 
   .restaurant-card {
     background: white;
@@ -808,20 +556,18 @@
     overflow: visible;
   }
 
-
   .restaurant-card img {
     width: 70px;
     height: 70px;
   }
 
-
   .restaurant-details {
     font-size: 10px;
   }
-
 }
 
 /* Acabamento visual e estados de interação da página de exploração. */
+
 .explore-page {
   background:
     radial-gradient(circle at 88% 8%, rgba(241, 143, 1, 0.10), transparent 24rem),
@@ -882,24 +628,17 @@
 .clear-search {
   width: 30px;
   height: 30px;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   flex-shrink: 0;
-
   border: none;
   border-radius: 50%;
-
   background: #e5e5e5;
   color: #555;
-
   font-size: 22px;
   line-height: 1;
-
   cursor: pointer;
-
   transition: 0.2s ease;
 }
 
@@ -910,65 +649,210 @@
 
 .no-results {
   min-height: 260px;
-
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-
   padding: 30px;
-
   text-align: center;
 }
 
 .no-results-icon {
   width: 64px;
   height: 64px;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   margin-bottom: 16px;
-
   border-radius: 50%;
-
   background: #f3f3f2;
-
   font-size: 28px;
 }
 
 .no-results h3 {
   margin: 0 0 8px;
-
   font-size: 18px;
 }
 
 .no-results p {
   margin: 0 0 18px;
-
   color: #777;
-
   font-size: 13px;
 }
 
 .no-results button {
   padding: 10px 18px;
-
   border: none;
   border-radius: 20px;
-
   background: #b0413e;
   color: white;
-
   font-weight: 600;
-
   cursor: pointer;
-
   transition: 0.2s ease;
 }
 
 .no-results button:hover {
   background: #8f3532;
   transform: translateY(-1px);
+}
+
+/* FILTROS AVANÇADOS */
+
+.advanced-filters {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin: 0 0 22px;
+  padding: 14px 16px;
+  border: 1px solid #eeeeeb;
+  border-radius: 16px;
+  background: #ffffff;
+}
+
+.sort-control {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.sort-control label,
+.filter-check {
+  color: #444;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* MENU PERSONALIZADO DE ORDENAÇÃO */
+
+.custom-sort {
+  position: relative;
+  min-width: 175px;
+}
+
+.sort-button {
+  width: 100%;
+  min-height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0 14px;
+  border: 1px solid #e8e8e6;
+  border-radius: 12px;
+  background: #f8f8f7;
+  color: #222;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.sort-button:hover,
+.sort-button:focus-visible {
+  border-color: #b0413e;
+  background: #ffffff;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(176, 65, 62, 0.08);
+}
+
+.sort-arrow {
+  color: #b0413e;
+  font-size: 18px;
+  line-height: 1;
+  transition: transform 0.2s ease;
+}
+
+.sort-button[aria-expanded="true"] .sort-arrow {
+  transform: rotate(180deg);
+}
+
+.sort-menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  z-index: 1000;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 5px;
+  border: 1px solid #e8e8e6;
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.10);
+}
+
+.sort-option {
+  display: block;
+  width: 100%;
+  padding: 10px 12px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: #333;
+  text-align: left;
+  font-family: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.sort-option:hover,
+.sort-option:focus-visible {
+  background: #b0413e;
+  color: #ffffff;
+  outline: none;
+}
+
+.sort-option.selected {
+  font-weight: 700;
+}
+
+.filter-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  cursor: pointer;
+}
+
+.filter-check input {
+  accent-color: #b0413e;
+  width: 16px;
+  height: 16px;
+}
+
+.clear-filters-button {
+  margin-left: auto;
+  padding: 9px 14px;
+  border: 1px solid #f0d8d6;
+  border-radius: 10px;
+  background: #fff8f7;
+  color: #a13b38;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.clear-filters-button:hover {
+  background: #f6e9e8;
+}
+
+@media (max-width: 600px) {
+  .advanced-filters {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .sort-control {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .custom-sort {
+    max-width: 65%;
+  }
+
+  .clear-filters-button {
+    margin-left: 0;
+  }
 }
