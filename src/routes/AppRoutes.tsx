@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Navigate, Routes, Route } from "react-router-dom";
 
 import { Welcome } from "../pages/Welcome/Welcome";
 import { Login } from "../pages/Login/Login";
@@ -8,6 +8,7 @@ import { Restaurant } from "../pages/Restaurant/Restaurant";
 import { Profile } from "../pages/profile/profile";
 import { Orders } from "../pages/Orders/Orders";
 import { Explorar } from "../pages/Explorar/Explorar";
+import { Delivery } from "../pages/Delivery/Delivery";
 
 export function AppRoutes() {
   return (
@@ -27,6 +28,8 @@ export function AppRoutes() {
           path="/explorar"
           element={<Explorar />}
         />
+
+        <Route path="/entrega" element={<Delivery />} />
     
 
         <Route
@@ -38,6 +41,8 @@ export function AppRoutes() {
           path="/perfil"
           element={<Profile />}
         />
+
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
   );

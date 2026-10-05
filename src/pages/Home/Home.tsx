@@ -1,5 +1,5 @@
 import { useMemo, useState, useEffect } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import {
 	getFavoriteRestaurantIds,
 	saveFavoriteRestaurantIds,
@@ -12,6 +12,12 @@ import type { Restaurant } from "../../types/restaurant";
 import "./Home.css";
 
 type DeliveryOptionId = "apetitch" | "partner" | "pickup";
+
+type CheckoutDetails = {
+	itemCount: number;
+	items: string[];
+	total: number;
+};
 
 const categories = [
 	{ name: "Todos", icon: "🍽️" },
@@ -39,6 +45,7 @@ export function Home() {
 	}, []);
 
 	const navigate = useNavigate();
+	const navigationLocation = useLocation();
 	const [searchParams] = useSearchParams();
 	const [search, setSearch] = useState("");
 	const [selectedCategory, setSelectedCategory] = useState("Todos");
@@ -47,8 +54,6 @@ export function Home() {
 	const [showAll, setShowAll] = useState(false);
 	const [sort, setSort] = useState("proximidade");
 	const [location, setLocation] = useState("Fortaleza, CE");
-	const [comparisonRestaurant, setComparisonRestaurant] =
-		useState<Restaurant | null>(null);
 	const [isQueryComparisonDismissed, setIsQueryComparisonDismissed] =
 		useState(false);
 	const [selectedDeliveryOption, setSelectedDeliveryOption] =
@@ -57,9 +62,12 @@ export function Home() {
 	const queryComparisonRestaurant = restaurants.find(
 		(restaurant) => restaurant.id === searchParams.get("comparar"),
 	);
-	const activeComparisonRestaurant =
-		comparisonRestaurant ??
-		(isQueryComparisonDismissed ? undefined : queryComparisonRestaurant);
+	const activeComparisonRestaurant = isQueryComparisonDismissed
+		? undefined
+		: queryComparisonRestaurant;
+	const checkout = (
+		navigationLocation.state as { checkout?: CheckoutDetails } | null
+	)?.checkout;
 
 	const deliveryOptions = activeComparisonRestaurant
 		? [
@@ -90,11 +98,6 @@ export function Home() {
 	const chosenDeliveryOption = deliveryOptions.find(
 		(option) => option.id === selectedDeliveryOption,
 	);
-
-	function openComparison(restaurant: Restaurant) {
-		setSelectedDeliveryOption("apetitch");
-		setComparisonRestaurant(restaurant);
-	}
 
 	function handleSearchSubmit(event: React.FormEvent<HTMLFormElement>) {
 		event.preventDefault();
@@ -399,15 +402,6 @@ export function Home() {
 										<span>
 											🛵 Delivery: {restaurant.deliveryTime}
 										</span>
-
-										{restaurant.delivery && (
-											<button
-												className="compare-button"
-												onClick={() => openComparison(restaurant)}
-											>
-												Comparar
-											</button>
-										)}
 									</div>
 
 									<button
@@ -458,18 +452,6 @@ export function Home() {
 							<div>
 								<strong>Encontrar perto de mim</strong>
 								<small>Veja restaurantes próximos</small>
-							</div>
-							<b>→</b>
-						</button>
-
-						<button
-							className="quick-card"
-							onClick={() => openComparison(restaurants[0])}
-						>
-							<span>🛵</span>
-							<div>
-								<strong>Comparar delivery</strong>
-								<small>Veja preços entre plataformas</small>
 							</div>
 							<b>→</b>
 						</button>
@@ -532,7 +514,6 @@ export function Home() {
 							className="comparison-close"
 							type="button"
 							onClick={() => {
-								setComparisonRestaurant(null);
 								setIsQueryComparisonDismissed(true);
 							}}
 							aria-label="Fechar comparador"
@@ -588,15 +569,27 @@ export function Home() {
 						<button
 							className="comparison-continue"
 							type="button"
-							onClick={() =>
-								navigate(
-									`/restaurante/${activeComparisonRestaurant.id}`,
-								)
-							}
+							onClick={() => {
+								if (!chosenDeliveryOption) return;
+
+								const deliverySummary = {
+									restaurantId: activeComparisonRestaurant.id,
+									restaurantName: activeComparisonRestaurant.name,
+									deliveryName: chosenDeliveryOption.name,
+									fee: chosenDeliveryOption.fee,
+									time: chosenDeliveryOption.time,
+									mode: chosenDeliveryOption.id,
+									checkout,
+								};
+
+								window.sessionStorage.setItem(
+									"apetitch:delivery-summary",
+									JSON.stringify(deliverySummary),
+								);
+								navigate("/entrega", { state: deliverySummary });
+							}}
 						>
-							{selectedDeliveryOption === "pickup"
-								? "Ver opções para retirada"
-								: "Escolher itens do pedido"}
+							Ver resumo da entrega
 						</button>
 					</div>
 				</div>

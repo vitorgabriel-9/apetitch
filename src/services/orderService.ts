@@ -1,4 +1,4 @@
-import type { Order } from "../types/order";
+import type { Order, OrderStatus } from "../types/order";
 import foodBackground from "../assets/food-background.jpg";
 
 const ORDERS_KEY = "apetitch:orders";
@@ -92,4 +92,29 @@ export function createOrder({
   );
 
   return order;
+}
+
+// Atualiza somente pedidos criados nesta sessão, que ficam no localStorage.
+export function updateOrderStatus(
+  orderId: number,
+  status: OrderStatus
+): Order | null {
+  try {
+    const savedOrders = JSON.parse(
+      window.localStorage.getItem(ORDERS_KEY) ?? "[]"
+    ) as Order[];
+    const orderIndex = savedOrders.findIndex((order) => order.id === orderId);
+
+    if (orderIndex === -1) {
+      return null;
+    }
+
+    const updatedOrder = { ...savedOrders[orderIndex], status };
+    savedOrders[orderIndex] = updatedOrder;
+    window.localStorage.setItem(ORDERS_KEY, JSON.stringify(savedOrders));
+
+    return updatedOrder;
+  } catch {
+    return null;
+  }
 }

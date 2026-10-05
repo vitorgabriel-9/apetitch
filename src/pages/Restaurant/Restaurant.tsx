@@ -1,6 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { createOrder } from "../../services/orderService";
 import {
 	getFavoriteRestaurantIds,
 	getCurrentUser,
@@ -9,7 +8,6 @@ import {
 	saveRestaurantFeedback,
 } from "../../services/appState";
 import {
-	clearRestaurantCart,
 	getRestaurantCart,
 	saveRestaurantCart,
 } from "../../services/cartService";
@@ -156,24 +154,21 @@ export function Restaurant() {
 				: "Fechado no momento";
 	const restaurantName = restaurant.name;
 
-	function finishOrder() {
+	function chooseDeliveryMethod() {
 		const itemCount = cartItems.reduce(
 			(total, item) => total + cart[item.id],
 			0,
 		);
 
-		createOrder({
-			restaurant: restaurantName,
-			itemCount,
-			items: cartItems.map((item) => `${cart[item.id]}x ${item.name}`),
-			total: cartTotal,
+		navigate(`/home?comparar=${id}`, {
+			state: {
+				checkout: {
+					itemCount,
+					items: cartItems.map((item) => `${cart[item.id]}x ${item.name}`),
+					total: cartTotal,
+				},
+			},
 		});
-		if (id) {
-			clearRestaurantCart(id);
-		}
-		setCart({});
-		setShowCartReview(false);
-		navigate("/pedidos");
 	}
 
 	function submitFeedback(event: React.FormEvent) {
@@ -531,21 +526,25 @@ export function Restaurant() {
 
 					<section className="comparison-section">
 						<div>
-							<span className="section-label">Apetitch</span>
+							<span className="section-label">Cardápio</span>
 
-							<h2>Compare antes de pedir</h2>
+							<h2>Monte o seu pedido</h2>
 
 							<p>
-								Veja opções de entrega e escolha a melhor alternativa
-								para seu pedido.
+								Escolha os itens que quiser. As opções de recebimento
+								aparecem na próxima etapa.
 							</p>
 						</div>
 
 						<button
 							className="comparison-button"
-							onClick={() => navigate(`/home?comparar=${id}`)}
+							onClick={() =>
+								document
+									.getElementById("cardapio")
+									?.scrollIntoView({ behavior: "smooth" })
+							}
 						>
-							Comparar delivery →
+							Ir para o cardápio →
 						</button>
 					</section>
 				</section>
@@ -612,9 +611,9 @@ export function Restaurant() {
 						</div>
 						<button
 							className="confirm-order-button"
-							onClick={finishOrder}
+							onClick={chooseDeliveryMethod}
 						>
-							Confirmar pedido
+							Escolher modalidade de entrega
 						</button>
 					</div>
 				</div>
