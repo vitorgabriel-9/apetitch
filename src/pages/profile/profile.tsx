@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
 	clearCurrentUser,
@@ -6,11 +6,11 @@ import {
 	getCurrentUser,
 	getFavoriteRestaurantIds,
 	getProfileAddresses,
-	getProfilePreferences,
+	
 	removeRestaurantFeedback,
 	saveCurrentUser,
 	saveProfileAddresses,
-	saveProfilePreferences,
+	
 } from "../../services/appState";
 import type { ProfileAddress } from "../../services/appState";
 import "./profile.css";
@@ -34,13 +34,20 @@ function getProfileFeedbacks() {
 
 export function Profile() {
 	const navigate = useNavigate();
+
+	const [darkMode, setDarkMode] = useState(() => {
+		return localStorage.getItem("theme") === "dark";
+	});
+
+	useEffect(() => {
+		document.documentElement.classList.toggle("dark-mode", darkMode);
+		localStorage.setItem("theme", darkMode ? "dark" : "light");
+	}, [darkMode]);
 	const [user, setUser] = useState(getCurrentUser);
 	const [isEditing, setIsEditing] = useState(false);
 	const [name, setName] = useState(user?.name ?? "Usuário Apetitch");
 	const [email, setEmail] = useState(user?.email ?? "usuario@email.com");
-	const [notificationsEnabled, setNotificationsEnabled] = useState(
-		() => getProfilePreferences().notificationsEnabled,
-	);
+	
 	const [activePanel, setActivePanel] = useState<
 		"reviews" | "addresses" | "settings" | "support" | null
 	>(null);
@@ -56,16 +63,7 @@ export function Profile() {
 		setActivePanel((current) => (current === panel ? null : panel));
 	}
 
-	function toggleNotifications() {
-		setNotificationsEnabled((current) => {
-			const next = !current;
-			saveProfilePreferences({ notificationsEnabled: next });
-			setProfileMessage(
-				next ? "Notificações ativadas." : "Notificações desativadas.",
-			);
-			return next;
-		});
-	}
+	
 
 	function addAddress(event: React.FormEvent) {
 		event.preventDefault();
@@ -428,23 +426,7 @@ export function Profile() {
 					<span className="profile-section-label">Preferências</span>
 
 					<div className="profile-menu">
-						<button
-							className="profile-menu-item"
-							onClick={toggleNotifications}
-						>
-							<div className="menu-icon purple">🔔</div>
-
-							<div className="menu-text">
-								<strong>Notificações</strong>
-								<span>
-									{notificationsEnabled
-										? "Alertas ativados"
-										: "Alertas desativados"}
-								</span>
-							</div>
-
-							<span className="menu-arrow">→</span>
-						</button>
+						
 
 						<button
 							className="profile-menu-item"
@@ -496,7 +478,7 @@ export function Profile() {
 						<div className="profile-detail-heading">
 							<div>
 								<span>Configurações</span>
-								<p>Controle suas preferências nesta demonstração.</p>
+								<p>Personalize a aparência do aplicativo.</p>
 							</div>
 							<button
 								type="button"
@@ -506,19 +488,30 @@ export function Profile() {
 								×
 							</button>
 						</div>
-						<label className="preference-toggle">
-							<span>
-								<strong>Notificações</strong>
-								<small>
-									Receba atualizações sobre pedidos e restaurantes.
-								</small>
-							</span>
-							<input
-								type="checkbox"
-								checked={notificationsEnabled}
-								onChange={toggleNotifications}
-							/>
-						</label>
+
+						<div className="setting-item">
+							<div className="setting-info">
+								<strong>
+									{darkMode ? "Tema escuro" : "Tema claro"}
+								</strong>
+								<span>
+									{darkMode
+										? "O aplicativo está usando o tema escuro."
+										: "O aplicativo está usando o tema claro."}
+								</span>
+							</div>
+
+							<label className="switch">
+								<input
+									type="checkbox"
+									checked={darkMode}
+									onChange={(event) =>
+										setDarkMode(event.target.checked)
+									}
+								/>
+								<span className="slider"></span>
+							</label>
+						</div>
 					</section>
 				)}
 
