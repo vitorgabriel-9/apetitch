@@ -1,13 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { getRestaurants } from "../../services/restaurantService";
 
-import {
-	MapContainer,
-	Marker,
-	Popup,
-	TileLayer,
-	useMap,
-} from "react-leaflet";
+import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
 
 import L from "leaflet";
 
@@ -16,10 +11,7 @@ import "./Explorar.css";
 
 import { BottomNavigation } from "../../components/BottomNavigation/BottomNavigation";
 
-import type {
-	Restaurant,
-	RestaurantCategory,
-} from "../../types/restaurant";
+import type { Restaurant, RestaurantCategory } from "../../types/restaurant";
 
 type SortOption = "recommended" | "rating" | "distance" | "price";
 
@@ -57,11 +49,7 @@ const userIcon = L.divIcon({
 	iconAnchor: [13, 13],
 });
 
-function RecenterMap({
-	position,
-}: {
-	position: [number, number];
-}) {
+function RecenterMap({ position }: { position: [number, number] }) {
 	const map = useMap();
 
 	useEffect(() => {
@@ -75,12 +63,22 @@ export function Explorar() {
 	const navigate = useNavigate();
 	const [searchParams] = useSearchParams();
 
-	const [restaurants, setRestaurants] =
-		useState<Restaurant[]>([]);
+	const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
 
-	const [search, setSearch] = useState(
-		searchParams.get("busca") ?? "",
-	);
+	useEffect(() => {
+		async function loadRestaurants() {
+			try {
+				const data = await getRestaurants();
+				setRestaurants(data);
+			} catch (error) {
+				console.error("Erro ao carregar restaurantes:", error);
+			}
+		}
+
+		loadRestaurants();
+	}, []);
+
+	const [search, setSearch] = useState(searchParams.get("busca") ?? "");
 
 	const [selectedCategory, setSelectedCategory] = useState<
 		RestaurantCategory | "Todos"
@@ -89,8 +87,7 @@ export function Explorar() {
 	const [selectedRestaurant, setSelectedRestaurant] =
 		useState<Restaurant | null>(null);
 
-	const [sortBy, setSortBy] =
-		useState<SortOption>("recommended");
+	const [sortBy, setSortBy] = useState<SortOption>("recommended");
 
 	const [showSortOptions, setShowSortOptions] = useState(false);
 
@@ -99,12 +96,11 @@ export function Explorar() {
 
 	const [showCategories, setShowCategories] = useState(true);
 
-	const [userPosition, setUserPosition] = useState<
-		[number, number]
-	>([-3.7319, -38.5267]);
+	const [userPosition, setUserPosition] = useState<[number, number]>([
+		-3.7319, -38.5267,
+	]);
 
-	const [locationLabel, setLocationLabel] =
-		useState("Fortaleza, CE");
+	const [locationLabel, setLocationLabel] = useState("Fortaleza, CE");
 
 	const [isLocating, setIsLocating] = useState(false);
 
@@ -123,21 +119,14 @@ export function Explorar() {
 				term === "" ||
 				restaurant.name.toLowerCase().includes(term) ||
 				restaurant.category.toLowerCase().includes(term) ||
-				restaurant.secondaryCategory
-					?.toLowerCase()
-					.includes(term);
+				restaurant.secondaryCategory?.toLowerCase().includes(term);
 
-			const matchesOpen =
-				!onlyOpen || restaurant.status === "Aberto";
+			const matchesOpen = !onlyOpen || restaurant.status === "Aberto";
 
-			const matchesDelivery =
-				!deliveryOnly || restaurant.delivery;
+			const matchesDelivery = !deliveryOnly || restaurant.delivery;
 
 			return (
-				matchesCategory &&
-				matchesSearch &&
-				matchesOpen &&
-				matchesDelivery
+				matchesCategory && matchesSearch && matchesOpen && matchesDelivery
 			);
 		});
 
@@ -160,14 +149,7 @@ export function Explorar() {
 					return 0;
 			}
 		});
-	}, [
-		restaurants,
-		search,
-		selectedCategory,
-		sortBy,
-		onlyOpen,
-		deliveryOnly,
-	]);
+	}, [restaurants, search, selectedCategory, sortBy, onlyOpen, deliveryOnly]);
 
 	// Restaura todos os filtros para o estado inicial.
 	function clearFilters() {
@@ -181,9 +163,7 @@ export function Explorar() {
 	// Solicita a localização do usuário.
 	function getMyLocation() {
 		if (!navigator.geolocation) {
-			alert(
-				"Geolocalização não disponível neste navegador.",
-			);
+			alert("Geolocalização não disponível neste navegador.");
 			return;
 		}
 
@@ -201,9 +181,7 @@ export function Explorar() {
 			},
 			() => {
 				setIsLocating(false);
-				alert(
-					"Não foi possível obter sua localização.",
-				);
+				alert("Não foi possível obter sua localização.");
 			},
 		);
 	}
@@ -220,9 +198,7 @@ export function Explorar() {
 		nearbyRequestHandled.current = true;
 
 		if (!navigator.geolocation) {
-			alert(
-				"Geolocalização não disponível neste navegador.",
-			);
+			alert("Geolocalização não disponível neste navegador.");
 			return;
 		}
 
@@ -236,9 +212,7 @@ export function Explorar() {
 				setLocationLabel("Sua localização");
 			},
 			() => {
-				alert(
-					"Não foi possível obter sua localização.",
-				);
+				alert("Não foi possível obter sua localização.");
 			},
 		);
 	}, [searchParams]);
@@ -266,9 +240,7 @@ export function Explorar() {
 						type="text"
 						placeholder="Buscar restaurante..."
 						value={search}
-						onChange={(event) =>
-							setSearch(event.target.value)
-						}
+						onChange={(event) => setSearch(event.target.value)}
 						aria-label="Buscar restaurante"
 					/>
 
@@ -311,23 +283,17 @@ export function Explorar() {
 							Explorar <span>restaurantes</span>
 						</h1>
 
-						<p>
-							Encontre os melhores lugares perto de você.
-						</p>
+						<p>Encontre os melhores lugares perto de você.</p>
 					</div>
 
 					<button
 						className="filter-button"
 						type="button"
-						onClick={() =>
-							setShowCategories((current) => !current)
-						}
+						onClick={() => setShowCategories((current) => !current)}
 						aria-expanded={showCategories}
 						aria-controls="explore-categories"
 						aria-label={
-							showCategories
-								? "Ocultar categorias"
-								: "Exibir categorias"
+							showCategories ? "Ocultar categorias" : "Exibir categorias"
 						}
 					>
 						☷
@@ -336,22 +302,15 @@ export function Explorar() {
 
 				{/* CATEGORIAS */}
 				{showCategories && (
-					<section
-						className="categories"
-						id="explore-categories"
-					>
+					<section className="categories" id="explore-categories">
 						{categories.map((category) => (
 							<button
 								key={category.name}
 								type="button"
 								className={`category-button ${
-									selectedCategory === category.name
-										? "active"
-										: ""
+									selectedCategory === category.name ? "active" : ""
 								}`}
-								onClick={() =>
-									setSelectedCategory(category.name)
-								}
+								onClick={() => setSelectedCategory(category.name)}
 							>
 								<span>{category.icon}</span>
 								{category.name}
@@ -366,9 +325,7 @@ export function Explorar() {
 					aria-label="Filtros avançados"
 				>
 					<div className="sort-control">
-						<label id="restaurant-sort-label">
-							Ordenar por
-						</label>
+						<label id="restaurant-sort-label">Ordenar por</label>
 
 						<div className="custom-sort">
 							<button
@@ -378,46 +335,31 @@ export function Explorar() {
 								aria-expanded={showSortOptions}
 								aria-labelledby="restaurant-sort-label"
 								onClick={() =>
-									setShowSortOptions(
-										(current) => !current,
-									)
+									setShowSortOptions((current) => !current)
 								}
 							>
 								{
-									sortOptions.find(
-										(option) =>
-											option.value === sortBy,
-									)?.label
+									sortOptions.find((option) => option.value === sortBy)
+										?.label
 								}
 
 								<span className="sort-arrow">⌄</span>
 							</button>
 
 							{showSortOptions && (
-								<div
-									className="sort-menu"
-									role="listbox"
-								>
+								<div className="sort-menu" role="listbox">
 									{sortOptions.map((option) => (
 										<button
 											key={option.value}
 											type="button"
 											role="option"
-											aria-selected={
-												sortBy === option.value
-											}
+											aria-selected={sortBy === option.value}
 											className={`sort-option ${
-												sortBy === option.value
-													? "selected"
-													: ""
+												sortBy === option.value ? "selected" : ""
 											}`}
 											onClick={() => {
-												setSortBy(
-													option.value,
-												);
-												setShowSortOptions(
-													false,
-												);
+												setSortBy(option.value);
+												setShowSortOptions(false);
 											}}
 										>
 											{option.label}
@@ -432,11 +374,7 @@ export function Explorar() {
 						<input
 							type="checkbox"
 							checked={onlyOpen}
-							onChange={(event) =>
-								setOnlyOpen(
-									event.target.checked,
-								)
-							}
+							onChange={(event) => setOnlyOpen(event.target.checked)}
 						/>
 						Somente abertos
 					</label>
@@ -445,11 +383,7 @@ export function Explorar() {
 						<input
 							type="checkbox"
 							checked={deliveryOnly}
-							onChange={(event) =>
-								setDeliveryOnly(
-									event.target.checked,
-								)
-							}
+							onChange={(event) => setDeliveryOnly(event.target.checked)}
 						/>
 						Com entrega
 					</label>
@@ -466,69 +400,41 @@ export function Explorar() {
 				{/* MAPA E RESTAURANTES */}
 				<section className="explore-grid">
 					<div className="map-container">
-						<MapContainer
-							center={userPosition}
-							zoom={14}
-							className="map"
-						>
+						<MapContainer center={userPosition} zoom={14} className="map">
 							<TileLayer
 								attribution="&copy; OpenStreetMap contributors"
 								url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
 							/>
 
-							<RecenterMap
-								position={userPosition}
-							/>
+							<RecenterMap position={userPosition} />
 
-							<Marker
-								position={userPosition}
-								icon={userIcon}
-							>
-								<Popup>
-									Você está aqui
-								</Popup>
+							<Marker position={userPosition} icon={userIcon}>
+								<Popup>Você está aqui</Popup>
 							</Marker>
 
-							{filteredRestaurants.map(
-								(restaurant) => (
-									<Marker
-										key={restaurant.id}
-										position={[
-											restaurant.latitude,
-											restaurant.longitude,
-										]}
-										icon={restaurantIcon}
-										eventHandlers={{
-											click: () =>
-												setSelectedRestaurant(
-													restaurant,
-												),
-										}}
-									>
-										<Popup>
-											<div className="map-popup">
-												<strong>
-													{restaurant.name}
-												</strong>
+							{filteredRestaurants.map((restaurant) => (
+								<Marker
+									key={restaurant.id}
+									position={[
+										restaurant.latitude,
+										restaurant.longitude,
+									]}
+									icon={restaurantIcon}
+									eventHandlers={{
+										click: () => setSelectedRestaurant(restaurant),
+									}}
+								>
+									<Popup>
+										<div className="map-popup">
+											<strong>{restaurant.name}</strong>
 
-												<span>
-													⭐{" "}
-													{
-														restaurant.rating
-													}
-												</span>
+											<span>⭐ {restaurant.rating}</span>
 
-												<span>
-													{
-														restaurant.distance
-													}{" "}
-													km
-												</span>
-											</div>
-										</Popup>
-									</Marker>
-								),
-							)}
+											<span>{restaurant.distance} km</span>
+										</div>
+									</Popup>
+								</Marker>
+							))}
 						</MapContainer>
 
 						<button
@@ -537,9 +443,7 @@ export function Explorar() {
 							onClick={getMyLocation}
 							disabled={isLocating}
 						>
-							{isLocating
-								? "Localizando..."
-								: "◎ Minha localização"}
+							{isLocating ? "Localizando..." : "◎ Minha localização"}
 						</button>
 					</div>
 
@@ -548,118 +452,75 @@ export function Explorar() {
 						<div className="restaurants-header">
 							<h2>Restaurantes próximos</h2>
 
-							<span>
-								{filteredRestaurants.length} resultados
-							</span>
+							<span>{filteredRestaurants.length} resultados</span>
 						</div>
 
 						<div className="restaurants-list">
 							{filteredRestaurants.length > 0 ? (
-								filteredRestaurants.map(
-									(restaurant) => (
-										<article
-											key={restaurant.id}
-											className={`restaurant-card ${
-												selectedRestaurant?.id ===
-												restaurant.id
-													? "selected"
-													: ""
-											}`}
-											onClick={() =>
-												setSelectedRestaurant(
-													restaurant,
-												)
-											}
-										>
-											<img
-												src={restaurant.image}
-												alt={restaurant.name}
-											/>
+								filteredRestaurants.map((restaurant) => (
+									<article
+										key={restaurant.id}
+										className={`restaurant-card ${
+											selectedRestaurant?.id === restaurant.id
+												? "selected"
+												: ""
+										}`}
+										onClick={() => setSelectedRestaurant(restaurant)}
+									>
+										<img
+											src={restaurant.image}
+											alt={restaurant.name}
+										/>
 
-											<div className="restaurant-info">
-												<h3>
-													{restaurant.name}
-												</h3>
+										<div className="restaurant-info">
+											<h3>{restaurant.name}</h3>
 
-												<div className="restaurant-tags">
+											<div className="restaurant-tags">
+												<span>{restaurant.category}</span>
+
+												{restaurant.secondaryCategory && (
 													<span>
-														{
-															restaurant.category
-														}
+														{restaurant.secondaryCategory}
 													</span>
-
-													{restaurant.secondaryCategory && (
-														<span>
-															{
-																restaurant.secondaryCategory
-															}
-														</span>
-													)}
-												</div>
-
-												<div className="restaurant-details">
-													<strong>
-														⭐{" "}
-														{
-															restaurant.rating
-														}
-													</strong>
-
-													<span>•</span>
-
-													<span>
-														{
-															restaurant.distance
-														}{" "}
-														km
-													</span>
-
-													<span>•</span>
-
-													<span>
-														{
-															restaurant.deliveryTime
-														}
-													</span>
-												</div>
+												)}
 											</div>
 
-											<button
-												className="restaurant-open"
-												type="button"
-												aria-label={`Abrir ${restaurant.name}`}
-												onClick={(event) => {
-													event.stopPropagation();
+											<div className="restaurant-details">
+												<strong>⭐ {restaurant.rating}</strong>
 
-													navigate(
-														`/restaurante/${restaurant.id}`,
-													);
-												}}
-											>
-												›
-											</button>
-										</article>
-									),
-								)
+												<span>•</span>
+
+												<span>{restaurant.distance} km</span>
+
+												<span>•</span>
+
+												<span>{restaurant.deliveryTime}</span>
+											</div>
+										</div>
+
+										<button
+											className="restaurant-open"
+											type="button"
+											aria-label={`Abrir ${restaurant.name}`}
+											onClick={(event) => {
+												event.stopPropagation();
+
+												navigate(`/restaurante/${restaurant.id}`);
+											}}
+										>
+											›
+										</button>
+									</article>
+								))
 							) : (
 								<div className="no-results">
-									<div className="no-results-icon">
-										🔍
-									</div>
+									<div className="no-results-icon">🔍</div>
 
-									<h3>
-										Nenhum restaurante encontrado
-									</h3>
+									<h3>Nenhum restaurante encontrado</h3>
 
-									<p>
-										Tente buscar por outro nome ou
-										categoria.
-									</p>
+									<p>Tente buscar por outro nome ou categoria.</p>
 
-									<button
-										type="button"
-										onClick={clearFilters}
-									>
+									<button type="button" onClick={clearFilters}>
 										Limpar filtros
 									</button>
 								</div>

@@ -140,13 +140,13 @@ export function Home() {
 		}
 
 		return result;
-	}, [favorites, favoritesOnly, search, selectedCategory, sort]);
+	}, [restaurants, favorites, favoritesOnly, search, selectedCategory, sort]);
 
 	const displayedRestaurants = showAll
 		? filteredRestaurants
 		: filteredRestaurants.slice(0, 4);
 
-	function toggleFavorite(id: number) {
+	function toggleFavorite(id: string) {
 		setFavorites((current) => {
 			const updatedFavorites = current.includes(id)
 				? current.filter((favoriteId) => favoriteId !== id)
