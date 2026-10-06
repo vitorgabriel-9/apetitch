@@ -9,41 +9,34 @@ import { Profile } from "../pages/profile/profile";
 import { Orders } from "../pages/Orders/Orders";
 import { Explorar } from "../pages/Explorar/Explorar";
 import { Delivery } from "../pages/Delivery/Delivery";
+import { ProtectedRoute } from "./ProtectedRoute";
 
 export function AppRoutes() {
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Welcome />} />
+	return (
+		<BrowserRouter>
+			<Routes>
+				<Route path="/" element={<Welcome />} />
 
-        <Route path="/login" element={<Login />} />
+				<Route path="/login" element={<Login />} />
 
-        <Route path="/cadastro" element={<Register />} />
+				<Route path="/cadastro" element={<Register />} />
 
-        <Route path="/home" element={<Home />} />
-        
-        <Route path="/pedidos" element={<Orders />} />
+				<Route element={<ProtectedRoute />}>
+					<Route path="/home" element={<Home />} />
 
-        <Route
-          path="/explorar"
-          element={<Explorar />}
-        />
+					<Route path="/pedidos" element={<Orders />} />
 
-        <Route path="/entrega" element={<Delivery />} />
-    
+					<Route path="/explorar" element={<Explorar />} />
 
-        <Route
-          path="/restaurante/:id"
-          element={<Restaurant />}
-        />
+					<Route path="/entrega" element={<Delivery />} />
 
-        <Route
-          path="/perfil"
-          element={<Profile />}
-        />
+					<Route path="/restaurante/:id" element={<Restaurant />} />
 
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
-    </BrowserRouter>
-  );
+					<Route path="/perfil" element={<Profile />} />
+				</Route>
+
+				<Route path="*" element={<Navigate to="/" replace />} />
+			</Routes>
+		</BrowserRouter>
+	);
 }
