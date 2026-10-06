@@ -9,6 +9,7 @@ import { Profile } from "../pages/profile/profile";
 import { Orders } from "../pages/Orders/Orders";
 import { Explorar } from "../pages/Explorar/Explorar";
 import { Delivery } from "../pages/Delivery/Delivery";
+import { Favoritos } from "../pages/Favoritos/Favoritos";
 import { ProtectedRoute } from "./ProtectedRoute";
 
 export function AppRoutes() {
@@ -26,6 +27,8 @@ export function AppRoutes() {
 
 					<Route path="/pedidos" element={<Orders />} />
 
+                    <Route path="/favoritos" element={<Favoritos />} />
+				  
 					<Route path="/explorar" element={<Explorar />} />
 
 					<Route path="/entrega" element={<Delivery />} />

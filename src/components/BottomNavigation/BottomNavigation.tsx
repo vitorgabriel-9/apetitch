@@ -37,13 +37,13 @@ export function BottomNavigation() {
       </button>
 
       <button
-        className={location.search === "?favoritos=1" ? "nav-item active" : "nav-item"}
-        onClick={() => navigate("/home?favoritos=1")}
-      >
-        <span>♡</span>
+       className={`nav-item ${isActive("/favoritos") ? "active" : ""}`}
+       onClick={() => navigate("/favoritos")}
+>
+        <span>♥</span>
         <small>Favoritos</small>
       </button>
-
+      
       <button
         className={`nav-item ${isActive("/perfil") ? "active" : ""}`}
         onClick={() => navigate("/perfil")}
