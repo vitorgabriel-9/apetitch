@@ -930,3 +930,237 @@
 .feedback-card {
   box-shadow: 0 5px 14px rgba(0, 5, 5, 0.03);
 }
+
+
+/* =========================================================
+   APETITCH — CONTRASTE DA TELA DE DETALHES DO RESTAURANTE
+   ========================================================= */
+
+html.dark-mode .restaurant-page {
+  background: #101214;
+  color: #f5f7f8;
+}
+
+/* Cabeçalho e cartões principais */
+html.dark-mode .restaurant-page .restaurant-header,
+html.dark-mode .restaurant-page .restaurant-info-card,
+html.dark-mode .restaurant-page .detail-block,
+html.dark-mode .restaurant-page .menu-item,
+html.dark-mode .restaurant-page .feedback-card,
+html.dark-mode .restaurant-page .feedback-form,
+html.dark-mode .restaurant-page .cart-review-content {
+  background: #1d2125;
+  color: #f5f7f8;
+  border-color: #343a40;
+}
+
+/* Títulos e informações em superfícies escuras */
+html.dark-mode .restaurant-page .restaurant-header-title,
+html.dark-mode .restaurant-page .restaurant-info-card strong,
+html.dark-mode .restaurant-page .detail-block strong,
+html.dark-mode .restaurant-page .detail-heading,
+html.dark-mode .restaurant-page .detail-heading > span,
+html.dark-mode .restaurant-page .menu-header h2,
+html.dark-mode .restaurant-page .menu-item-content h3,
+html.dark-mode .restaurant-page .feedback-card strong,
+html.dark-mode .restaurant-page .feedback-form label,
+html.dark-mode .restaurant-page .cart-review-content h2,
+html.dark-mode .restaurant-page .cart-review-items,
+html.dark-mode .restaurant-page .cart-review-total {
+  color: #f5f7f8;
+}
+
+/* Descrições, horários e textos auxiliares */
+html.dark-mode .restaurant-page .restaurant-description p,
+html.dark-mode .restaurant-page .info-item small,
+html.dark-mode .restaurant-page .opening-hours-list li,
+html.dark-mode .restaurant-page .menu-item-content p,
+html.dark-mode .restaurant-page .reviews-summary span,
+html.dark-mode .restaurant-page .feedback-card p {
+  color: #c2c9cf;
+}
+
+/* Etiqueta de categoria: fundo laranja, texto escuro */
+html.dark-mode .restaurant-page .restaurant-category {
+  background: #f18f01;
+  color: #201707;
+}
+
+/* Endereço: preserva o fundo claro e escurece os textos */
+html.dark-mode .restaurant-page .restaurant-address {
+  background: #fff4e4;
+  color: #4b4032;
+  border-left-color: #f18f01;
+}
+
+html.dark-mode .restaurant-page .restaurant-address strong {
+  color: #29231b;
+}
+
+/* Etiquetas de características: fundo claro, texto escuro */
+html.dark-mode .restaurant-page .detail-tags span {
+  background: #fff2df;
+  color: #5d3b09;
+}
+
+/* Links de contato: fundo claro, texto vermelho escuro */
+html.dark-mode .restaurant-page .detail-links a {
+  background: #f7f7f5;
+  color: #8e3533;
+}
+
+/* Contador de itens: cartão claro, texto escuro */
+html.dark-mode .restaurant-page .menu-count {
+  background: #fff4e4;
+  color: #29231b;
+  border-color: #e5d9c8;
+}
+
+/* Botão de acessar cardápio: fundo claro, texto escuro */
+html.dark-mode .restaurant-page .menu-access-button {
+  background: #fff2df;
+  color: #8e3533;
+}
+
+/* Controles de quantidade: fundo claro, texto escuro */
+html.dark-mode .restaurant-page .quantity-control {
+  background: #fff2df;
+  color: #29231b;
+}
+
+html.dark-mode .restaurant-page .quantity-control span {
+  color: #29231b;
+}
+
+html.dark-mode .restaurant-page .quantity-control button {
+  background: #f18f01;
+  color: #201707;
+}
+
+/* Botão de voltar */
+html.dark-mode .restaurant-page .back-button {
+  background: #292f35;
+  color: #f5f7f8;
+}
+
+/* Botão de favorito */
+html.dark-mode .restaurant-page .restaurant-favorite {
+  background: #292f35;
+  color: #f5f7f8;
+  border-color: #41484f;
+}
+
+html.dark-mode .restaurant-page .restaurant-favorite.active {
+  background: #b0413e;
+  color: #ffffff;
+  border-color: #b0413e;
+}
+
+/* Preços e avaliações */
+html.dark-mode .restaurant-page .menu-item-content strong,
+html.dark-mode .restaurant-page .reviews-summary strong {
+  color: #ff8a85;
+}
+
+html.dark-mode .restaurant-page .feedback-card span {
+  color: #ffaaa6;
+}
+
+html.dark-mode .restaurant-page .rating-picker button {
+  color: #aeb6bd;
+}
+
+html.dark-mode .restaurant-page .rating-picker button.selected {
+  color: #f18f01;
+}
+
+/* Campo para escrever avaliação */
+html.dark-mode .restaurant-page .feedback-form textarea {
+  background: #20252a;
+  color: #f5f7f8;
+  border-color: #454d55;
+}
+
+html.dark-mode .restaurant-page .feedback-form textarea::placeholder {
+  color: #aeb6bd;
+  opacity: 1;
+}
+
+/* Botões de ação vermelhos */
+html.dark-mode .restaurant-page .add-button,
+html.dark-mode .restaurant-page .feedback-form > button,
+html.dark-mode .restaurant-page .confirm-order-button {
+  background: #b0413e;
+  color: #ffffff;
+}
+
+/* Comparação: seção escura e botão laranja */
+html.dark-mode .restaurant-page .comparison-section {
+  background: #080a0b;
+  color: #f5f7f8;
+}
+
+html.dark-mode .restaurant-page .comparison-section h2,
+html.dark-mode .restaurant-page .comparison-section p {
+  color: #f5f7f8;
+}
+
+html.dark-mode .restaurant-page .comparison-section .section-label {
+  color: #ffb84d;
+}
+
+html.dark-mode .restaurant-page .comparison-button {
+  background: #f18f01;
+  color: #201707;
+}
+
+/* Barra fixa do carrinho: fundo vermelho, texto branco */
+html.dark-mode .restaurant-page .cart-bar,
+html.dark-mode .restaurant-page .cart-bar .cart-summary,
+html.dark-mode .restaurant-page .cart-bar .cart-summary span,
+html.dark-mode .restaurant-page .cart-bar .cart-summary strong {
+  background: #b0413e;
+  color: #ffffff;
+}
+
+html.dark-mode .restaurant-page .cart-bar > button {
+  background: #f18f01;
+  color: #201707;
+}
+
+/* Janela de revisão do carrinho */
+html.dark-mode .restaurant-page .cart-review {
+  background: rgba(0, 0, 0, 0.72);
+}
+
+html.dark-mode .restaurant-page .cart-review-close {
+  background: #292f35;
+  color: #ffffff;
+}
+
+html.dark-mode .restaurant-page .cart-review-items div {
+  border-color: #343a40;
+}
+
+/* Horários e divisórias */
+html.dark-mode .restaurant-page .opening-hours-list {
+  border-color: #343a40;
+}
+
+html.dark-mode .restaurant-page .info-item {
+  border-color: #343a40;
+}
+
+/* Mensagem de restaurante não encontrado */
+html.dark-mode .restaurant-not-found {
+  background: #101214;
+  color: #f5f7f8;
+}
+
+html.dark-mode .restaurant-not-found h1 {
+  color: #f5f7f8;
+}
+
+html.dark-mode .restaurant-not-found p {
+  color: #c2c9cf;
+}

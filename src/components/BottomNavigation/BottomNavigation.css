@@ -127,3 +127,23 @@
     font-size: 8px;
   }
 }
+
+
+/* MODO ESCURO — NAVEGAÇÃO INFERIOR */
+html.dark-mode .bottom-navigation {
+  background: rgba(25, 25, 25, 0.97);
+  border-top-color: #383838;
+}
+
+html.dark-mode .nav-item {
+  color: #bbbbbb;
+}
+
+html.dark-mode .nav-item.active {
+  background: #382222;
+  color: #ff7772;
+}
+
+html.dark-mode .nav-item:hover {
+  color: #ff7772;
+}

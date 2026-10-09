@@ -856,3 +856,73 @@
     margin-left: 0;
   }
 }
+
+
+/* MODO ESCURO — EXPLORAR */
+html.dark-mode .explore-page {
+  background: #121212;
+  color: #ffffff;
+}
+
+html.dark-mode .explore-header {
+  background: #1b1b1b;
+  border-bottom-color: #333333;
+}
+
+html.dark-mode .explore-search,
+html.dark-mode .explore-search input,
+html.dark-mode .explore-search-area {
+  background: #292929;
+  color: #ffffff;
+}
+
+html.dark-mode .explore-search input {
+  background: transparent;
+}
+
+html.dark-mode .explore-search input::placeholder {
+  color: #aaaaaa;
+}
+
+html.dark-mode .explore-title,
+html.dark-mode .explore-content h1,
+html.dark-mode .explore-content h2,
+html.dark-mode .explore-content h3,
+html.dark-mode .explore-content p,
+html.dark-mode .explore-content label {
+  color: #ffffff;
+}
+
+html.dark-mode .explore-content .restaurant-card {
+  background: #222222;
+  border-color: #383838;
+  color: #ffffff;
+}
+
+html.dark-mode .explore-content .restaurant-card h3,
+html.dark-mode .explore-content .restaurant-card p,
+html.dark-mode .explore-content .restaurant-card strong,
+html.dark-mode .explore-content .restaurant-card span {
+  color: #ffffff;
+}
+
+html.dark-mode .explore-content input,
+html.dark-mode .explore-content select {
+  background: #292929;
+  color: #ffffff;
+  border-color: #444444;
+}
+
+html.dark-mode .explore-content button:not(.filter-button) {
+  border-color: #444444;
+}
+
+html.dark-mode .explore-content .filter-button,
+html.dark-mode .explore-content .explore-brand {
+  color: #ffffff;
+}
+
+html.dark-mode .explore-content .empty-state {
+  background: #222222;
+  color: #ffffff;
+}

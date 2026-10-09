@@ -795,3 +795,67 @@
   outline: 3px solid #f18f01;
   outline-offset: 2px;
 }
+
+
+/* MODO ESCURO — PEDIDOS */
+html.dark-mode .orders-page {
+  background: #121212;
+  color: #ffffff;
+}
+
+html.dark-mode .orders-topbar {
+  background: #1b1b1b;
+  border-bottom-color: #333333;
+}
+
+html.dark-mode .orders-content h1,
+html.dark-mode .orders-content h2,
+html.dark-mode .orders-content h3,
+html.dark-mode .orders-content p {
+  color: #ffffff;
+}
+
+html.dark-mode .orders-overview > div,
+html.dark-mode .order-card,
+html.dark-mode .orders-empty {
+  background: #222222;
+  border-color: #383838;
+  color: #ffffff;
+}
+
+html.dark-mode .orders-overview span,
+html.dark-mode .orders-section-header span {
+  color: #cccccc;
+}
+
+html.dark-mode .orders-section-header h2 {
+  color: #eeeeee;
+}
+
+html.dark-mode .orders-back {
+  background: #333333;
+  color: #ffffff;
+}
+
+html.dark-mode .orders-filters button {
+  background: #292929;
+  border-color: #444444;
+  color: #ffffff;
+}
+
+html.dark-mode .orders-filters button.active {
+  background: #b0413e;
+  border-color: #b0413e;
+  color: #ffffff;
+}
+
+html.dark-mode .orders-location {
+  background: #292929;
+  border-color: #444444;
+  color: #ffffff;
+}
+
+html.dark-mode .orders-topbar .orders-profile {
+  background: #333333;
+  color: #ffffff;
+}

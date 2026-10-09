@@ -1,51 +1,750 @@
+
 :root {
-	--bg-primary: #ffffff;
-	--bg-secondary: #f7f7f7;
-	--bg-card: #ffffff;
+  --bg-primary: #ffffff;
+  --bg-secondary: #f7f7f7;
+  --bg-card: #ffffff;
 
-	--text-primary: #171717;
-	--text-secondary: #666666;
+  --text-primary: #171717;
+  --text-secondary: #666666;
 
-	--border-color: #e5e5e5;
+  --border-color: #e5e5e5;
+  --input-bg: #ffffff;
+  --shadow-color: rgba(0, 0, 0, 0.08);
 
-	--input-bg: #ffffff;
-
-	--shadow-color: rgba(0, 0, 0, 0.08);
+  --surface-hover: #f0f1f2;
+  --accent-soft: rgba(176, 65, 62, 0.10);
 }
 
 html.dark-mode {
-	--bg-primary: #121212;
-	--bg-secondary: #1b1b1b;
-	--bg-card: #242424;
+  color-scheme: dark;
 
-	--text-primary: #ffffff;
-	--text-secondary: #bdbdbd;
+  --bg-primary: #101214;
+  --bg-secondary: #171a1d;
+  --bg-card: #1d2125;
 
-	--border-color: #383838;
+  --text-primary: #f5f7f8;
+  --text-secondary: #b8c0c7;
 
-	--input-bg: #2b2b2b;
+  --border-color: #343a40;
+  --input-bg: #20252a;
+  --shadow-color: rgba(0, 0, 0, 0.28);
 
-	--shadow-color: rgba(0, 0, 0, 0.35);
+  --surface-hover: #292f35;
+  --accent-soft: rgba(176, 65, 62, 0.18);
+}
+
+html {
+  color-scheme: light;
+  background: var(--bg-primary);
 }
 
 html,
 body,
 #root {
-	background-color: var(--bg-primary);
-	color: var(--text-primary);
+  min-height: 100%;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
 }
 
 body {
-	margin: 0;
-	transition:
-		background-color 0.25s ease,
-		color 0.25s ease;
+  margin: 0;
+  transition: background-color 180ms ease, color 180ms ease;
 }
 
-input,
-textarea,
-select {
-	background-color: var(--input-bg);
-	color: var(--text-primary);
-	border-color: var(--border-color);
+/* Telas principais */
+html.dark-mode body,
+html.dark-mode #root,
+html.dark-mode .home,
+html.dark-mode .explore-page,
+html.dark-mode .favorites-page,
+html.dark-mode .orders-page,
+html.dark-mode .profile-page,
+html.dark-mode .restaurant-page,
+html.dark-mode .delivery-page,
+html.dark-mode .auth-page,
+html.dark-mode .welcome-page {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+/* Cabeçalhos e navegação */
+html.dark-mode .home-header,
+html.dark-mode .explore-header,
+html.dark-mode .favorites-header,
+html.dark-mode .orders-topbar,
+html.dark-mode .profile-header,
+html.dark-mode .restaurant-header,
+html.dark-mode .delivery-header,
+html.dark-mode .bottom-navigation {
+  background-color: var(--bg-secondary);
+  border-color: var(--border-color);
+  color: var(--text-primary);
+}
+
+/* Cartões e painéis */
+html.dark-mode .restaurant-card,
+html.dark-mode .favorite-card,
+html.dark-mode .order-detail-panel,
+html.dark-mode .orders-overview > *,
+html.dark-mode .orders-empty,
+html.dark-mode .profile-card,
+html.dark-mode .profile-section,
+html.dark-mode .profile-menu-item,
+html.dark-mode .profile-detail-panel,
+html.dark-mode .profile-stats,
+html.dark-mode .profile-empty-state,
+html.dark-mode .detail-block,
+html.dark-mode .restaurant-info-card,
+html.dark-mode .menu-item,
+html.dark-mode .feedback-card,
+html.dark-mode .delivery-summary-card,
+html.dark-mode .delivery-order-summary,
+html.dark-mode .auth-card,
+html.dark-mode .empty-state,
+html.dark-mode .no-results,
+html.dark-mode .filter-panel,
+html.dark-mode .advanced-filters,
+html.dark-mode .cart-review,
+html.dark-mode .cart-summary,
+html.dark-mode .quick-card,
+html.dark-mode .setting-item,
+html.dark-mode .support-content,
+html.dark-mode .saved-addresses,
+html.dark-mode .address-form,
+html.dark-mode .profile-edit-form {
+  background-color: var(--bg-card);
+  color: var(--text-primary);
+  border-color: var(--border-color);
+  box-shadow: 0 5px 18px var(--shadow-color);
+}
+
+/* Evita títulos e textos pretos no modo escuro */
+html.dark-mode h1,
+html.dark-mode h2,
+html.dark-mode h3,
+html.dark-mode h4,
+html.dark-mode p,
+html.dark-mode label,
+html.dark-mode .restaurant-name,
+html.dark-mode .restaurant-title,
+html.dark-mode .favorite-name,
+html.dark-mode .profile-name,
+html.dark-mode .section-title {
+  color: var(--text-primary);
+}
+
+/* Textos secundários */
+html.dark-mode small,
+html.dark-mode .restaurant-category,
+html.dark-mode .restaurant-info,
+html.dark-mode .restaurant-address,
+html.dark-mode .section-subtitle,
+html.dark-mode .delivery-description,
+html.dark-mode .auth-footer {
+  color: var(--text-secondary);
+}
+
+/* Campos de pesquisa e formulários */
+html.dark-mode input,
+html.dark-mode textarea,
+html.dark-mode select,
+html.dark-mode .search-box,
+html.dark-mode .explore-search,
+html.dark-mode .favorites-search {
+  background-color: var(--input-bg);
+  color: var(--text-primary);
+  border-color: var(--border-color);
+}
+
+html.dark-mode input::placeholder,
+html.dark-mode textarea::placeholder {
+  color: #9ba4ad;
+  opacity: 1;
+}
+
+/* Botões secundários */
+html.dark-mode .back-button,
+html.dark-mode .delivery-back,
+html.dark-mode .orders-back,
+html.dark-mode .profile-back,
+html.dark-mode .clear-filters-button,
+html.dark-mode .sort-button,
+html.dark-mode .secondary-button,
+html.dark-mode .location-button,
+html.dark-mode .clear-search {
+  background-color: var(--surface-hover);
+  color: var(--text-primary);
+  border-color: var(--border-color);
+}
+
+/* Item ativo da navegação */
+html.dark-mode .nav-item {
+  color: var(--text-secondary);
+}
+
+html.dark-mode .nav-item.active {
+  color: #ff8a85;
+  background-color: var(--accent-soft);
+}
+
+/* Botões principais mantêm a identidade visual */
+html.dark-mode .primary-button,
+html.dark-mode .confirm-order-button,
+html.dark-mode .search-submit,
+html.dark-mode .favorites-explore-button {
+  color: #ffffff;
+}
+
+/* Divisórias e modais */
+html.dark-mode hr,
+html.dark-mode .separator,
+html.dark-mode .info-item,
+html.dark-mode .menu-section,
+html.dark-mode .reviews-section,
+html.dark-mode .orders-section,
+html.dark-mode .comparison-modal,
+html.dark-mode .comparison-modal-content,
+html.dark-mode .map-popup {
+  border-color: var(--border-color);
+}
+
+html.dark-mode .comparison-modal,
+html.dark-mode .comparison-modal-content,
+html.dark-mode .map-popup {
+  background-color: var(--bg-card);
+  color: var(--text-primary);
+}
+
+/* Destaque de teclado */
+html.dark-mode button:focus-visible,
+html.dark-mode a:focus-visible,
+html.dark-mode input:focus-visible,
+html.dark-mode textarea:focus-visible,
+html.dark-mode select:focus-visible {
+  outline-color: #f18f01;
+}
+
+/* =========================================================
+   APETITCH — CORREÇÃO DE CONTRASTE EM TODAS AS TELAS
+   Adicionar no FINAL de src/styles/theme.css
+   ========================================================= */
+
+html.dark-mode {
+  --bg-primary: #101214;
+  --bg-secondary: #171a1d;
+  --bg-card: #1d2125;
+
+  --text-primary: #f5f7f8;
+  --text-secondary: #b8c0c7;
+
+  --border-color: #343a40;
+  --input-bg: #20252a;
+  --surface-hover: #292f35;
+}
+
+/* 1. Fundo das páginas */
+html.dark-mode body,
+html.dark-mode #root,
+html.dark-mode .home,
+html.dark-mode .explore-page,
+html.dark-mode .favorites-page,
+html.dark-mode .orders-page,
+html.dark-mode .restaurant-page,
+html.dark-mode .delivery-page,
+html.dark-mode .profile-page,
+html.dark-mode .auth-page,
+html.dark-mode .welcome-page {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+/* 2. Corrige títulos, parágrafos, legendas e textos
+   que ainda possuem cores escuras definidas diretamente */
+html.dark-mode :is(
+  .home,
+  .explore-page,
+  .favorites-page,
+  .orders-page,
+  .restaurant-page,
+  .delivery-page,
+  .profile-page,
+  .auth-page,
+  .welcome-page
+) :is(
+  h1, h2, h3, h4, p, span, strong, small,
+  label, legend, li, dt, dd, th, td
+) {
+  color: var(--text-primary);
+}
+
+/* 3. Textos secundários: descrições, datas e informações */
+html.dark-mode :is(
+  .favorites-page,
+  .orders-page,
+  .explore-page,
+  .home,
+  .restaurant-page,
+  .delivery-page,
+  .profile-page,
+  .auth-page
+) :is(
+  .favorite-category,
+  .favorite-rating,
+  .favorite-wait,
+  .favorite-wait small,
+  .favorites-message,
+  .favorites-empty p,
+  .orders-heading p,
+  .orders-overview span,
+  .orders-section-header span,
+  .order-time,
+  .order-information p,
+  .order-detail-panel p,
+  .order-detail-total span,
+  .orders-empty,
+  .restaurant-category,
+  .restaurant-address,
+  .restaurant-description,
+  .section-subtitle,
+  .delivery-description,
+  .auth-footer,
+  .profile-version,
+  .setting-info
+) {
+  color: var(--text-secondary);
+}
+
+/* =========================================================
+   FAVORITOS
+   ========================================================= */
+
+/* Cartões, cabeçalho e estado sem favoritos */
+html.dark-mode .favorites-header,
+html.dark-mode .favorite-card,
+html.dark-mode .favorites-empty {
+  background: var(--bg-card);
+  color: var(--text-primary);
+  border-color: var(--border-color);
+}
+
+/* Textos do cartão de favorito */
+html.dark-mode .favorite-info h2,
+html.dark-mode .favorite-wait strong,
+html.dark-mode .favorite-arrow,
+html.dark-mode .favorites-title-section h1,
+html.dark-mode .favorites-empty h2 {
+  color: var(--text-primary);
+}
+
+/* Pesquisa */
+html.dark-mode .favorites-search,
+html.dark-mode .favorites-search input {
+  background: var(--input-bg);
+  color: var(--text-primary);
+  border-color: var(--border-color);
+}
+
+html.dark-mode .favorites-search input::placeholder {
+  color: #aab3bb;
+  opacity: 1;
+}
+
+/* Elementos com fundo claro no tema original */
+html.dark-mode .favorite-wait,
+html.dark-mode .favorites-title-icon,
+html.dark-mode .favorites-empty-icon {
+  background: var(--surface-hover);
+}
+
+/* Ícones e destaques de marca */
+html.dark-mode .favorites-brand,
+html.dark-mode .favorite-heart,
+html.dark-mode .favorites-settings,
+html.dark-mode .favorites-explore-button {
+  color: #ffffff;
+}
+
+html.dark-mode .favorite-heart,
+html.dark-mode .favorites-settings,
+html.dark-mode .favorites-explore-button {
+  background: #b0413e;
+}
+
+html.dark-mode .favorite-rating .star,
+html.dark-mode .star {
+  color: #ffc857;
+}
+
+html.dark-mode .favorite-clock,
+html.dark-mode .favorite-card:hover .favorite-arrow {
+  color: #ff8a85;
+}
+
+/* Botões neutros */
+html.dark-mode .favorites-location,
+html.dark-mode .favorites-clear {
+  background: var(--surface-hover);
+  color: var(--text-primary);
+  border-color: var(--border-color);
+}
+
+/* =========================================================
+   PEDIDOS / RESUMO DE PEDIDOS
+   ========================================================= */
+
+html.dark-mode .orders-topbar,
+html.dark-mode .orders-location,
+html.dark-mode .orders-overview > div,
+html.dark-mode .order-card,
+html.dark-mode .order-detail-panel,
+html.dark-mode .orders-empty {
+  background: var(--bg-card);
+  color: var(--text-primary);
+  border-color: var(--border-color);
+}
+
+/* Informações principais dos pedidos */
+html.dark-mode .orders-heading h1,
+html.dark-mode .orders-overview strong,
+html.dark-mode .order-information h3,
+html.dark-mode .order-detail-panel strong,
+html.dark-mode .order-detail-total > strong {
+  color: var(--text-primary);
+}
+
+/* Nome do pedido e valores destacados */
+html.dark-mode .order-title,
+html.dark-mode .orders-overview strong,
+html.dark-mode .order-detail-total > strong {
+  color: #ff8a85;
+}
+
+/* Botão de voltar */
+html.dark-mode .orders-back {
+  background: var(--surface-hover);
+  color: var(--text-primary);
+}
+
+/* Filtros não selecionados */
+html.dark-mode .orders-filter {
+  background: var(--bg-card);
+  color: var(--text-secondary);
+  border-color: var(--border-color);
+}
+
+/* Filtro selecionado */
+html.dark-mode .orders-filter.active {
+  background: #b0413e;
+  color: #ffffff;
+  border-color: #b0413e;
+}
+
+/* Botões de detalhes e remoção */
+html.dark-mode .order-details-button,
+html.dark-mode .order-remove {
+  background: var(--surface-hover);
+  color: var(--text-primary);
+  border-color: var(--border-color);
+}
+
+/* Etiquetas dentro do pedido */
+html.dark-mode .order-eyebrow span {
+  background: rgba(176, 65, 62, 0.2);
+  color: #ffaaa6;
+}
+
+/* Status preservam suas cores, com contraste adequado */
+html.dark-mode .order-status.preparing {
+  background: #493719;
+  color: #ffd27a;
+}
+
+html.dark-mode .order-status.completed {
+  background: #183d2b;
+  color: #8ce0a8;
+}
+
+/* Botões de exclusão */
+html.dark-mode .order-delete {
+  background: #492326;
+  color: #ffaaa6;
+}
+
+/* =========================================================
+   EXPLORAR E INÍCIO
+   ========================================================= */
+
+html.dark-mode .explore-header,
+html.dark-mode .restaurants-panel,
+html.dark-mode .filter-panel,
+html.dark-mode .advanced-filters,
+html.dark-mode .no-results,
+html.dark-mode .restaurant-card,
+html.dark-mode .quick-card,
+html.dark-mode .comparison-modal,
+html.dark-mode .comparison-modal-content,
+html.dark-mode .filter-options,
+html.dark-mode .sort-menu {
+  background: var(--bg-card);
+  color: var(--text-primary);
+  border-color: var(--border-color);
+}
+
+html.dark-mode .restaurant-name,
+html.dark-mode .restaurant-info,
+html.dark-mode .explore-title,
+html.dark-mode .section-title,
+html.dark-mode .location-text {
+  color: var(--text-primary);
+}
+
+html.dark-mode .search-box,
+html.dark-mode .explore-search,
+html.dark-mode .sort-control,
+html.dark-mode .custom-sort {
+  background: var(--input-bg);
+  color: var(--text-primary);
+  border-color: var(--border-color);
+}
+
+/* =========================================================
+   RESTAURANTE E ENTREGA
+   ========================================================= */
+
+html.dark-mode .restaurant-header,
+html.dark-mode .restaurant-info-card,
+html.dark-mode .detail-block,
+html.dark-mode .menu-item,
+html.dark-mode .feedback-card,
+html.dark-mode .cart-summary,
+html.dark-mode .cart-review,
+html.dark-mode .cart-review-content,
+html.dark-mode .delivery-header,
+html.dark-mode .delivery-summary-card,
+html.dark-mode .delivery-order-summary,
+html.dark-mode .delivery-not-found {
+  background: var(--bg-card);
+  color: var(--text-primary);
+  border-color: var(--border-color);
+}
+
+html.dark-mode .restaurant-page :is(
+  .detail-block,
+  .menu-item,
+  .feedback-card,
+  .cart-summary,
+  .cart-review
+) :is(p, span, strong, label, h2, h3, h4) {
+  color: var(--text-primary);
+}
+
+html.dark-mode .feedback-form input,
+html.dark-mode .feedback-form textarea,
+html.dark-mode .address-form input,
+html.dark-mode .address-form textarea,
+html.dark-mode .profile-edit-form input,
+html.dark-mode .profile-edit-form textarea {
+  background: var(--input-bg);
+  color: var(--text-primary);
+  border-color: var(--border-color);
+}
+
+/* =========================================================
+   PERFIL E FORMULÁRIOS
+   ========================================================= */
+
+html.dark-mode .profile-card,
+html.dark-mode .profile-section,
+html.dark-mode .profile-menu-item,
+html.dark-mode .profile-detail-panel,
+html.dark-mode .profile-stats,
+html.dark-mode .profile-empty-state,
+html.dark-mode .setting-item,
+html.dark-mode .support-content,
+html.dark-mode .saved-addresses,
+html.dark-mode .address-form,
+html.dark-mode .profile-edit-form {
+  background: var(--bg-card);
+  color: var(--text-primary);
+  border-color: var(--border-color);
+}
+
+/* Campos em qualquer formulário */
+html.dark-mode input,
+html.dark-mode textarea,
+html.dark-mode select {
+  background-color: var(--input-bg);
+  color: var(--text-primary);
+  border-color: var(--border-color);
+}
+
+html.dark-mode input::placeholder,
+html.dark-mode textarea::placeholder {
+  color: #aab3bb;
+  opacity: 1;
+}
+
+/* =========================================================
+   NAVEGAÇÃO E ACESSIBILIDADE
+   ========================================================= */
+
+html.dark-mode .bottom-navigation {
+  background: var(--bg-secondary);
+  border-color: var(--border-color);
+}
+
+html.dark-mode .nav-item {
+  color: var(--text-secondary);
+}
+
+html.dark-mode .nav-item.active {
+  color: #ff8a85;
+}
+
+html.dark-mode :is(
+  .back-button,
+  .delivery-back,
+  .profile-back,
+  .menu-access-button,
+  .clear-filters-button,
+  .clear-search,
+  .comparison-button,
+  .comparison-close,
+  .quantity-control button,
+  .detail-heading button
+) {
+  background: var(--surface-hover);
+  color: var(--text-primary);
+  border-color: var(--border-color);
+}
+
+html.dark-mode button:focus-visible,
+html.dark-mode a:focus-visible,
+html.dark-mode input:focus-visible,
+html.dark-mode textarea:focus-visible,
+html.dark-mode select:focus-visible {
+  outline: 3px solid #f18f01;
+  outline-offset: 2px;
+}
+
+
+/* =========================================================
+   TEMA ESCURO — CONTRASTE POR COMPONENTE
+   Esta regra deve ficar no final do theme.css.
+   ========================================================= */
+
+/* Textos em cartões escuros */
+html.dark-mode .restaurant-card,
+html.dark-mode .favorite-card,
+html.dark-mode .order-card,
+html.dark-mode .order-detail-panel,
+html.dark-mode .orders-overview,
+html.dark-mode .orders-overview > div,
+html.dark-mode .profile-card,
+html.dark-mode .profile-section,
+html.dark-mode .menu-item,
+html.dark-mode .detail-block,
+html.dark-mode .feedback-card,
+html.dark-mode .cart-summary,
+html.dark-mode .cart-review,
+html.dark-mode .delivery-summary-card,
+html.dark-mode .delivery-order-summary,
+html.dark-mode .quick-card,
+html.dark-mode .setting-item,
+html.dark-mode .support-content {
+  color: #f5f7f8;
+}
+
+/* Elementos claros dentro dos cartões:
+   o texto deve ser escuro para continuar legível. */
+html.dark-mode .restaurant-card [class*="badge"],
+html.dark-mode .restaurant-card [class*="tag"],
+html.dark-mode .restaurant-card [class*="rating"],
+html.dark-mode .restaurant-card [class*="wait"],
+html.dark-mode .favorite-card [class*="badge"],
+html.dark-mode .favorite-card [class*="tag"],
+html.dark-mode .favorite-card [class*="rating"],
+html.dark-mode .favorite-card [class*="wait"],
+html.dark-mode .order-card [class*="badge"],
+html.dark-mode .order-card [class*="status"] {
+  color: #242424;
+}
+
+/* Etiquetas de avaliação claras na tela Explorar/Início */
+html.dark-mode .rating,
+html.dark-mode .rating span,
+html.dark-mode .restaurant-rating,
+html.dark-mode .restaurant-rating span,
+html.dark-mode .favorite-rating,
+html.dark-mode .favorite-rating span {
+  color: #292929;
+}
+
+/* Pequenos indicadores com fundo creme ou branco */
+html.dark-mode .restaurant-card .rating,
+html.dark-mode .restaurant-card .wait,
+html.dark-mode .favorite-card .rating,
+html.dark-mode .favorite-card .wait {
+  background-color: #fff4e4;
+  color: #292929;
+}
+
+/* Mantém textos claros em botões escuros */
+html.dark-mode .restaurant-button,
+html.dark-mode .restaurant-button *,
+html.dark-mode .profile-button,
+html.dark-mode .profile-button *,
+html.dark-mode .favorites-explore-button,
+html.dark-mode .favorites-explore-button *,
+html.dark-mode .confirm-order-button,
+html.dark-mode .confirm-order-button * {
+  color: #ffffff;
+}
+
+/* Etiquetas de status: fundo e texto combinados */
+html.dark-mode .order-status.preparing {
+  background-color: #493719;
+  color: #ffe0a0;
+}
+
+html.dark-mode .order-status.completed {
+  background-color: #183d2b;
+  color: #a5edbd;
+}
+
+html.dark-mode .order-status,
+html.dark-mode .order-status * {
+  color: inherit;
+}
+
+/* Campos de pesquisa escuros */
+html.dark-mode .search-box,
+html.dark-mode .search-box input,
+html.dark-mode .favorites-search,
+html.dark-mode .favorites-search input,
+html.dark-mode .explore-search,
+html.dark-mode .explore-search input {
+  background-color: #20252a;
+  color: #f5f7f8;
+}
+
+html.dark-mode .search-box input::placeholder,
+html.dark-mode .favorites-search input::placeholder,
+html.dark-mode .explore-search input::placeholder {
+  color: #aeb6bd;
+  opacity: 1;
+}
+
+
+
+/* HOME — força texto preto nos cards laranjas no tema escuro */
+html.dark-mode .home [class*="quick"],
+html.dark-mode .home [class*="quick"] *,
+html.dark-mode .home [class*="feature"],
+html.dark-mode .home [class*="feature"] *,
+html.dark-mode .home [class*="highlight"],
+html.dark-mode .home [class*="highlight"] *,
+html.dark-mode .home [class*="action"],
+html.dark-mode .home [class*="action"] * {
+  color: #000000 !important;
 }

@@ -1720,3 +1720,72 @@ main {
     text-align: left;
   }
 }
+
+
+/* MODO ESCURO — INÍCIO */
+html.dark-mode .home {
+  background: #121212;
+  color: #ffffff;
+}
+
+html.dark-mode .home-header {
+  background: rgba(27, 27, 27, 0.96);
+  border-bottom-color: #383838;
+}
+
+html.dark-mode .restaurant-card {
+  background: #222222;
+  border-color: #383838;
+}
+
+/* Nomes dos restaurantes em branco */
+html.dark-mode .restaurant-name-row h3 {
+  color: #ffffff;
+}
+
+/* Informações complementares */
+html.dark-mode .restaurant-category {
+  color: #cccccc;
+}
+
+html.dark-mode .restaurant-info {
+  color: #dddddd;
+}
+
+html.dark-mode .restaurant-info span {
+  color: #dddddd;
+}
+
+html.dark-mode .restaurant-content {
+  color: #ffffff;
+}
+
+html.dark-mode .section-title h2,
+html.dark-mode .home main h2,
+html.dark-mode .quick-card strong {
+  color: #ffffff;
+}
+
+html.dark-mode .quick-card {
+  background: #222222;
+  border-color: #383838;
+  color: #ffffff;
+}
+
+html.dark-mode .quick-card small {
+  color: #cccccc;
+}
+
+/* Campos de pesquisa */
+html.dark-mode .search-box {
+  background: #292929;
+  color: #ffffff;
+}
+
+html.dark-mode .search-box input {
+  color: #ffffff;
+}
+
+html.dark-mode .search-box input::placeholder {
+  color: #aaaaaa;
+}

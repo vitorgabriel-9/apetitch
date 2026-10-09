@@ -982,3 +982,75 @@
     height: 24px;
   }
 }
+
+
+/* MODO ESCURO — FAVORITOS */
+html.dark-mode .favorites-page {
+  --favorites-background: #121212;
+  --favorites-black: #ffffff;
+  --favorites-gray: #cccccc;
+  --favorites-light-gray: #383838;
+
+  background: var(--favorites-background);
+  color: var(--favorites-black);
+}
+
+html.dark-mode .favorites-header {
+  background: rgba(27, 27, 27, 0.96);
+  border-bottom-color: #383838;
+}
+
+html.dark-mode .favorites-header-top,
+html.dark-mode .favorites-search-area {
+  color: #ffffff;
+}
+
+html.dark-mode .favorites-search {
+  background: #292929;
+  border-color: #444444;
+}
+
+html.dark-mode .favorites-search input {
+  background: transparent;
+  color: #ffffff;
+}
+
+html.dark-mode .favorites-search input::placeholder {
+  color: #aaaaaa;
+}
+
+html.dark-mode .favorite-card {
+  background: #222222;
+  border-color: #383838;
+  color: #ffffff;
+}
+
+html.dark-mode .favorite-card h2,
+html.dark-mode .favorite-card h3,
+html.dark-mode .favorite-card p,
+html.dark-mode .favorite-card span,
+html.dark-mode .favorites-content h1,
+html.dark-mode .favorites-content h2,
+html.dark-mode .favorites-content h3,
+html.dark-mode .favorites-content p {
+  color: #ffffff;
+}
+
+html.dark-mode .favorites-page input,
+html.dark-mode .favorites-page select {
+  background: #292929;
+  color: #ffffff;
+  border-color: #444444;
+}
+
+html.dark-mode .favorites-location {
+  background: #292929;
+  border-color: #444444;
+  color: #ffffff;
+}
+
+html.dark-mode .favorites-empty,
+html.dark-mode .favorites-empty-state {
+  background: #222222;
+  color: #ffffff;
+}
