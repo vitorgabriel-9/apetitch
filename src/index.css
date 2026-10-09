@@ -1,3 +1,4 @@
+
 * {
   box-sizing: border-box;
 }
@@ -19,15 +20,17 @@ body {
     "Segoe UI",
     sans-serif;
 
-  background: #f7f7f5;
-  color: #000505;
+  background: var(--bg-primary);
+  color: var(--text-primary);
 
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
 
 button,
-input {
+input,
+textarea,
+select {
   font: inherit;
 }
 
@@ -38,299 +41,16 @@ a {
 button,
 a,
 input,
-textarea {
+textarea,
+select {
   -webkit-tap-highlight-color: transparent;
 }
 
 button:focus-visible,
 a:focus-visible,
 input:focus-visible,
-textarea:focus-visible {
-  outline: 3px solid rgba(241, 143, 1, 0.7);
+textarea:focus-visible,
+select:focus-visible {
+  outline: 3px solid var(--focus-ring);
   outline-offset: 3px;
-}
-
-
-/* ==================================================
-   TEMA ESCURO GLOBAL — TELAS SECUNDÁRIAS DO APETITCH
-   A classe dark-mode é controlada pela aba Perfil.
-   ================================================== */
-
-/* ---------- 1. DETALHES DO RESTAURANTE ---------- */
-
-html.dark-mode .restaurant-page {
-  background: #121212;
-  color: #ffffff;
-}
-
-html.dark-mode .restaurant-header {
-  background: rgba(27, 27, 27, 0.96);
-  border-bottom-color: #383838;
-}
-
-html.dark-mode .back-button,
-html.dark-mode .restaurant-favorite {
-  background: #292929;
-  border-color: #444444;
-  color: #ffffff;
-}
-
-html.dark-mode .restaurant-info-card,
-html.dark-mode .detail-block,
-html.dark-mode .menu-item,
-html.dark-mode .feedback-card {
-  background: #222222;
-  border-color: #383838;
-  color: #ffffff;
-}
-
-html.dark-mode .info-item {
-  border-right-color: #383838;
-}
-
-html.dark-mode .info-item strong,
-html.dark-mode .restaurant-description h2,
-html.dark-mode .menu-header h2,
-html.dark-mode .comparison-section h2,
-html.dark-mode .reviews-header h2,
-html.dark-mode .menu-item-content h3,
-html.dark-mode .menu-item-content strong,
-html.dark-mode .restaurant-address strong,
-html.dark-mode .detail-heading,
-html.dark-mode .detail-block strong,
-html.dark-mode .feedback-card strong,
-html.dark-mode .cart-review-content h2,
-html.dark-mode .cart-summary strong {
-  color: #ffffff;
-}
-
-html.dark-mode .restaurant-description p,
-html.dark-mode .info-item small,
-html.dark-mode .restaurant-address,
-html.dark-mode .detail-block,
-html.dark-mode .detail-block p,
-html.dark-mode .detail-block small,
-html.dark-mode .menu-item-content p,
-html.dark-mode .feedback-card p,
-html.dark-mode .feedback-card span,
-html.dark-mode .reviews-summary span,
-html.dark-mode .comparison-section p,
-html.dark-mode .cart-summary span {
-  color: #cccccc;
-}
-
-html.dark-mode .restaurant-address {
-  background: #292929;
-}
-
-html.dark-mode .detail-tags span,
-html.dark-mode .detail-links a {
-  background: #292929;
-  border-color: #444444;
-  color: #ffffff;
-}
-
-html.dark-mode .detail-heading button,
-html.dark-mode .quantity-control button,
-html.dark-mode .rating-picker button {
-  background: #333333;
-  border-color: #484848;
-  color: #ffffff;
-}
-
-html.dark-mode .menu-access-button {
-  background: #292929;
-  color: #ffffff;
-  border-color: #444444;
-}
-
-html.dark-mode .feedback-form label {
-  color: #ffffff;
-}
-
-html.dark-mode .feedback-form textarea,
-html.dark-mode .cart-review,
-html.dark-mode .cart-review-content {
-  background: #222222;
-  border-color: #444444;
-  color: #ffffff;
-}
-
-html.dark-mode .feedback-form textarea::placeholder {
-  color: #aaaaaa;
-}
-
-html.dark-mode .cart-review-close {
-  color: #ffffff;
-}
-
-html.dark-mode .cart-review-items div,
-html.dark-mode .cart-review-total {
-  border-color: #444444;
-  color: #ffffff;
-}
-
-html.dark-mode .restaurant-not-found {
-  background: #121212;
-  color: #ffffff;
-}
-
-html.dark-mode .restaurant-not-found h1,
-html.dark-mode .restaurant-not-found p {
-  color: #ffffff;
-}
-
-/* ---------- 2. ACOMPANHAMENTO DA ENTREGA ---------- */
-
-html.dark-mode .delivery-page {
-  background:
-    radial-gradient(
-      circle at 90% 10%,
-      rgba(241, 143, 1, 0.08),
-      transparent 23rem
-    ),
-    #121212;
-  color: #ffffff;
-}
-
-html.dark-mode .delivery-header {
-  background: rgba(27, 27, 27, 0.96);
-  border-bottom-color: #383838;
-}
-
-html.dark-mode .delivery-back {
-  background: #333333;
-  color: #ffffff;
-}
-
-html.dark-mode .delivery-content h1,
-html.dark-mode .delivery-content h2 {
-  color: #ffffff;
-}
-
-html.dark-mode .delivery-description {
-  color: #cccccc;
-}
-
-html.dark-mode .delivery-summary-card,
-html.dark-mode .delivery-order-summary {
-  background: #222222;
-  border-color: #383838;
-  color: #ffffff;
-}
-
-html.dark-mode .delivery-summary-card span,
-html.dark-mode .delivery-notifications small,
-html.dark-mode .delivery-not-found p {
-  color: #cccccc;
-}
-
-html.dark-mode .delivery-summary-card strong,
-html.dark-mode .delivery-order-summary strong,
-html.dark-mode .delivery-notifications span {
-  color: #ffffff;
-}
-
-html.dark-mode .delivery-icon {
-  background: #382b1a;
-}
-
-html.dark-mode .delivery-notifications {
-  color: #ffffff;
-}
-
-html.dark-mode .delivery-notifications input {
-  accent-color: #f18f01;
-}
-
-html.dark-mode .delivery-menu-button {
-  background: #292929;
-  border: 1px solid #444444;
-  color: #ffffff;
-}
-
-html.dark-mode .delivery-not-found {
-  background: #121212;
-  color: #ffffff;
-}
-
-html.dark-mode .delivery-not-found h1 {
-  color: #ffffff;
-}
-
-/* ---------- 3. LOGIN E CADASTRO ---------- */
-
-html.dark-mode .auth-page {
-  background: #121212;
-  color: #ffffff;
-}
-
-html.dark-mode .auth-card {
-  background: #222222;
-  border-color: #383838;
-  color: #ffffff;
-}
-
-html.dark-mode .auth-header h1,
-html.dark-mode .auth-header p,
-html.dark-mode .auth-footer span {
-  color: #ffffff;
-}
-
-html.dark-mode .auth-form label {
-  color: #ffffff;
-}
-
-html.dark-mode .auth-form input,
-html.dark-mode .auth-form select,
-html.dark-mode .auth-form textarea {
-  background: #292929;
-  border-color: #444444;
-  color: #ffffff;
-}
-
-html.dark-mode .auth-form input::placeholder {
-  color: #aaaaaa;
-}
-
-html.dark-mode .auth-footer a {
-  color: #ff7772;
-}
-
-/* ---------- 4. TELA DE BOAS-VINDAS ---------- */
-
-html.dark-mode .welcome-page {
-  background: #121212;
-  color: #ffffff;
-}
-
-html.dark-mode .welcome-overlay {
-  background: rgba(0, 0, 0, 0.72);
-}
-
-html.dark-mode .welcome-text h1,
-html.dark-mode .welcome-text p {
-  color: #ffffff;
-}
-
-/* O botão principal mantém seu destaque visual.
-   O botão secundário acompanha o fundo escuro. */
-
-html.dark-mode .secondary-button {
-  background: #292929;
-  border-color: #555555;
-  color: #ffffff;
-}
-
-/* ---------- 5. CORES GERAIS DE FORMULÁRIOS ---------- */
-
-html.dark-mode input,
-html.dark-mode textarea,
-html.dark-mode select {
-  color-scheme: dark;
-}
-
-html.dark-mode input::placeholder,
-html.dark-mode textarea::placeholder {
-  color: #aaaaaa;
 }

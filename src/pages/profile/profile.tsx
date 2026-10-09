@@ -14,12 +14,7 @@ import {
 } from "../../services/appState";
 import type { ProfileAddress } from "../../services/appState";
 import "./profile.css";
-import { logout } from "../../services/authService";
 
-function handleLogout() {
-	logout();
-	navigate("/login");
-}
 
 function getProfileFeedbacks() {
 	return Object.entries(getAllRestaurantFeedbacks()).flatMap(
@@ -575,7 +570,7 @@ export function Profile() {
 
 				<button
 					className="nav-item"
-					onClick={() => navigate("/home?favoritos=1")}
+					onClick={() => navigate("/favoritos")}
 				>
 					<span>♡</span>
 					<small>Favoritos</small>

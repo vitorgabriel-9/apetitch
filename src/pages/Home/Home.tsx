@@ -490,7 +490,7 @@ export function Home() {
 
 				<button
 					className="nav-item"
-					onClick={() => navigate("/home?favoritos=1")}
+					onClick={() => navigate("/favoritos")}
 				>
 					<span>♡</span>
 					<small>Favoritos</small>

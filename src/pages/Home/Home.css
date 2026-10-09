@@ -1789,3 +1789,10 @@ html.dark-mode .search-box input {
 html.dark-mode .search-box input::placeholder {
   color: #aaaaaa;
 }
+
+
+/* Categorias dos restaurantes na Home — tema escuro */
+html.dark-mode .restaurant-category {
+  color: #000000 !important;
+
+}
