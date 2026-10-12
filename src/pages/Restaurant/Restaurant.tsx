@@ -14,7 +14,10 @@ import {
 
 import { getRestaurantById } from "../../services/restaurantService";
 
-import type { Restaurant as RestaurantType } from "../../types/restaurant";
+import type {
+	Feedback,
+	Restaurant as RestaurantType,
+} from "../../types/restaurant";
 
 import "./Restaurant.css";
 
