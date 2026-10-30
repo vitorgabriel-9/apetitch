@@ -1,11 +1,10 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import { Input } from "../../components/Input/Input";
 import { Button } from "../../components/Button/Button";
+import { AuthLayout } from "../Auth/AuthLayout";
 import { login } from "../../services/authService";
-
-import "./Login.css";
 
 export function Login() {
   const navigate = useNavigate();
@@ -48,50 +47,36 @@ export function Login() {
   }
 
   return (
-    <main className="auth-page">
-      <section className="auth-card">
-        <div className="auth-header">
-          <div className="logo">apetitch</div>
+    <AuthLayout
+      title="Bem-vindo de volta!"
+      subtitle="Entre na sua conta para descobrir novos lugares para comer."
+      footerText="Ainda não possui uma conta?"
+      footerLinkTo="/cadastro"
+      footerLinkLabel="Criar conta"
+    >
+      <form onSubmit={handleSubmit} className="auth-form">
+        <Input
+          label="E-mail"
+          type="email"
+          placeholder="seu@email.com"
+          value={email}
+          onChange={setEmail}
+        />
 
-          <h1>Bem-vindo de volta!</h1>
+        <Input
+          label="Senha"
+          type="password"
+          placeholder="Digite sua senha"
+          value={password}
+          onChange={setPassword}
+        />
 
-          <p>
-            Entre na sua conta para descobrir novos lugares para comer.
-          </p>
-        </div>
+        {error && <p className="form-error">{error}</p>}
 
-        <form onSubmit={handleSubmit} className="auth-form">
-          <Input
-            label="E-mail"
-            type="email"
-            placeholder="seu@email.com"
-            value={email}
-            onChange={setEmail}
-          />
-
-          <Input
-            label="Senha"
-            type="password"
-            placeholder="Digite sua senha"
-            value={password}
-            onChange={setPassword}
-          />
-
-          {error && <p className="form-error">{error}</p>}
-
-          <Button type="submit" disabled={loading}>
-            {loading ? "Entrando..." : "Entrar"}
-          </Button>
-        </form>
-
-        <div className="auth-footer">
-          <span>Ainda não possui uma conta?</span>
-
-          <Link to="/cadastro">
-            Criar conta
-          </Link>
-        </div>
-      </section>
-    </main>
+        <Button type="submit" disabled={loading}>
+          {loading ? "Entrando..." : "Entrar"}
+        </Button>
+      </form>
+    </AuthLayout>
   );
 }

@@ -1,11 +1,10 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import { Input } from "../../components/Input/Input";
 import { Button } from "../../components/Button/Button";
+import { AuthLayout } from "../Auth/AuthLayout";
 import { register } from "../../services/authService";
-
-import "./Register.css";
 
 export function Register() {
   const navigate = useNavigate();
@@ -57,65 +56,51 @@ export function Register() {
   }
 
   return (
-    <main className="auth-page">
-      <section className="auth-card">
-        <div className="auth-header">
-          <div className="logo">apetitch</div>
+    <AuthLayout
+      title="Crie sua conta"
+      subtitle="Faça parte do apetitch e descubra novos restaurantes."
+      footerText="Já possui uma conta?"
+      footerLinkTo="/login"
+      footerLinkLabel="Entrar"
+    >
+      <form onSubmit={handleSubmit} className="auth-form">
+        <Input
+          label="Nome"
+          placeholder="Seu nome"
+          value={name}
+          onChange={setName}
+        />
 
-          <h1>Crie sua conta</h1>
+        <Input
+          label="E-mail"
+          type="email"
+          placeholder="seu@email.com"
+          value={email}
+          onChange={setEmail}
+        />
 
-          <p>
-            Faça parte do apetitch e descubra novos restaurantes.
-          </p>
-        </div>
+        <Input
+          label="Senha"
+          type="password"
+          placeholder="Crie uma senha"
+          value={password}
+          onChange={setPassword}
+        />
 
-        <form onSubmit={handleSubmit} className="auth-form">
-          <Input
-            label="Nome"
-            placeholder="Seu nome"
-            value={name}
-            onChange={setName}
-          />
+        <Input
+          label="Confirmar senha"
+          type="password"
+          placeholder="Digite a senha novamente"
+          value={confirmPassword}
+          onChange={setConfirmPassword}
+        />
 
-          <Input
-            label="E-mail"
-            type="email"
-            placeholder="seu@email.com"
-            value={email}
-            onChange={setEmail}
-          />
+        {error && <p className="form-error">{error}</p>}
 
-          <Input
-            label="Senha"
-            type="password"
-            placeholder="Crie uma senha"
-            value={password}
-            onChange={setPassword}
-          />
-
-          <Input
-            label="Confirmar senha"
-            type="password"
-            placeholder="Digite a senha novamente"
-            value={confirmPassword}
-            onChange={setConfirmPassword}
-          />
-
-          {error && <p className="form-error">{error}</p>}
-
-          <Button type="submit" disabled={loading}>
-            {loading ? "Criando conta..." : "Criar conta"}
-          </Button>
-        </form>
-
-        <div className="auth-footer">
-          <span>Já possui uma conta?</span>
-
-          <Link to="/login">
-            Entrar
-          </Link>
-        </div>
-      </section>
-    </main>
+        <Button type="submit" disabled={loading}>
+          {loading ? "Criando conta..." : "Criar conta"}
+        </Button>
+      </form>
+    </AuthLayout>
   );
 }

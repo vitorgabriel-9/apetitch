@@ -1233,8 +1233,6 @@ main {
   margin: 0;
   padding: 0 30px;
 
-  box-sizing: border-box;
-
   background: rgba(255, 255, 255, 0.97);
 
   backdrop-filter: blur(15px);
@@ -1744,20 +1742,9 @@ html.dark-mode .restaurant-name-row h3 {
 }
 
 /* Informações complementares */
-html.dark-mode .restaurant-category {
-  color: #cccccc;
-}
 
 html.dark-mode .restaurant-info {
   color: #dddddd;
-}
-
-html.dark-mode .restaurant-info span {
-  color: #dddddd;
-}
-
-html.dark-mode .restaurant-content {
-  color: #ffffff;
 }
 
 html.dark-mode .section-title h2,
@@ -1793,6 +1780,5 @@ html.dark-mode .search-box input::placeholder {
 
 /* Categorias dos restaurantes na Home — tema escuro */
 html.dark-mode .restaurant-category {
-  color: #000000 !important;
-
+  color: #222 !important;
 }
