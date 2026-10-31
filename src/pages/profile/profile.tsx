@@ -6,15 +6,13 @@ import {
 	getCurrentUser,
 	getFavoriteRestaurantIds,
 	getProfileAddresses,
-	
 	removeRestaurantFeedback,
 	saveCurrentUser,
 	saveProfileAddresses,
-	
 } from "../../services/appState";
 import type { ProfileAddress } from "../../services/appState";
 import "./profile.css";
-
+import { getOrders } from "../../services/orderService";
 
 function getProfileFeedbacks() {
 	return Object.entries(getAllRestaurantFeedbacks()).flatMap(
@@ -30,6 +28,18 @@ function getProfileFeedbacks() {
 export function Profile() {
 	const navigate = useNavigate();
 
+	const [orderCount, setOrderCount] = useState<number | null>(null);
+
+	useEffect(() => {
+		let active = true;
+		getOrders()
+			.then((orders) => active && setOrderCount(orders.length))
+			.catch(() => active && setOrderCount(0));
+		return () => {
+			active = false;
+		};
+	}, []);
+
 	const [darkMode, setDarkMode] = useState(() => {
 		return localStorage.getItem("theme") === "dark";
 	});
@@ -42,7 +52,7 @@ export function Profile() {
 	const [isEditing, setIsEditing] = useState(false);
 	const [name, setName] = useState(user?.name ?? "Usuário Apetitch");
 	const [email, setEmail] = useState(user?.email ?? "usuario@email.com");
-	
+
 	const [activePanel, setActivePanel] = useState<
 		"reviews" | "addresses" | "settings" | "support" | null
 	>(null);
@@ -57,8 +67,6 @@ export function Profile() {
 	function togglePanel(panel: NonNullable<typeof activePanel>) {
 		setActivePanel((current) => (current === panel ? null : panel));
 	}
-
-	
 
 	function addAddress(event: React.FormEvent) {
 		event.preventDefault();
@@ -200,7 +208,7 @@ export function Profile() {
 				{/* ESTATÍSTICAS */}
 				<section className="profile-stats">
 					<div className="stat">
-						<strong>12</strong>
+						<strong>{orderCount ?? "–"}</strong>
 						<span>Pedidos</span>
 					</div>
 
@@ -236,7 +244,7 @@ export function Profile() {
 
 						<button
 							className="profile-menu-item"
-							onClick={() => navigate("/home?favoritos=1")}
+							onClick={() => navigate("/favoritos")}
 						>
 							<div className="menu-icon red">♡</div>
 
@@ -421,8 +429,6 @@ export function Profile() {
 					<span className="profile-section-label">Preferências</span>
 
 					<div className="profile-menu">
-						
-
 						<button
 							className="profile-menu-item"
 							onClick={() => togglePanel("settings")}
@@ -546,7 +552,13 @@ export function Profile() {
 				)}
 
 				{/* LOGOUT */}
-				<button onClick={handleLogout}>Sair</button>
+				<button
+					type="button"
+					className="logout-button"
+					onClick={handleLogout}
+				>
+					Sair da conta
+				</button>
 
 				<p className="profile-version">Apetitch • versão 1.0.0</p>
 			</main>
@@ -568,10 +580,7 @@ export function Profile() {
 					<small>Pedidos</small>
 				</button>
 
-				<button
-					className="nav-item"
-					onClick={() => navigate("/favoritos")}
-				>
+				<button className="nav-item" onClick={() => navigate("/favoritos")}>
 					<span>♡</span>
 					<small>Favoritos</small>
 				</button>
