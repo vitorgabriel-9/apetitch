@@ -1,215 +1,252 @@
+/* ==========================================================================
+   Welcome
+   Tela sempre escura (foto + gradiente), independente do tema claro/escuro.
+   ========================================================================== */
+
 .welcome-page {
+  --welcome-bg: #000505;
+  --welcome-text: #ffffff;
+  --welcome-text-soft: rgba(255, 255, 255, 0.88);
+  --welcome-accent: #f18f01;
+  --welcome-action: #b0413e;
+  --welcome-action-hover: #963633;
+
   position: relative;
+  isolation: isolate;
+
+  display: flex;
+  justify-content: center;
+
+  /* Anula o `main { max-width: 1240px; margin: auto }` global (Home.css),
+     que deixava faixas brancas nas laterais */
+  width: 100%;
+  max-width: none;
+  margin: 0;
 
   min-height: 100vh;
   min-height: 100dvh;
-
-  display: flex;
-  flex-direction: column;
 
   overflow: hidden;
 
-  background: #000505;
-  color: #ffffff;
+  background: var(--welcome-bg);
+  color: var(--welcome-text);
 }
 
-.welcome-background {
+/* Foto de fundo */
+.welcome-page::before {
+  content: "";
+
   position: absolute;
   inset: 0;
+  z-index: -2;
 
-  background-image: url("../../assets/food-background.jpg");
-  background-size: cover;
-  background-position: center bottom;
-
-  z-index: 0;
+  background: url("../../assets/food-background.jpg") center bottom / cover
+    no-repeat;
 }
 
-.welcome-overlay {
+/* Gradiente: escuro onde há texto (topo) e onde ficam os botões (base),
+   deixando a foto aparecer no meio */
+.welcome-page::after {
+  content: "";
+
   position: absolute;
   inset: 0;
+  z-index: -1;
 
-  background:
-    linear-gradient(
-      to bottom,
-      rgba(0, 5, 5, 0.95) 0%,
-      rgba(0, 5, 5, 0.75) 28%,
-      rgba(0, 5, 5, 0.35) 52%,
-      rgba(0, 5, 5, 0.8) 100%
-    );
-
-  z-index: 1;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 5, 5, 0.92) 0%,
+    rgba(0, 5, 5, 0.82) 38%,
+    rgba(0, 5, 5, 0.3) 60%,
+    rgba(0, 5, 5, 0.6) 82%,
+    rgba(0, 5, 5, 0.92) 100%
+  );
 }
+
+/* ---------- Estrutura ---------- */
 
 .welcome-content {
-  position: relative;
-  z-index: 2;
-
-  min-height: 100vh;
-  min-height: 100dvh;
+  width: 100%;
 
   display: flex;
   flex-direction: column;
-
   align-items: center;
 
-  padding: 56px 28px 40px;
-
-  box-sizing: border-box;
+  padding:
+    calc(clamp(40px, 8vh, 64px) + env(safe-area-inset-top))
+    clamp(16px, 4vw, 40px)
+    calc(clamp(32px, 6vh, 56px) + env(safe-area-inset-bottom));
 }
+
+/* ---------- Logo ---------- */
 
 .welcome-logo {
   position: relative;
 
-  font-size: 42px;
+  font-size: clamp(36px, 9vw, 56px);
   font-weight: 900;
-
-  letter-spacing: -2.5px;
   line-height: 1;
-
-  color: #ffffff;
+  letter-spacing: -0.06em;
 }
 
-.welcome-logo span {
+/* Sorriso laranja: medidas em em, escalam junto com o logo */
+.welcome-logo-swoosh {
   position: absolute;
-
-  width: 42px;
-  height: 18px;
-
   left: 50%;
-  bottom: -21px;
+  bottom: -0.5em;
+
+  width: 1em;
+  height: 0.43em;
 
   transform: translateX(-50%);
 
-  border-bottom: 7px solid #f18f01;
+  border-bottom: 0.17em solid var(--welcome-accent);
   border-radius: 50%;
 }
 
-.welcome-text {
-  width: 100%;
-  max-width: 540px;
+/* ---------- Texto ---------- */
 
-  margin-top: 76px;
+.welcome-hero {
+  width: 100%;
+  max-width: 760px;
+
+  margin-top: clamp(56px, 10vh, 96px);
 
   text-align: center;
 }
 
-.welcome-text h1 {
+.welcome-title {
   margin: 0;
 
-  font-size: clamp(30px, 5vw, 48px);
+  font-size: clamp(32px, 8vw, 64px);
   font-weight: 400;
-
   line-height: 1.2;
-  letter-spacing: -1px;
+  letter-spacing: -0.03em;
+
+  text-wrap: balance;
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.5);
 }
 
-.welcome-text h1 strong {
-  color: #f18f01;
+.welcome-title strong {
+  color: var(--welcome-accent);
   font-weight: 800;
 }
 
-.welcome-text p {
-  margin: 22px 0 0;
+.welcome-description {
+  max-width: 32em;
 
-  font-size: clamp(15px, 2vw, 20px);
-  line-height: 1.5;
+  margin: 20px auto 0;
 
-  color: rgba(255, 255, 255, 0.82);
+  font-size: clamp(17px, 4.4vw, 22px);
+  line-height: 1.55;
+
+  color: var(--welcome-text-soft);
+
+  text-wrap: pretty;
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.6);
 }
+
+/* ---------- Ações ---------- */
 
 .welcome-actions {
   width: 100%;
-  max-width: 560px;
+  max-width: 520px;
 
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 16px;
 
   margin-top: auto;
+  padding-top: 48px;
 }
 
-.primary-button,
-.secondary-button {
-  width: 100%;
+.primary-button, .secondary-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-  padding: 19px 24px;
+  min-height: 64px;
+  padding: 18px 28px;
 
-  border-radius: 40px;
+  border: 2px solid transparent;
+  border-radius: 999px;
 
-  font-size: 18px;
+  font-size: clamp(18px, 4.6vw, 20px);
   font-weight: 700;
+  text-decoration: none;
 
   cursor: pointer;
 
   transition:
-    transform 0.2s,
-    opacity 0.2s;
+    background-color 0.2s,
+    transform 0.2s;
 }
 
-.primary-button {
-  display: flex;
-
-  align-items: center;
-  justify-content: center;
-  gap: 28px;
-
-  border: none;
-
-  background: #b0413e;
-  color: #ffffff;
+.primary-button:hover, .secondary-button:hover {
+  background-color: #752926;
+  color: #fff;
 }
 
-.primary-button span {
-  font-size: 30px;
+.welcome-button-arrow {
+  font-size: 28px;
   font-weight: 400;
-  line-height: 0;
+  line-height: 1;
+
+  transition: transform 0.2s;
 }
 
-.secondary-button {
-  border: 2px solid #ffffff;
+@media (hover: hover) {
+  .welcome-button-primary:hover {
+    background: var(--welcome-action-hover);
+  }
 
-  background: transparent;
-  color: #ffffff;
+  .welcome-button-primary:hover .welcome-button-arrow {
+    transform: translateX(4px);
+  }
+
+  .welcome-button-secondary:hover {
+    background: rgba(255, 255, 255, 0.14);
+  }
 }
 
-.primary-button:hover,
-.secondary-button:hover {
-  opacity: 0.9;
+@media (min-width: 768px) {
+  .welcome-button {
+    min-height: 68px;
+  }
 }
 
-.primary-button:active,
-.secondary-button:active {
-  transform: scale(0.98);
+/* ---------- Entrada suave ---------- */
+
+@keyframes welcome-rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
-@media (max-width: 600px) {
-  .welcome-content {
-    padding: 40px 24px 28px;
-  }
+.welcome-header,
+.welcome-hero,
+.welcome-actions {
+  animation: welcome-rise 0.6s ease-out both;
+}
 
-  .welcome-logo {
-    font-size: 32px;
-  }
+.welcome-hero {
+  animation-delay: 0.1s;
+}
 
-  .welcome-text {
-    margin-top: 60px;
-  }
+.welcome-actions {
+  animation-delay: 0.2s;
+}
 
-  .welcome-text h1 {
-    font-size: 30px;
-  }
-
-  .welcome-text p {
-    font-size: 16px;
-  }
-
+@media (prefers-reduced-motion: reduce) {
+  .welcome-header,
+  .welcome-hero,
   .welcome-actions {
-    gap: 14px;
-  }
-
-  .primary-button,
-  .secondary-button {
-    padding: 16px;
-    font-size: 16px;
+    animation: none;
   }
 }

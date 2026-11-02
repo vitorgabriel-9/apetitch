@@ -26,14 +26,6 @@
   background: var(--favorites-background);
 
   color: var(--favorites-black);
-
-  font-family:
-    Inter,
-    "Segoe UI",
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    sans-serif;
 }
 
 

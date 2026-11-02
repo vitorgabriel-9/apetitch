@@ -1,4 +1,3 @@
-
 /* Apetitch — sistema centralizado de cores e temas */
 
 :root {
@@ -68,7 +67,7 @@ body {
 html.dark-mode :is(
   body, #root, .home, .explore-page, .favorites-page,
   .orders-page, .profile-page, .restaurant-page,
-  .delivery-page, .auth-page, .welcome-page
+  .delivery-page, .auth-page
 ) {
   background-color: var(--bg-primary);
   color: var(--text-primary);
@@ -155,7 +154,7 @@ html.dark-mode :is(input, textarea, select)::placeholder {
 /* Botões secundários e controles neutros */
 html.dark-mode :is(
   .back-button, .delivery-back, .orders-back, .profile-back,
-  .clear-filters-button, .sort-button, .secondary-button,
+  .clear-filters-button, .sort-button,
   .location-button, .clear-search, .favorites-location,
   .favorites-clear, .order-details-button, .order-remove,
   .menu-access-button, .comparison-button, .comparison-close,
@@ -169,7 +168,7 @@ html.dark-mode :is(
 
 /* Botões principais mantêm o texto branco */
 html.dark-mode :is(
-  .primary-button, .confirm-order-button, .search-submit,
+  .confirm-order-button, .search-submit,
   .favorites-explore-button, .restaurant-button, .profile-button
 ) {
   color: #ffffff;
@@ -265,16 +264,8 @@ html.dark-mode :is(
   color: var(--text-primary);
 }
 
-html.dark-mode .welcome-overlay {
-  background: rgba(0, 0, 0, 0.68);
-}
-
-html.dark-mode .welcome-text :is(h1, p) {
-  color: #ffffff;
-}
-
 /* Foco acessível ao navegar pelo teclado */
-html :is(button, a, input, textarea, select):focus-visible {
+html :is(button, a, select):focus-visible {
   outline: 3px solid var(--focus-ring);
   outline-offset: 2px;
 }
@@ -418,4 +409,9 @@ html.dark-mode .favorite-wait {
 /* Texto e ícones dentro do card */
 html.dark-mode .favorite-wait * {
   color: #ffffff;
+}
+
+html :is(button, a, select):focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 2px;
 }

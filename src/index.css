@@ -1,7 +1,16 @@
+@font-face {
+  font-family: "DMSans";
+  src: url("./assets/fonts/DMSans_18pt-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
 
 * {
   box-sizing: border-box;
+  font-family: "DMSans", Inter, system-ui, -apple-system, sans-serif;
 }
+
+/* repita o bloco para cada peso que você baixou (700 para negrito etc.) */
 
 html,
 body,
@@ -48,8 +57,6 @@ select {
 
 button:focus-visible,
 a:focus-visible,
-input:focus-visible,
-textarea:focus-visible,
 select:focus-visible {
   outline: 3px solid var(--focus-ring);
   outline-offset: 3px;

@@ -39,14 +39,6 @@
 
 body {
   margin: 0;
-  font-family:
-    Inter,
-    "Segoe UI",
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    sans-serif;
-
   background: var(--background);
   color: var(--black);
 }
