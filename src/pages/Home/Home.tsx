@@ -177,51 +177,72 @@ export function Home() {
 		<div className="home">
 			{/* HEADER */}
 			<header className="home-header">
+				{/* PARTE SUPERIOR */}
 				<div className="header-top">
+					{/* LOGO */}
 					<div className="brand">
 						<span className="brand-icon">A</span>
-						<span>Apetitch</span>
+						<span className="brand-name">apetitch</span>
 					</div>
 
+					{/* AÇÕES DO CABEÇALHO */}
 					<div className="header-actions">
+						{/* LOCALIZAÇÃO */}
 						<button
+							type="button"
 							className="location-button"
 							onClick={getLocation}
 							title="Usar minha localização"
 						>
-							<span>📍</span>
+							<svg viewBox="0 0 24 24" aria-hidden="true">
+								<path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z" />
+								<circle cx="12" cy="10" r="2.5" />
+							</svg>
+
 							<span className="location-text">{location}</span>
 						</button>
 
+						{/* PERFIL */}
 						<button
+							type="button"
 							className="profile-button"
 							onClick={() => navigate("/perfil")}
 							aria-label="Abrir perfil"
+							title="Meu perfil"
 						>
-							👤
+							<svg viewBox="0 0 24 24" aria-hidden="true">
+								<circle cx="12" cy="8" r="4" />
+								<path d="M4 21a8 8 0 0 1 16 0" />
+							</svg>
 						</button>
 					</div>
 				</div>
 
-				{/* BUSCA */}
+				{/* ÁREA DE PESQUISA */}
 				<div className="search-area">
 					<form className="search-box" onSubmit={handleSearchSubmit}>
+						{/* ÍCONE DE BUSCA */}
 						<button
 							type="submit"
 							className="search-submit"
 							aria-label="Pesquisar"
 						>
-							⌕
+							<svg viewBox="0 0 24 24" aria-hidden="true">
+								<circle cx="11" cy="11" r="7" />
+								<path d="m16 16 5 5" />
+							</svg>
 						</button>
 
+						{/* CAMPO DE TEXTO */}
 						<input
 							type="text"
-							placeholder="Buscar restaurante, prato..."
+							placeholder="Buscar restaurantes, pratos..."
 							value={search}
 							onChange={(event) => setSearch(event.target.value)}
 							aria-label="Buscar restaurante ou prato"
 						/>
 
+						{/* LIMPAR PESQUISA */}
 						{search && (
 							<button
 								type="button"
@@ -234,19 +255,27 @@ export function Home() {
 						)}
 					</form>
 
+					{/* BOTÃO DE FILTROS */}
 					<button
+						type="button"
 						className="filter-button"
 						onClick={() => setShowFilters(!showFilters)}
 						aria-label="Abrir filtros"
 						aria-expanded={showFilters}
+						aria-controls="home-filter-panel"
 					>
-						⚙
+						<svg viewBox="0 0 24 24" aria-hidden="true">
+							<path d="M4 7h16M7 12h10m-7 5h4" />
+							<circle cx="9" cy="7" r="1.5" />
+							<circle cx="14" cy="12" r="1.5" />
+							<circle cx="11" cy="17" r="1.5" />
+						</svg>
 					</button>
 				</div>
 
-				{/* FILTROS */}
+				{/* PAINEL DE FILTROS */}
 				{showFilters && (
-					<div className="filter-panel">
+					<div className="filter-panel" id="home-filter-panel">
 						<strong>Ordenar por</strong>
 
 						<div className="filter-options">
@@ -488,10 +517,7 @@ export function Home() {
 					<small>Pedidos</small>
 				</button>
 
-				<button
-					className="nav-item"
-					onClick={() => navigate("/favoritos")}
-				>
+				<button className="nav-item" onClick={() => navigate("/favoritos")}>
 					<span>♡</span>
 					<small>Favoritos</small>
 				</button>
