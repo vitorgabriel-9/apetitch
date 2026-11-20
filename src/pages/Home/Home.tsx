@@ -404,10 +404,17 @@ export function Home() {
 					<div className="restaurant-grid">
 						{displayedRestaurants.map((restaurant) => (
 							<article className="restaurant-card" key={restaurant.id}>
+								{/* IMAGEM */}
 								<div className="restaurant-image">
-									<img src={restaurant.image} alt={restaurant.name} />
+									<img
+										src={restaurant.image}
+										alt={`Imagem do restaurante ${restaurant.name}`}
+										loading="lazy"
+									/>
 
+									{/* FAVORITO */}
 									<button
+										type="button"
 										className={`favorite ${
 											favorites.includes(restaurant.id)
 												? "favorited"
@@ -424,27 +431,35 @@ export function Home() {
 										{favorites.includes(restaurant.id) ? "♥" : "♡"}
 									</button>
 
+									{/* AVALIAÇÃO */}
 									<span className="rating">
-										⭐ {restaurant.rating}
+										⭐ {restaurant.rating.toFixed(1)}
+										<span className="rating-reviews">
+											({restaurant.reviews})
+										</span>
 									</span>
 								</div>
 
+								{/* INFORMAÇÕES */}
 								<div className="restaurant-content">
+									{/* NOME E PREÇO */}
 									<div className="restaurant-name-row">
 										<h3>{restaurant.name}</h3>
-
 										<span className="price">{restaurant.price}</span>
 									</div>
 
+									{/* CATEGORIA */}
 									<p className="restaurant-category">
 										{restaurant.category}
 									</p>
 
+									{/* DISTÂNCIA E AVALIAÇÕES */}
 									<div className="restaurant-info">
-										<span>📍 {restaurant.distance}</span>
-										<span>⭐ {restaurant.reviews}</span>
+										<span>📍 {restaurant.distance} km</span>
+										<span>⭐ {restaurant.reviews} avaliações</span>
 									</div>
 
+									{/* STATUS E TEMPO DE ESPERA */}
 									<div className="status-row">
 										<span
 											className={`status ${restaurant.status
@@ -460,13 +475,15 @@ export function Home() {
 										</span>
 									</div>
 
+									{/* ENTREGA */}
 									<div className="delivery-row">
-										<span>
-											🛵 Delivery: {restaurant.deliveryTime}
-										</span>
+										<span>🛵 Delivery</span>
+										<strong>{restaurant.deliveryTime}</strong>
 									</div>
 
+									{/* ACESSO AO RESTAURANTE */}
 									<button
+										type="button"
 										className="restaurant-button"
 										onClick={() =>
 											navigate(`/restaurante/${restaurant.id}`)

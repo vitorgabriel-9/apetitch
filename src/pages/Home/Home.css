@@ -927,17 +927,16 @@
   outline-offset: 4px;
 }
 
+
 /* =========================================================
-   RESTAURANT GRID
+   RESTAURANT GRID — NOVO LAYOUT
 ========================================================= */
 
 .restaurant-grid {
   display: grid;
-
-  grid-template-columns:
-    repeat(2, minmax(0, 1fr));
-
-  gap: 22px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  align-items: stretch;
 }
 
 /* =========================================================
@@ -945,25 +944,26 @@
 ========================================================= */
 
 .restaurant-card {
+  min-width: 0;
   overflow: hidden;
 
+  display: flex;
+  flex-direction: column;
+
   background: var(--white);
+  border: 1px solid rgba(0, 5, 5, 0.08);
+  border-radius: 18px;
 
-  border: 1px solid rgba(0, 5, 5, 0.07);
-
-  border-radius: var(--radius-md);
-
-  box-shadow: var(--shadow-sm);
+  box-shadow: 0 5px 18px rgba(0, 5, 5, 0.055);
 
   transition:
-    transform 0.25s,
-    box-shadow 0.25s;
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
 .restaurant-card:hover {
-  transform: translateY(-6px);
-
-  box-shadow: var(--shadow-lg);
+  transform: translateY(-5px);
+  box-shadow: 0 12px 28px rgba(0, 5, 5, 0.11);
 }
 
 /* =========================================================
@@ -972,110 +972,121 @@
 
 .restaurant-image {
   position: relative;
-
-  height: 215px;
+  width: 100%;
+  height: 190px;
+  flex-shrink: 0;
 
   overflow: hidden;
-
-  background: #ddd;
-}
-
-.restaurant-image::after {
-  content: "";
-
-  position: absolute;
-
-  inset: 0;
-
-  background:
-    linear-gradient(to bottom,
-      rgba(0, 0, 0, 0.08),
-      transparent 45%,
-      rgba(0, 0, 0, 0.35));
-
-  pointer-events: none;
+  background: #e8e8e8;
 }
 
 .restaurant-image img {
+  display: block;
   width: 100%;
   height: 100%;
 
-  display: block;
-
   object-fit: cover;
+  object-position: center;
 
-  transition: transform 0.45s;
+  transition: transform 0.4s ease;
 }
 
 .restaurant-card:hover .restaurant-image img {
-  transform: scale(1.07);
+  transform: scale(1.045);
+}
+
+/* Gradiente para melhorar a leitura da avaliação */
+.restaurant-image::after {
+  content: "";
+  position: absolute;
+  inset: 45% 0 0;
+
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(0, 0, 0, 0.35)
+  );
+
+  pointer-events: none;
 }
 
 /* =========================================================
    FAVORITE
 ========================================================= */
 
-.favorite {
+.restaurant-image .favorite {
   position: absolute;
+  z-index: 2;
 
-  z-index: 3;
+  top: 13px;
+  right: 13px;
 
-  top: 14px;
-  right: 14px;
-
-  width: 42px;
-  height: 42px;
+  width: 40px;
+  height: 40px;
+  padding: 0;
 
   display: grid;
   place-items: center;
 
-  border: none;
+  border: 1px solid rgba(0, 0, 0, 0.05);
   border-radius: 50%;
 
-  background: rgba(255, 255, 255, 0.95);
-
+  background: rgba(255, 255, 255, 0.96);
   color: var(--red);
 
   font-size: 23px;
+  line-height: 1;
 
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.12);
+  cursor: pointer;
 
-  transition: 0.2s;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.14);
+
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    color 0.2s ease;
 }
 
-.favorite:hover {
+.restaurant-image .favorite:hover {
   transform: scale(1.1);
 }
 
-.favorite.favorited {
+.restaurant-image .favorite.favorited {
   background: var(--red);
-  color: var(--white);
+  color: #fff;
 }
 
 /* =========================================================
    RATING
 ========================================================= */
 
-.rating {
+.restaurant-image .rating {
   position: absolute;
+  z-index: 2;
 
-  z-index: 3;
+  left: 13px;
+  bottom: 13px;
 
-  left: 14px;
-  bottom: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
 
-  padding: 8px 11px;
+  padding: 7px 10px;
 
-  border-radius: 10px;
-
-  background: var(--white);
-
-  color: var(--black);
+  border-radius: 8px;
+  background: #fff;
+  color: #252525;
 
   font-size: 12px;
-  font-weight: 900;
+  font-weight: 800;
 
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.12);
+}
+
+.rating-reviews {
+  color: #777;
+  font-size: 10px;
+  font-weight: 500;
 }
 
 /* =========================================================
@@ -1083,104 +1094,116 @@
 ========================================================= */
 
 .restaurant-content {
-  padding: 18px;
+  min-width: 0;
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+
+  padding: 17px;
 }
 
 .restaurant-name-row {
   display: flex;
-
+  align-items: flex-start;
   justify-content: space-between;
-  align-items: start;
-
   gap: 10px;
 }
 
 .restaurant-name-row h3 {
+  min-width: 0;
   margin: 0;
 
-  font-size: 18px;
+  color: var(--black);
 
-  line-height: 1.2;
+  font-size: 17px;
+  font-weight: 800;
+  line-height: 1.35;
 
-  letter-spacing: -0.3px;
+  overflow-wrap: anywhere;
 }
 
 .price {
-  padding: 4px 7px;
+  flex-shrink: 0;
+
+  padding: 5px 8px;
 
   border-radius: 7px;
-
   background: #fff2df;
-
   color: #a96000;
 
   font-size: 11px;
   font-weight: 900;
+  white-space: nowrap;
 }
 
+/* =========================================================
+   CATEGORY
+========================================================= */
+
 .restaurant-category {
-  margin: 6px 0 14px;
+  margin: 6px 0 15px;
 
   color: var(--gray);
 
   font-size: 12px;
+  line-height: 1.4;
 }
+
+/* =========================================================
+   DISTANCE AND REVIEWS
+========================================================= */
 
 .restaurant-info {
   display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 15px;
 
-  gap: 17px;
-
-  color: #666;
-
+  color: #777;
   font-size: 11px;
 }
 
 .restaurant-info span {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 3px;
+  gap: 4px;
 }
 
 /* =========================================================
-   STATUS
+   STATUS AND WAIT TIME
 ========================================================= */
 
 .status-row {
   margin-top: 15px;
-
   padding-top: 13px;
 
   border-top: 1px solid var(--light-gray);
 
   display: flex;
-
   align-items: center;
-
   justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 9px;
 }
 
 .status {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 6px;
-
-  font-size: 11px;
-  font-weight: 900;
+  gap: 7px;
 
   color: var(--green);
+  font-size: 11px;
+  font-weight: 800;
 }
 
 .status-dot {
   width: 8px;
   height: 8px;
+  flex-shrink: 0;
 
   border-radius: 50%;
-
   background: var(--green);
-
-  box-shadow:
-    0 0 0 4px rgba(25, 135, 84, 0.12);
 }
 
 .status.lotado {
@@ -1189,9 +1212,6 @@
 
 .status.lotado .status-dot {
   background: var(--orange);
-
-  box-shadow:
-    0 0 0 4px rgba(241, 143, 1, 0.12);
 }
 
 .status.fechado {
@@ -1200,22 +1220,18 @@
 
 .status.fechado .status-dot {
   background: var(--red);
-
-  box-shadow:
-    0 0 0 4px rgba(176, 65, 62, 0.12);
 }
 
 .wait {
-  padding: 5px 8px;
+  padding: 6px 9px;
 
-  border-radius: 8px;
-
+  border-radius: 7px;
   background: #fff5e5;
-
   color: #a35e00;
 
-  font-size: 10px;
-  font-weight: 900;
+  font-size: 11px;
+  font-weight: 800;
+  white-space: nowrap;
 }
 
 /* =========================================================
@@ -1223,41 +1239,21 @@
 ========================================================= */
 
 .delivery-row {
-  min-height: 32px;
-
-  margin-top: 10px;
+  margin-top: 12px;
 
   display: flex;
-
   align-items: center;
   justify-content: space-between;
-
   gap: 8px;
 
-  color: #666;
-
-  font-size: 10px;
+  color: #777;
+  font-size: 11px;
 }
 
-.compare-button {
-  padding: 6px 9px;
-
-  border: none;
-  border-radius: 8px;
-
-  background: rgba(176, 65, 62, 0.08);
-
-  color: var(--red);
-
-  font-size: 10px;
-  font-weight: 900;
-
-  transition: 0.2s;
-}
-
-.compare-button:hover {
-  background: var(--red);
-  color: var(--white);
+.delivery-row strong {
+  color: var(--black);
+  font-size: 11px;
+  font-weight: 700;
 }
 
 /* =========================================================
@@ -1266,46 +1262,88 @@
 
 .restaurant-button {
   width: 100%;
-
-  margin-top: 13px;
-
-  padding: 12px 14px;
+  margin-top: auto;
+  padding: 13px 14px;
 
   display: flex;
-
   align-items: center;
   justify-content: space-between;
+  gap: 10px;
 
   border: none;
-
-  border-radius: 11px;
+  border-radius: 10px;
 
   background: var(--black);
-
-  color: var(--white);
+  color: #fff;
 
   font-size: 12px;
   font-weight: 800;
 
-  transition: 0.2s;
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
 }
 
 .restaurant-button span {
-  font-size: 18px;
-
-  transition: 0.2s;
+  font-size: 19px;
+  transition: transform 0.2s ease;
 }
 
 .restaurant-button:hover {
   background: var(--red);
-
-  box-shadow:
-    0 7px 18px rgba(176, 65, 62, 0.22);
 }
 
 .restaurant-button:hover span {
   transform: translateX(4px);
 }
+
+/* =========================================================
+   RESPONSIVIDADE DOS CARDS
+========================================================= */
+
+@media (max-width: 1050px) {
+  .restaurant-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+  }
+}
+
+/* =========================================================
+   DARK MODE
+========================================================= */
+
+html.dark-mode .restaurant-card {
+  background: #222;
+  border-color: #383838;
+}
+
+html.dark-mode .restaurant-name-row h3,
+html.dark-mode .delivery-row strong {
+  color: #fff;
+}
+
+html.dark-mode .restaurant-info,
+html.dark-mode .restaurant-category,
+html.dark-mode .delivery-row {
+  color: #ccc;
+}
+
+html.dark-mode .status-row {
+  border-top-color: #383838;
+}
+
+html.dark-mode .restaurant-button {
+  background: #f4f4f4;
+  color: #111;
+}
+
+html.dark-mode .restaurant-button:hover {
+  background: var(--red);
+  color: #fff;
+}
+
 
 /* =========================================================
    EMPTY
@@ -1742,25 +1780,6 @@
     font-size: 11px;
   }
 
-
-  .restaurant-grid {
-    grid-template-columns: 1fr;
-
-    gap: 16px;
-  }
-
-  .restaurant-image {
-    height: 205px;
-  }
-
-  .restaurant-content {
-    padding: 16px;
-  }
-
-  .restaurant-name-row h3 {
-    font-size: 17px;
-  }
-
   .quick-card {
     min-height: 88px;
   }
@@ -2191,4 +2210,287 @@ html.dark-mode .restaurant-category {
     font-size: 11px;
   }
 
+}
+
+
+/* =========================================================
+   AJUSTE DOS CARDS — IMAGEM E FAVORITOS
+========================================================= */
+
+.restaurant-card {
+  display: grid;
+  grid-template-columns: 180px minmax(0, 1fr);
+  align-items: stretch;
+  min-width: 0;
+  min-height: 260px;
+}
+
+.restaurant-image {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 260px;
+  overflow: hidden;
+  background: #ddd;
+}
+
+.restaurant-image img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* Botão de favorito */
+.restaurant-image .favorite {
+  position: absolute;
+  z-index: 5;
+  top: 14px;
+  right: 14px;
+
+  width: 42px;
+  height: 42px;
+  padding: 0;
+
+  display: grid;
+  place-items: center;
+
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.96);
+  color: var(--red);
+
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.16);
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.restaurant-image .favorite:hover {
+  transform: scale(1.1);
+}
+
+.restaurant-image .favorite.favorited {
+  background: var(--red);
+  color: var(--white);
+}
+
+/* Conteúdo */
+.restaurant-content {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Celulares: imagem acima do conteúdo */
+@media (max-width: 600px) {
+  .restaurant-card {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+
+/* =========================================================
+   RESTAURANT CARDS — ESTRUTURA FINAL
+   Este bloco deve ficar no FINAL do Home.css
+========================================================= */
+
+/* Grade dos restaurantes */
+.home .restaurant-grid {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 24px;
+  align-items: stretch;
+}
+
+/* Card vertical */
+.home .restaurant-card {
+  display: flex !important;
+  flex-direction: column !important;
+
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+
+  overflow: hidden;
+  border-radius: 18px;
+}
+
+/* Imagem ocupando toda a parte superior */
+.home .restaurant-card .restaurant-image {
+  position: relative !important;
+
+  display: block !important;
+
+  width: 100% !important;
+  height: 190px !important;
+  min-height: 190px !important;
+
+  flex: 0 0 190px !important;
+
+  overflow: hidden;
+  background: #e5e5e5;
+}
+
+/* Imagem preenchendo o espaço */
+.home .restaurant-card .restaurant-image img {
+  position: absolute !important;
+  inset: 0 !important;
+
+  display: block !important;
+
+  width: 100% !important;
+  height: 100% !important;
+
+  object-fit: cover !important;
+  object-position: center !important;
+}
+
+/* Avaliação sobre a imagem */
+.home .restaurant-card .rating {
+  position: absolute !important;
+
+  left: 14px !important;
+  bottom: 13px !important;
+  top: auto !important;
+  right: auto !important;
+
+  z-index: 4;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* Favorito */
+.home .restaurant-card .favorite {
+  position: absolute !important;
+
+  top: 13px !important;
+  right: 13px !important;
+  left: auto !important;
+  bottom: auto !important;
+
+  z-index: 5;
+}
+
+/* Conteúdo abaixo da imagem */
+.home .restaurant-card .restaurant-content {
+  display: flex !important;
+  flex-direction: column !important;
+
+  flex: 1;
+  width: 100%;
+  min-width: 0;
+
+  padding: 18px;
+}
+
+/* Nome e preço */
+.home .restaurant-card .restaurant-name-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.home .restaurant-card .restaurant-name-row h3 {
+  flex: 1;
+  min-width: 0;
+
+  margin: 0;
+
+  font-size: 17px;
+  line-height: 1.4;
+
+  overflow-wrap: anywhere;
+}
+
+/* Categoria: etiqueta compacta */
+.home .restaurant-card .restaurant-category {
+  display: inline-flex;
+  align-self: flex-start;
+
+  width: fit-content;
+  max-width: 100%;
+
+  margin: 10px 0 16px;
+  padding: 6px 11px;
+
+  border-radius: 20px;
+
+  background: rgba(241, 143, 1, 0.12);
+  color: #a96000;
+
+  font-size: 11px;
+  font-weight: 700;
+}
+
+/* Informações */
+.home .restaurant-card .restaurant-info {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 15px;
+
+  min-width: 0;
+  font-size: 11px;
+}
+
+/* Status */
+.home .restaurant-card .status-row {
+  margin-top: 15px;
+  padding-top: 13px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* Entrega */
+.home .restaurant-card .delivery-row {
+  margin-top: 13px;
+  min-height: 25px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+/* Botão */
+.home .restaurant-card .restaurant-button {
+  width: 100%;
+  margin-top: auto;
+  min-height: 46px;
+}
+
+/* Tablet */
+@media (max-width: 1050px) {
+  .home .restaurant-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+/* Celular */
+@media (max-width: 600px) {
+  .home .restaurant-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 18px;
+  }
+
+  .home .restaurant-card .restaurant-image {
+    height: 200px !important;
+    min-height: 200px !important;
+    flex-basis: 200px !important;
+  }
 }
