@@ -344,23 +344,39 @@ export function Home() {
 				</section>
 
 				{/* CATEGORIAS */}
-				<section className="section">
+				<section className="section category-section">
+					{/* TÍTULO DA SEÇÃO */}
 					<div className="section-title">
-						<h2>Categorias</h2>
+						<div>
+							<span className="section-subtitle">
+								Encontre seu favorito
+							</span>
+
+							<h2>Explore por categoria</h2>
+
+							<p className="category-description">
+								Escolha o tipo de comida que combina com você.
+							</p>
+						</div>
 					</div>
 
+					{/* LISTA DE CATEGORIAS */}
 					<div className="categories">
 						{categories.map((category) => (
 							<button
 								key={category.name}
+								type="button"
 								className={`category ${
 									selectedCategory === category.name ? "selected" : ""
 								}`}
 								onClick={() => setSelectedCategory(category.name)}
+								aria-pressed={selectedCategory === category.name}
 							>
-								<div className="category-icon">{category.icon}</div>
+								<span className="category-icon" aria-hidden="true">
+									{category.icon}
+								</span>
 
-								<span>{category.name}</span>
+								<span className="category-label">{category.name}</span>
 							</button>
 						))}
 					</div>
