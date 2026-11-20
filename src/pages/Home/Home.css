@@ -476,151 +476,238 @@
   margin: auto;
 }
 
+
 /* =========================================================
-   HERO
+   HERO — BANNER PRINCIPAL
 ========================================================= */
 
 .welcome-section {
   position: relative;
 
-  min-height: 290px;
+  min-height: 320px;
 
   margin: 28px;
 
-  padding: 40px;
+  padding: 42px 45px;
 
   overflow: hidden;
 
   display: flex;
   align-items: center;
-  justify-content: space-between;
 
   border-radius: var(--radius-lg);
 
   background:
-    radial-gradient(circle at 80% 30%,
-      rgba(241, 143, 1, 0.4),
-      transparent 30%),
-    linear-gradient(120deg,
-      var(--black),
-      #251313 55%,
-      var(--red));
+    linear-gradient(
+      100deg,
+      #000505 0%,
+      #211312 48%,
+      #5b2422 100%
+    );
 
-  color: var(--white);
+  color: #ffffff;
 
-  box-shadow: var(--shadow-lg);
+  box-shadow:
+    0 16px 40px rgba(0, 5, 5, 0.16);
 }
 
-.welcome-section::before {
+
+/* =========================================================
+   CONTEÚDO DO BANNER
+========================================================= */
+
+.welcome-content {
+  position: relative;
+  z-index: 3;
+
+  width: 58%;
+  max-width: 620px;
+}
+
+
+/* PEQUENO DESTAQUE */
+
+.welcome-small {
+  display: inline-flex;
+  align-items: center;
+
+  padding: 8px 13px;
+
+  border: 1px solid rgba(241, 143, 1, 0.25);
+  border-radius: 30px;
+
+  background: rgba(241, 143, 1, 0.12);
+
+  color: #ffad38;
+
+  font-size: 11px;
+  font-weight: 800;
+
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+}
+
+
+/* TÍTULO */
+
+.welcome-section h1 {
+  max-width: 580px;
+
+  margin: 19px 0 14px;
+
+  color: #ffffff;
+
+  font-size: clamp(32px, 4vw, 49px);
+  font-weight: 900;
+
+  line-height: 1.08;
+  letter-spacing: -1.8px;
+}
+
+
+/* DESTAQUE DO TÍTULO */
+
+.welcome-section h1 span {
+  display: block;
+
+  color: #f18f01;
+}
+
+
+/* DESCRIÇÃO */
+
+.welcome-section p {
+  max-width: 460px;
+
+  margin: 0;
+
+  color: rgba(255, 255, 255, 0.78);
+
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+
+/* =========================================================
+   BOTÃO DO BANNER
+========================================================= */
+
+.welcome-cta {
+  min-height: 47px;
+
+  margin-top: 25px;
+  padding: 0 19px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+
+  border: none;
+  border-radius: 12px;
+
+  background: #b0413e;
+  color: #ffffff;
+
+  font-size: 13px;
+  font-weight: 800;
+
+  box-shadow:
+    0 7px 18px rgba(176, 65, 62, 0.28);
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.welcome-cta span {
+  font-size: 19px;
+  line-height: 1;
+  transition: transform 0.2s ease;
+}
+
+.welcome-cta:hover {
+  background: #c34e49;
+
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 10px 22px rgba(176, 65, 62, 0.35);
+}
+
+.welcome-cta:hover span {
+  transform: translateX(4px);
+}
+
+
+/* =========================================================
+   IMAGEM DO BANNER
+========================================================= */
+
+.welcome-visual {
+  position: absolute;
+
+  top: 0;
+  right: 0;
+
+  width: 49%;
+  height: 100%;
+
+  z-index: 1;
+}
+
+.welcome-image {
+  width: 100%;
+  height: 100%;
+
+  display: block;
+
+  object-fit: cover;
+  object-position: center;
+
+  opacity: 0.95;
+}
+
+
+/* DEGRADÊ PARA INTEGRAR A FOTO AO FUNDO */
+
+.welcome-visual::before {
   content: "";
 
   position: absolute;
+  inset: 0;
 
-  width: 250px;
-  height: 250px;
+  z-index: 2;
 
-  right: 110px;
-  bottom: -150px;
-
-  border-radius: 50%;
-
-  background: var(--orange);
-
-  opacity: 0.12;
+  background:
+    linear-gradient(
+      90deg,
+      #211312 0%,
+      rgba(33, 19, 18, 0.55) 23%,
+      transparent 75%
+    );
 }
+
+
+/* DETALHE DECORATIVO */
 
 .welcome-section::after {
   content: "";
 
   position: absolute;
 
-  width: 180px;
-  height: 180px;
+  top: -100px;
+  right: 35%;
 
-  right: -40px;
-  top: -70px;
+  width: 220px;
+  height: 220px;
 
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 50%;
 
-  border: 35px solid rgba(255, 255, 255, 0.06);
-}
-
-.welcome-section>div:first-child {
-  position: relative;
+  pointer-events: none;
   z-index: 2;
-}
-
-.welcome-small {
-  display: inline-flex;
-
-  padding: 7px 11px;
-
-  border-radius: 30px;
-
-  background: rgba(241, 143, 1, 0.16);
-
-  color: var(--orange);
-
-  font-size: 11px;
-  font-weight: 900;
-
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-.welcome-section h1 {
-  max-width: 650px;
-
-  margin: 13px 0 10px;
-
-  font-size: clamp(32px, 5vw, 54px);
-
-  line-height: 0.98;
-
-  letter-spacing: -2px;
-}
-
-.welcome-section h1 span {
-  color: var(--orange);
-}
-
-.welcome-section p {
-  max-width: 550px;
-
-  margin: 0;
-
-  color: rgba(255, 255, 255, 0.76);
-
-  font-size: 14px;
-
-  line-height: 1.6;
-}
-
-.welcome-food {
-  position: relative;
-  z-index: 2;
-
-  width: 185px;
-  height: 185px;
-
-  display: grid;
-  place-items: center;
-
-  border-radius: 50%;
-
-  background:
-    radial-gradient(circle,
-      var(--orange),
-      #d97800);
-
-  border: 10px solid rgba(255, 255, 255, 0.1);
-
-  font-size: 95px;
-
-  box-shadow:
-    0 20px 50px rgba(0, 0, 0, 0.3);
-
-  transform: rotate(-7deg);
 }
 
 /* =========================================================
@@ -1428,13 +1515,6 @@
   .welcome-section {
     min-height: 260px;
   }
-
-  .welcome-food {
-    width: 145px;
-    height: 145px;
-
-    font-size: 70px;
-  }
 }
 
 /* =========================================================
@@ -1553,20 +1633,6 @@
     font-size: 11px;
   }
 
-  .welcome-food {
-    position: absolute;
-
-    right: -35px;
-    bottom: -20px;
-
-    width: 145px;
-    height: 145px;
-
-    font-size: 68px;
-
-    opacity: 0.85;
-  }
-
   .section {
     margin: 32px 15px;
   }
@@ -1640,13 +1706,6 @@
 
   .welcome-section h1 {
     font-size: 28px;
-  }
-
-  .welcome-food {
-    width: 115px;
-    height: 115px;
-
-    font-size: 55px;
   }
 
   .nav-item small {
@@ -1912,4 +1971,143 @@ html.dark-mode .search-box input::placeholder {
 /* Categorias dos restaurantes na Home — tema escuro */
 html.dark-mode .restaurant-category {
   color: #222 !important;
+}
+
+
+/* =========================================================
+   BANNER — RESPONSIVIDADE
+========================================================= */
+
+
+/* TABLETS */
+
+@media (max-width: 900px) {
+
+  .welcome-section {
+    min-height: 285px;
+
+    margin: 22px;
+
+    padding: 32px;
+  }
+
+  .welcome-content {
+    width: 65%;
+  }
+
+  .welcome-section h1 {
+    font-size: 37px;
+  }
+
+  .welcome-section p {
+    max-width: 350px;
+    font-size: 13px;
+  }
+
+  .welcome-visual {
+    width: 48%;
+  }
+
+}
+
+
+/* CELULARES */
+
+@media (max-width: 600px) {
+
+  .welcome-section {
+    min-height: 310px;
+
+    margin: 18px 15px;
+
+    padding: 27px 22px;
+
+    align-items: flex-start;
+
+    border-radius: 20px;
+  }
+
+  .welcome-content {
+    width: 100%;
+    max-width: 340px;
+  }
+
+  .welcome-small {
+    padding: 7px 10px;
+
+    font-size: 9px;
+    letter-spacing: 0.8px;
+  }
+
+  .welcome-section h1 {
+    max-width: 300px;
+
+    margin: 16px 0 10px;
+
+    font-size: 32px;
+    line-height: 1.08;
+    letter-spacing: -1.2px;
+  }
+
+  .welcome-section p {
+    max-width: 260px;
+
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  .welcome-cta {
+    min-height: 43px;
+
+    margin-top: 19px;
+    padding: 0 14px;
+
+    gap: 10px;
+
+    font-size: 12px;
+  }
+
+  .welcome-visual {
+    width: 100%;
+    height: 100%;
+
+    opacity: 0.48;
+  }
+
+  .welcome-visual::before {
+    background:
+      linear-gradient(
+        90deg,
+        #211312 0%,
+        rgba(33, 19, 18, 0.88) 35%,
+        rgba(33, 19, 18, 0.25) 100%
+      );
+  }
+
+}
+
+
+/* CELULARES PEQUENOS */
+
+@media (max-width: 380px) {
+
+  .welcome-section {
+    min-height: 300px;
+
+    padding: 23px 18px;
+  }
+
+  .welcome-section h1 {
+    font-size: 28px;
+  }
+
+  .welcome-section p {
+    max-width: 235px;
+    font-size: 11px;
+  }
+
+  .welcome-cta {
+    font-size: 11px;
+  }
+
 }

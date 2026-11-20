@@ -9,6 +9,8 @@ import { getRestaurants } from "../../services/restaurantService";
 
 import type { Restaurant } from "../../types/restaurant";
 
+import foodBackground from "../../assets/food-background.jpg";
+
 import "./Home.css";
 
 type DeliveryOptionId = "apetitch" | "partner" | "pickup";
@@ -305,12 +307,11 @@ export function Home() {
 			</header>
 
 			<main>
-				{/* BANNER */}
+				{/* BANNER PRINCIPAL */}
 				<section className="welcome-section">
-					<div>
-						<span className="welcome-small">
-							Coma melhor. Escolha melhor.
-						</span>
+					{/* CONTEÚDO DO BANNER */}
+					<div className="welcome-content">
+						<span className="welcome-small">Descubra novos sabores</span>
 
 						<h1>
 							Encontre o restaurante
@@ -321,9 +322,25 @@ export function Home() {
 							Compare restaurantes, preços, avaliações e tempo de espera
 							em um só lugar.
 						</p>
+
+						<button
+							type="button"
+							className="welcome-cta"
+							onClick={() => navigate("/explorar")}
+						>
+							Explorar restaurantes
+							<span aria-hidden="true">→</span>
+						</button>
 					</div>
 
-					<div className="welcome-food">🍔</div>
+					{/* IMAGEM DO BANNER */}
+					<div className="welcome-visual">
+						<img
+							src={foodBackground}
+							alt="Pizza artesanal com queijo derretido"
+							className="welcome-image"
+						/>
+					</div>
 				</section>
 
 				{/* CATEGORIAS */}
